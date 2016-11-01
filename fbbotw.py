@@ -1,16 +1,8 @@
-
-from django.db import models
-
-import re
 import json
 import requests
 
-# FB MESSAGE PLATFORM ENV VARIABLES
-from django.conf import settings
-
 PAGE_ACCESS_TOKEN = "<Set the page access token here>"
 HEADER = {"Content-Type": "application/json"}
-
 
 def post_settings(welcometext):
     ''' Sets the START button and welcome text. '''
