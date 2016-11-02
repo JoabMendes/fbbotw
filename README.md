@@ -12,15 +12,15 @@ pip install fbbotw
 
 ## Using with Django
 
-1. In your global settings define the variable `PAGE_ACCESS_TOKEN` that is
-your access token generated on the app configuration on facebook.
+1 - In your global settings define the variable `PAGE_ACCESS_TOKEN` that is
+your access token generated on the app configuration from facebook.
 
 ```py
 #settings.py
-PAGE_ACCESS_TOKEN = "<your acess token>"
+PAGE_ACCESS_TOKEN = "<your access token>"
 ```
 
-2. To use the functions of this wrapper do:
+2 - To use the functions of this wrapper do:
 
 ```py
 from fbbotw import fbbotw
@@ -31,11 +31,11 @@ fbbotw.typing(fbid, "typing_on"):
 
 ## If you want to use this package without Django
 
-1. Download the zip of this directory.
+1. Download the .zip of this directory.
 
 2. Copy the `fbbotw` directory to your project root.
 
-3. Change the variable on line 8 in `fbbotw/fbbotw.py` adding your facebook page access token:
+3. Change the variable `PAGE_ACCESS_TOKEN` at the line 8 in `fbbotw/fbbotw.py` adding your facebook page access token:
 
 ```py
     PAGE_ACCESS_TOKEN = "<Set the page access token here>"
