@@ -1,0 +1,13 @@
+LICENSE
+MANIFEST.in
+README.md
+README.rst
+setup.cfg
+setup.py
+fbbotw/__init__.py
+fbbotw/fbwrapper.py
+fbbotw.egg-info/PKG-INFO
+fbbotw.egg-info/SOURCES.txt
+fbbotw.egg-info/dependency_links.txt
+fbbotw.egg-info/requires.txt
+fbbotw.egg-info/top_level.txt

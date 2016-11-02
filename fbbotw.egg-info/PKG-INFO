@@ -1,0 +1,26 @@
+Metadata-Version: 1.1
+Name: fbbotw
+Version: 0.1.dev1
+Summary: Python/Django Wrapper for Facebook Messenger Bot Platform.
+Home-page: https://github.com/JoabMendes/fbbotw
+Author: Joabe Mendes
+Author-email: joabe@linux.com
+License: MIT
+Description:
+        Facebook bot python wrapper
+        =======================
+        Python Wrapper for Facebook Messenger Bot Platform
+        Perfect to use with Django
+        See documentation at Gituhub: https://github.com/JoabMendes/fbbotw.
+
+Keywords: facebook bot mensseger platform wrapper django
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Natural Language :: English
+Classifier: Topic :: Software Development :: Libraries

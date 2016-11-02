@@ -1,7 +1,12 @@
 import json
 import requests
 
-PAGE_ACCESS_TOKEN = "<Set the page access token here>"
+try:
+    from django.conf import settings
+    PAGE_ACCESS_TOKEN = settings.PAGE_ACCESS_TOKEN
+except ImportError:
+    PAGE_ACCESS_TOKEN = "<Set the page access token here>"
+
 HEADER = {"Content-Type": "application/json"}
 
 def post_settings(welcometext):
