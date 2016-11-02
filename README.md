@@ -1,5 +1,5 @@
 # Facebook bot python wrapper
-Python Wrapper for Facebook Messenger Bot Platform.
+Python Wrapper for [Facebook Messenger](https://developers.facebook.com/products/messenger/) Bot Platform.
 
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/fbbotw.svg)](https://pypi.python.org/pypi?name=fbbotw&version=0.1.dev1&:action=display)
