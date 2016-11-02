@@ -2,10 +2,11 @@ LICENSE
 MANIFEST.in
 README.md
 README.rst
+fbbotw
 setup.cfg
 setup.py
 fbbotw/__init__.py
-fbbotw/fbwrapper.py
+fbbotw/fbbotw.py
 fbbotw.egg-info/PKG-INFO
 fbbotw.egg-info/SOURCES.txt
 fbbotw.egg-info/dependency_links.txt

@@ -17,21 +17,12 @@ your access token generated on the app configuration on facebook.
 PAGE_ACCESS_TOKEN = "<your acess token>"
 ```
 
-2. In your installed app settings add:
+2. To use the functions of this wrapper do:
 
 ```py
-  INSTALLED_APPS = (
-    ...
-    'fbbotw',
-  )
-```
+from fbbotw import fbbotw
 
-3. To use the functions of this wrapper do:
-
-```py
-from fbbotw import fbwrapper
-
-fbwrapper.typing(fbid, "typing_on"):
+fbbotw.typing(fbid, "typing_on"):
 
 ```
 
@@ -41,7 +32,7 @@ fbwrapper.typing(fbid, "typing_on"):
 
 2. Copy the `fbbotw` directory to your project root.
 
-3. Change the variable on line 8 in `fbbotw/fbwrapper.py` adding your facebook page access token:
+3. Change the variable on line 8 in `fbbotw/fbbotw.py` adding your facebook page access token:
 
 ```py
     PAGE_ACCESS_TOKEN = "<Set the page access token here>"
