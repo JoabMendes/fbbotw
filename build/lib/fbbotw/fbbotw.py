@@ -14,7 +14,7 @@ except AttributeError:
 HEADER = {"Content-Type": "application/json"}
 
 def post_settings(welcometext):
-    ''' Sets the START button and welcome text. '''
+    """ Sets the START button and welcome text. """
     # Set the greeting texts
     url = 'https://graph.facebook.com/v2.6/me/thread_settings?access_token='
     url += PAGE_ACCESS_TOKEN
@@ -30,13 +30,42 @@ def post_settings(welcometext):
     btpayload["call_to_actions"] = [{"payload": "USER_START"}]
     response_msg = json.dumps(btpayload)
     status = requests.post(url, headers=HEADER, data=response_msg)
+    return status
 
+def post_persistent_menu(call_to_actions):
+    """ Sets a persistent menu on the chat
+        -------
+        call_to_actions format:
+        call_to_actions =  [
+            {
+                "type":"postback",
+                "title":"Help",
+                "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_HELP"
+            },
+            {
+                "type":"web_url",
+                "title":"Checkout",
+                "url":"http://petersapparel.parseapp.com/checkout",
+                "webview_height_ratio": "full",
+                "messenger_extensions": true
+            },
+        ]
+    """
+    url = 'https://graph.facebook.com/v2.6/me/thread_settings?access_token='
+    url += PAGE_ACCESS_TOKEN
+    payload = {}
+    payload["setting_type"] = "call_to_actions"
+    payload["thread_state"] = "existing_thread"
+    payload["call_to_actions"] = call_to_actions
+    data = json.dumps(payload)
+    status = requests.post(url, headers=HEADER, data=data)
+    return status
 
 def typing(fbid, sender_action):
-    '''
+    """
         Displays the typing gif on facebook chat
         sender_action: typing_off/typing_on
-    '''
+    """
     url = 'https://graph.facebook.com/v2.6/me/messages?access_token='
     url += PAGE_ACCESS_TOKEN
     payload = {}
@@ -45,12 +74,10 @@ def typing(fbid, sender_action):
     header = {"Content-Type": "application/json"}
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
-
+    return status
 
 def get_user_information(fbid):
-    '''
-        Gets user information: first_name, last_name, gender, profile_pic.
-    '''
+    """ Gets user information: first_name, last_name, gender, profile_pic. """
     # DOC: https://developers.facebook.com/docs/messenger-platform/user-profile
     user_info_url = "https://graph.facebook.com/v2.7/%s" % fbid
     payload = {}
@@ -60,9 +87,7 @@ def get_user_information(fbid):
     return user_info
 
 def post_text_message(fbid, message):
-    '''
-        Sends a common text message
-    '''
+    """ Sends a common text message """
     url = 'https://graph.facebook.com/v2.6/me/messages?access_token='
     url += PAGE_ACCESS_TOKEN
     payload = {}
@@ -70,12 +95,10 @@ def post_text_message(fbid, message):
     payload['message'] = {'text': message} # Limit 320 chars
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
-
+    return status
 
 def post_image_attch(fbid, imgurl):
-    '''
-        Sends an image attachment.
-    '''
+    """ Sends an image attachment. """
     url = 'https://graph.facebook.com/v2.6/me/messages?access_token='
     url += PAGE_ACCESS_TOKEN
     payload = {}
@@ -86,8 +109,9 @@ def post_image_attch(fbid, imgurl):
 
 
 def post_text_w_quickreplies(fbid, message, quick_replies):
-    '''
+    """
         Send text with quick replies buttons
+        ------
         quick_replies format:
         quick_replies = [
             {
@@ -101,7 +125,7 @@ def post_text_w_quickreplies(fbid, message, quick_replies):
                 "payload": "USER_SAY_NOT"
             }
         ]
-    '''
+    """
     url = 'https://graph.facebook.com/v2.6/me/messages?access_token='
     url += PAGE_ACCESS_TOKEN
     payload = {}
@@ -109,3 +133,4 @@ def post_text_w_quickreplies(fbid, message, quick_replies):
     payload["message"] = {"text": message, "quick_replies" : quick_replies}
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
+    return status
