@@ -5,13 +5,17 @@ try:
     from django.conf import settings
     PAGE_ACCESS_TOKEN = settings.PAGE_ACCESS_TOKEN
 except ImportError:
+    # Not using Django
     PAGE_ACCESS_TOKEN = "<Set the page access token here>"
 except AttributeError:
+    # Using django but did defined the config var PAGE_ACCESS_TOKEN
     raise ImportError(
-        "Couldn't import PAGE_ACCESS_TOKEN. Define this var in your settings configuration."
+        "Couldn't import PAGE_ACCESS_TOKEN. \
+        Define this var in your settings configuration."
     )
 
 HEADER = {"Content-Type": "application/json"}
+
 
 def post_settings(welcometext):
     """ Sets the START button and welcome text. """
@@ -31,6 +35,7 @@ def post_settings(welcometext):
     response_msg = json.dumps(btpayload)
     status = requests.post(url, headers=HEADER, data=response_msg)
     return status
+
 
 def post_persistent_menu(call_to_actions):
     """ Sets a persistent menu on the chat
@@ -61,6 +66,7 @@ def post_persistent_menu(call_to_actions):
     status = requests.post(url, headers=HEADER, data=data)
     return status
 
+
 def typing(fbid, sender_action):
     """
         Displays the typing gif on facebook chat
@@ -71,10 +77,10 @@ def typing(fbid, sender_action):
     payload = {}
     payload['recipient'] = {'id': fbid}
     payload['sender_action'] = sender_action
-    header = {"Content-Type": "application/json"}
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
     return status
+
 
 def get_user_information(fbid):
     """ Gets user information: first_name, last_name, gender, profile_pic. """
@@ -86,16 +92,18 @@ def get_user_information(fbid):
     user_info = requests.get(user_info_url, payload).json()
     return user_info
 
+
 def post_text_message(fbid, message):
     """ Sends a common text message """
     url = 'https://graph.facebook.com/v2.6/me/messages?access_token='
     url += PAGE_ACCESS_TOKEN
     payload = {}
     payload['recipient'] = {'id': fbid}
-    payload['message'] = {'text': message} # Limit 320 chars
+    payload['message'] = {'text': message}  # Limit 320 chars
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
     return status
+
 
 def post_image_attch(fbid, imgurl):
     """ Sends an image attachment. """
@@ -103,9 +111,11 @@ def post_image_attch(fbid, imgurl):
     url += PAGE_ACCESS_TOKEN
     payload = {}
     payload['recipient'] = {'id': fbid}
-    payload['message'] = { "attachment":{ "type":"image", "payload":{ "url": imgurl}}}
+    attachment = {"type": "image", "payload": {"url": imgurl}}
+    payload['message'] = {"attachment": attachment}
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
+    return status
 
 
 def post_text_w_quickreplies(fbid, message, quick_replies):
@@ -129,8 +139,8 @@ def post_text_w_quickreplies(fbid, message, quick_replies):
     url = 'https://graph.facebook.com/v2.6/me/messages?access_token='
     url += PAGE_ACCESS_TOKEN
     payload = {}
-    payload["recipient"] = {"id" : fbid}
-    payload["message"] = {"text": message, "quick_replies" : quick_replies}
+    payload["recipient"] = {"id": fbid}
+    payload["message"] = {"text": message, "quick_replies": quick_replies}
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
     return status
