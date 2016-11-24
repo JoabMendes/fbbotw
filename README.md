@@ -4,7 +4,8 @@ Python Wrapper for [Facebook Messenger](https://developers.facebook.com/products
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE) [![PyPI](https://img.shields.io/pypi/v/fbbotw.svg)](https://pypi.python.org/pypi?name=fbbotw&version=0.1.dev1&:action=display) [![Documentation Status](https://readthedocs.org/projects/fbbotw/badge/?version=latest)](http://fbbotw.readthedocs.io/en/latest/?badge=latest) [![Build Status](https://travis-ci.org/JoabMendes/fbbotw.svg?branch=master)](https://travis-ci.org/JoabMendes/fbbotw)
 
 This bot makes it simpler to user the *Facebook messenger bot platform*  wrapping the endpoints as functions.
-For example, this would be the normal way you probably would call the Send API to send a text:
+
+For example, this would be the normal way you probably would call the `Send API` to send a text:
 (Using `requests` and `json`)
 
 ```py
@@ -78,7 +79,7 @@ fbbotw.typing(fbid, "typing_on")
 
 # Current wrapper covering for the [Menssenger Platform](https://developers.facebook.com/docs/messenger-platform/product-overview) (45%)
 
-- [x] User profile (Needs update)
+- [x] User profile
 - [ ] Send API
   - [ ] Templates
   - [ ] Buttons
