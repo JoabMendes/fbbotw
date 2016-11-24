@@ -20,22 +20,60 @@ except AttributeError:
     # Using django but did defined the config var PAGE_ACCESS_TOKEN
     raise ImportError(IMPORT_ERROR)
 
+TD_STS_URL = 'https://graph.facebook.com/v2.6/me/thread_settings?access_token='
+MSG_URL = 'https://graph.facebook.com/v2.6/me/messages?access_token='
 
-def post_settings(welcometext):
-    """ Sets the START button and welcome text. """
+
+def post_settings(greeting_text):
+    """ Sets the START Button and also the Greeting Text.
+        The payload for the START Button will be 'USER_START'
+
+    :param str greeting_text: Desired Greeting Text (160 chars)
+    :return: Response object
+    """
     # Set the greeting texts
-    url = 'https://graph.facebook.com/v2.6/me/thread_settings?access_token='
-    url += PAGE_ACCESS_TOKEN
+    url = TD_STS_URL + PAGE_ACCESS_TOKEN
     txtpayload = {}
-    txtpayload["setting_type"] = "greeting"
-    txtpayload["greeting"] = {"text": welcometext}
+    txtpayload['setting_type'] = 'greeting'
+    txtpayload['greeting'] = {'text': greeting_text}
     response_msg = json.dumps(txtpayload)
     status = requests.post(url, headers=HEADER, data=response_msg)
     # Set the start button
     btpayload = {}
+    btpayload['setting_type'] = 'call_to_actions'
+    btpayload['thread_state'] = 'new_thread'
+    btpayload['call_to_actions'] = [{'payload': 'USER_START'}]
+    response_msg = json.dumps(btpayload)
+    status = requests.post(url, headers=HEADER, data=response_msg)
+    return status
+
+
+def post_greeting_text(greeting_text):
+    """ Sets the Thread Settings Greeting Text
+
+    :param str greeting_text: Desired Greeting Text (160 chars)
+    :return: Response object
+    """
+    url = TD_STS_URL + PAGE_ACCESS_TOKEN
+    payload = {}
+    payload["setting_type"] = "greeting"
+    payload["greeting"] = {"text": greeting_text}
+    response_msg = json.dumps(payload)
+    status = requests.post(url, headers=HEADER, data=response_msg)
+    return status
+
+
+def post_start_button(payload='START'):
+    """ Sets the Thread Settings Greeting Text
+
+    :param str payload: Desired postback payload (Default START)
+    :return: Response object
+    """
+    url = TD_STS_URL + PAGE_ACCESS_TOKEN
+    btpayload = {}
     btpayload["setting_type"] = "call_to_actions"
     btpayload["thread_state"] = "new_thread"
-    btpayload["call_to_actions"] = [{"payload": "USER_START"}]
+    btpayload["call_to_actions"] = [{"payload": payload}]
     response_msg = json.dumps(btpayload)
     status = requests.post(url, headers=HEADER, data=response_msg)
     return status
