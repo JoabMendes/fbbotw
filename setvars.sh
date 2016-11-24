@@ -1,0 +1,10 @@
+#!/bin/bash
+FILE=$VIRTUALENVWRAPPER_HOOK_DIR/fbbotwrapper/bin/postactivate
+
+LINE='export PAGE_ACCESS_TOKEN=EAAYiKvTIihQBAEpzrXV0J5qZBXW70v7gK7GQ49nLfGX4YBJqOdv4ayq6KfCWkLbFwN20onxuuw1gVgv95bVyUjeUWfPtosIcbAGrHuOXbWyRfHNTYg5S6nL1HbxnDgiSO6439FjVVttz79tEgZASZBUH8MaPixioTSzOG8alAZDZD'
+grep -q -F "$LINE" "$FILE" || echo $LINE >> $FILE
+
+LINE='export FBID=1198658993509311'
+grep -q -F "$LINE" "$FILE" || echo $LINE >> $FILE
+
+#unset DJANGO_SETTINGS_MODULE

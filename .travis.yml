@@ -5,7 +5,8 @@ python:
 install:
 - pip install -r requirements_dev.txt
 env:
-- PAGE_ACCESS_TOKEN=<>
+- PAGE_ACCESS_TOKEN=EAAYiKvTIihQBAEpzrXV0J5qZBXW70v7gK7GQ49nLfGX4YBJqOdv4ayq6KfCWkLbFwN20onxuuw1gVgv95bVyUjeUWfPtosIcbAGrHuOXbWyRfHNTYg5S6nL1HbxnDgiSO6439FjVVttz79tEgZASZBUH8MaPixioTSzOG8alAZDZD
+- FBID=1159152120845471
 script:
 - python -m unittest tests.test
 - flake8 fbbotw tests

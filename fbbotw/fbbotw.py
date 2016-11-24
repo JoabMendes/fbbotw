@@ -1,20 +1,24 @@
 import json
 import requests
+import os
+
+IMPORT_ERROR = "Couldn't import PAGE_ACCESS_TOKEN. \
+Define this var in your settings configuration\
+or as environment variable."
+
+HEADER = {"Content-Type": "application/json"}
 
 try:
     from django.conf import settings
     PAGE_ACCESS_TOKEN = settings.PAGE_ACCESS_TOKEN
 except ImportError:
     # Not using Django
-    PAGE_ACCESS_TOKEN = "<Set the page access token here>"
+    PAGE_ACCESS_TOKEN = os.getenv('PAGE_ACCESS_TOKEN', False)
+    if not PAGE_ACCESS_TOKEN:
+        raise ImportError(IMPORT_ERROR)
 except AttributeError:
     # Using django but did defined the config var PAGE_ACCESS_TOKEN
-    raise ImportError(
-        "Couldn't import PAGE_ACCESS_TOKEN. \
-        Define this var in your settings configuration."
-    )
-
-HEADER = {"Content-Type": "application/json"}
+    raise ImportError(IMPORT_ERROR)
 
 
 def post_settings(welcometext):
@@ -70,7 +74,7 @@ def post_persistent_menu(call_to_actions):
 def typing(fbid, sender_action):
     """
         Displays the typing gif on facebook chat
-        sender_action: typing_off/typing_on
+        sender_action: typing_off/typing_on/mark_seen
     """
     url = 'https://graph.facebook.com/v2.6/me/messages?access_token='
     url += PAGE_ACCESS_TOKEN

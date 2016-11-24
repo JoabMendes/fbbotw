@@ -1,7 +1,7 @@
 # Facebook bot python wrapper
 Python Wrapper for [Facebook Messenger](https://developers.facebook.com/products/messenger/) Bot Platform.
 
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE) [![PyPI](https://img.shields.io/pypi/v/fbbotw.svg)](https://pypi.python.org/pypi?name=fbbotw&version=0.1.dev1&:action=display) [![Documentation Status](https://readthedocs.org/projects/fbbotw/badge/?version=latest)](http://fbbotw.readthedocs.io/en/latest/?badge=latest)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE) [![PyPI](https://img.shields.io/pypi/v/fbbotw.svg)](https://pypi.python.org/pypi?name=fbbotw&version=0.1.dev1&:action=display) [![Documentation Status](https://readthedocs.org/projects/fbbotw/badge/?version=latest)](http://fbbotw.readthedocs.io/en/latest/?badge=latest) [![Build Status](https://travis-ci.org/JoabMendes/fbbotw.svg?branch=master)](https://travis-ci.org/JoabMendes/fbbotw)
 
 This bot makes it simpler to user the *Facebook messenger bot platform*  wrapping the endpoints as functions.
 For example, this would be the normal way you probably would call the Send API to send a text:
@@ -55,7 +55,7 @@ PAGE_ACCESS_TOKEN = "<your access token>"
 ```py
 from fbbotw import fbbotw
 
-fbbotw.typing(fbid, "typing_on"):
+fbbotw.typing(fbid, "typing_on")
 
 ```
 
@@ -65,11 +65,16 @@ fbbotw.typing(fbid, "typing_on"):
 
 2. Copy the `fbbotw` directory to your project root.
 
-3. Change the variable `PAGE_ACCESS_TOKEN` at the line 9 in `fbbotw/fbbotw.py` adding your facebook page access token:
+3. Define a variable called `PAGE_ACCESS_TOKEN` as the page access token you got from facebook
+
+4. Import the package in your module.
 
 ```py
-    PAGE_ACCESS_TOKEN = "<Set the page access token here>"
+from fbbotw import fbbotw
+
+fbbotw.typing(fbid, "typing_on")
 ```
+
 
 # Current wrapper covering for the [Menssenger Platform](https://developers.facebook.com/docs/messenger-platform/product-overview) (45%)
 
