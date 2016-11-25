@@ -70,9 +70,27 @@ class FbbotwTest(unittest.TestCase):
         self.assertTrue(response.status_code == 200)
         self.assertTrue(response.json()['recipient_id'] == self.fbid)
 
+    def test_post_audio_attachment(self):
+        ogg = 'https://dl.dropboxusercontent.com/u/85402777/turdus.ogg'
+        response = fbbotw.post_audio_attachment(fbid=self.fbid, audio_url=ogg)
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue(response.json()['recipient_id'] == self.fbid)
+
+    def test_post_file_attachment(self):
+        pdf = 'https://dl.dropboxusercontent.com/u/85402777/fbbotw.pdf'
+        response = fbbotw.post_file_attachment(fbid=self.fbid, file_url=pdf)
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue(response.json()['recipient_id'] == self.fbid)
+
     def test_post_image_attachment(self):
-        imgurl = 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg'
-        response = fbbotw.post_image_attachment(fbid=self.fbid, img_url=imgurl)
+        jpg = 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg'
+        response = fbbotw.post_image_attachment(fbid=self.fbid, img_url=jpg)
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue(response.json()['recipient_id'] == self.fbid)
+
+    def test_post_video_attachment(self):
+        mp4 = 'https://dl.dropboxusercontent.com/u/85402777/fbbotw_drop.mp4'
+        response = fbbotw.post_video_attachment(fbid=self.fbid, video_url=mp4)
         self.assertTrue(response.status_code == 200)
         self.assertTrue(response.json()['recipient_id'] == self.fbid)
 

@@ -168,21 +168,62 @@ def post_text_message(fbid, message):
     return status
 
 
-def post_image_attachment(fbid, img_url):
-    """ Sends an image attachment
+def post_attachment(fbid, media_url, file_type):
+    """ Sends an audio attachment
 
-    :param str fbid: User id to send the image.
-    :para str img_url: Url of a hosted image.
+    :param str fbid: User id to send the audio.
+    :param str url: Url of a hosted media.
+    :param str type: image/audio/video/file
     :return: Response object
     """
     url = MSG_URL + PAGE_ACCESS_TOKEN
     payload = {}
     payload['recipient'] = {'id': fbid}
-    attachment = {"type": "image", "payload": {"url": img_url}}
+    attachment = {"type": file_type, "payload": {"url": media_url}}
     payload['message'] = {"attachment": attachment}
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
     return status
+
+
+def post_audio_attachment(fbid, audio_url):
+    """ Sends an audio attachment
+
+    :param str fbid: User id to send the audio.
+    :para str audio_url: Url of a hosted audio (10 Mb).
+    :return: Response object
+    """
+    return post_attachment(fbid, audio_url, 'audio')
+
+
+def post_file_attachment(fbid, file_url):
+    """ Sends a file attachment
+
+    :param str fbid: User id to send the file.
+    :para str file_url: Url of a hosted file (10 Mb).
+    :return: Response object
+    """
+    return post_attachment(fbid, file_url, 'file')
+
+
+def post_image_attachment(fbid, img_url):
+    """ Sends an image attachment
+
+    :param str fbid: User id to send the image.
+    :para str img_url: Url of a hosted image (jpg, png, gif).
+    :return: Response object
+    """
+    return post_attachment(fbid, img_url, 'image')
+
+
+def post_video_attachment(fbid, video_url):
+    """ Sends a video attachment
+
+    :param str fbid: User id to send the video.
+    :para str video_url: Url of a hosted video.
+    :return: Response object
+    """
+    return post_attachment(fbid, video_url, 'video')
 
 
 def post_text_w_quickreplies(fbid, message, quick_replies):
