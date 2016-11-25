@@ -25,6 +25,28 @@ MSG_URL = 'https://graph.facebook.com/v2.6/me/messages?access_token='
 
 
 #############################################
+#        Graph API Functions                #
+#############################################
+
+
+def get_user_information(fbid):
+    """ Gets user information: first_name, last_name, gender, profile_pic,
+    locale, timezone, is_payment_enabled.
+    /docs/messenger-platform/user-profile
+
+    :param str fbid: User id to get the information
+    :return: dict with keys
+    """
+    user_info_url = "https://graph.facebook.com/v2.7/%s" % fbid
+    payload = {}
+    payload['fields'] = 'first_name,last_name,gender,profile_pic,\
+    locale,timezone,is_payment_enabled'
+    payload['access_token'] = PAGE_ACCESS_TOKEN
+    user_info = requests.get(user_info_url, payload).json()
+    return user_info
+
+
+#############################################
 #        Tread Settings Functions           #
 #############################################
 
@@ -55,6 +77,7 @@ def post_settings(greeting_text):
 
 def post_greeting_text(greeting_text):
     """ Sets the Thread Settings Greeting Text
+    /docs/messenger-platform/thread-settings/greeting-text
 
     :param str greeting_text: Desired Greeting Text (160 chars)
     :return: Response object
@@ -70,6 +93,7 @@ def post_greeting_text(greeting_text):
 
 def post_start_button(payload='START'):
     """ Sets the Thread Settings Greeting Text
+    /docs/messenger-platform/thread-settings/get-started-button
 
     :param str payload: Desired postback payload (Default START)
     :return: Response object
@@ -86,6 +110,7 @@ def post_start_button(payload='START'):
 
 def post_persistent_menu(call_to_actions):
     """ Sets a persistent menu on the chat
+    /docs/messenger-platform/thread-settings/persistent-menu
 
     :param list call_to_actions: example
     call_to_actions =  [
@@ -118,9 +143,11 @@ def post_persistent_menu(call_to_actions):
 #           Send Api Functions              #
 #############################################
 
+# Send API Sender Actions
 
 def typing(fbid, sender_action):
     """ Displays/Hides the typing gif/mark seen on facebook chat
+    /docs/messenger-platform/send-api-reference/sender-actions
 
     :param str fbid: User id to display action
     :param str sender_action: typing_off/typing_on/mark_seen
@@ -134,26 +161,12 @@ def typing(fbid, sender_action):
     status = requests.post(url, headers=HEADER, data=data)
     return status
 
-
-def get_user_information(fbid):
-    """ Gets user information: first_name, last_name, gender, profile_pic,
-    locale, timezone, is_payment_enabled.
-    https://developers.facebook.com/docs/messenger-platform/user-profile
-
-    :param str fbid: User id to get the information
-    :return: dict with keys
-    """
-    user_info_url = "https://graph.facebook.com/v2.7/%s" % fbid
-    payload = {}
-    payload['fields'] = 'first_name,last_name,gender,profile_pic,\
-    locale,timezone,is_payment_enabled'
-    payload['access_token'] = PAGE_ACCESS_TOKEN
-    user_info = requests.get(user_info_url, payload).json()
-    return user_info
+# Send API Content Type
 
 
 def post_text_message(fbid, message):
     """ Sends a common text message
+    /docs/messenger-platform/send-api-reference/text-message
 
     :param str fbid: User id to get the text.
     :param str message: Text to be displayed for the user (230 chars)
@@ -169,7 +182,8 @@ def post_text_message(fbid, message):
 
 
 def post_attachment(fbid, media_url, file_type):
-    """ Sends an audio attachment
+    """ Sends a media attachment
+    /docs/messenger-platform/send-api-reference/contenttypes
 
     :param str fbid: User id to send the audio.
     :param str url: Url of a hosted media.
@@ -188,6 +202,7 @@ def post_attachment(fbid, media_url, file_type):
 
 def post_audio_attachment(fbid, audio_url):
     """ Sends an audio attachment
+    /docs/messenger-platform/send-api-reference/audio-attachment
 
     :param str fbid: User id to send the audio.
     :para str audio_url: Url of a hosted audio (10 Mb).
@@ -198,6 +213,7 @@ def post_audio_attachment(fbid, audio_url):
 
 def post_file_attachment(fbid, file_url):
     """ Sends a file attachment
+    /docs/messenger-platform/send-api-reference/file-attachment
 
     :param str fbid: User id to send the file.
     :para str file_url: Url of a hosted file (10 Mb).
@@ -208,6 +224,7 @@ def post_file_attachment(fbid, file_url):
 
 def post_image_attachment(fbid, img_url):
     """ Sends an image attachment
+    /docs/messenger-platform/send-api-reference/image-attachment
 
     :param str fbid: User id to send the image.
     :para str img_url: Url of a hosted image (jpg, png, gif).
@@ -218,6 +235,7 @@ def post_image_attachment(fbid, img_url):
 
 def post_video_attachment(fbid, video_url):
     """ Sends a video attachment
+    /docs/messenger-platform/send-api-reference/video-attachment
 
     :param str fbid: User id to send the video.
     :para str video_url: Url of a hosted video.
@@ -226,8 +244,11 @@ def post_video_attachment(fbid, video_url):
     return post_attachment(fbid, video_url, 'video')
 
 
+# Send API Quick Replies
+
 def post_text_w_quickreplies(fbid, message, quick_replies):
     """ Send text with quick replies buttons
+    /docs/messenger-platform/send-api-reference/quick-replies
 
     :param str fbid: User id to send the quick replies menu.
     :param str message: message to be displayed with the menu.
@@ -253,3 +274,6 @@ def post_text_w_quickreplies(fbid, message, quick_replies):
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
     return status
+
+
+# Send API Templates

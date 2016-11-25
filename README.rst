@@ -3,12 +3,14 @@ Facebook bot python wrapper
 
 Python Wrapper for `Facebook Messenger`_ Bot Platform.
 
-|MIT licensed| |PyPI| |Documentation Status|
+|MIT licensed| |PyPI| |Documentation Status| |Build Status|
 
 This bot makes it simpler to user the *Facebook messenger bot platform*
-wrapping the endpoints as functions. For example, this would be the
-normal way you probably would call the Send API to send a text: (Using
-``requests`` and ``json``)
+wrapping the endpoints as functions.
+
+| For example, this would be the normal way you probably would call the
+  ``Send API`` to send a text:
+| (Using ``requests`` and ``json``)
 
 .. code:: py
 
@@ -46,14 +48,20 @@ Install
 Using with Django
 -----------------
 
-1 - In your global settings define the variable ``PAGE_ACCESS_TOKEN``
-that is your access token generated on the app configuration from
-facebook.
+| 1 - In your global settings define the variable ``PAGE_ACCESS_TOKEN``
+  that is
+| your access token generated on the app configuration from facebook.
 
 .. code:: py
 
     #settings.py
     PAGE_ACCESS_TOKEN = "<your access token>"
+
+or create environment variable with the same name:
+
+.. code:: sh
+
+    export PAGE_ACCESS_TOKEN='<your access token>'
 
 2 - To use the functions of this wrapper do:
 
@@ -61,38 +69,43 @@ facebook.
 
     from fbbotw import fbbotw
 
-    fbbotw.typing(fbid, "typing_on"):
+    fbbotw.typing(fbid, "typing_on")
 
 If you want to use this package without Django
 ----------------------------------------------
 
-1. Download the .zip of this directory.
+#. Download the .zip of this directory.
 
-2. Copy the ``fbbotw`` directory to your project root.
+#. Copy the ``fbbotw`` directory to your project root.
 
-3. Change the variable ``PAGE_ACCESS_TOKEN`` at the line 9 in
-   ``fbbotw/fbbotw.py`` adding your facebook page access token:
+#. Define a variable called ``PAGE_ACCESS_TOKEN`` as the page access
+   token you got from facebook
+
+#. Import the package in your module.
 
 .. code:: py
 
-        PAGE_ACCESS_TOKEN = "<Set the page access token here>"
+    from fbbotw import fbbotw
 
-Current wrapper covering for the `Menssenger Platform`_ (45%)
+    fbbotw.typing(fbid, "typing_on")
+
+Current wrapper covering for the `Menssenger Platform`_ (59%)
 =============================================================
 
--  [x] User profile (Needs update)
+-  [x] User profile
 -  [ ] Send API
--  [ ] Templates
--  [ ] Buttons
--  [x] Quick Replies
--  [x] Sender Actions
--  [ ] Content Types
 
-   -  [x] Text messages
-   -  [ ] Audio attachment
-   -  [ ] File attachment
-   -  [x] Image attachment
-   -  [ ] Video attachment
+   -  [ ] Templates
+   -  [ ] Buttons
+   -  [x] Quick Replies
+   -  [x] Sender Actions
+   -  [x] Content Types
+
+      -  [x] Text messages
+      -  [x] Audio attachment
+      -  [x] File attachment
+      -  [x] Image attachment
+      -  [x] Video attachment
 
 -  [ ] Web view
 -  [ ] Thread Settings
@@ -112,3 +125,5 @@ Current wrapper covering for the `Menssenger Platform`_ (45%)
    :target: https://pypi.python.org/pypi?name=fbbotw&version=0.1.dev1&:action=display
 .. |Documentation Status| image:: https://readthedocs.org/projects/fbbotw/badge/?version=latest
    :target: http://fbbotw.readthedocs.io/en/latest/?badge=latest
+.. |Build Status| image:: https://travis-ci.org/JoabMendes/fbbotw.svg?branch=master
+   :target: https://travis-ci.org/JoabMendes/fbbotw

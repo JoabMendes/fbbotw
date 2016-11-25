@@ -51,6 +51,12 @@ your access token generated on the app configuration from facebook.
 PAGE_ACCESS_TOKEN = "<your access token>"
 ```
 
+or create environment variable with the same name:
+
+```sh
+export PAGE_ACCESS_TOKEN='<your access token>'
+```
+
 2 - To use the functions of this wrapper do:
 
 ```py
@@ -77,63 +83,40 @@ fbbotw.typing(fbid, "typing_on")
 ```
 
 
-# Current wrapper covering for the [Menssenger Platform](https://developers.facebook.com/docs/messenger-platform/product-overview) (45%)
+# Current wrapper covering for the [Menssenger Platform](https://developers.facebook.com/docs/messenger-platform/product-overview) (59%)
 
-- [x] User profile
+- [x] [User profile](https://developers.facebook.com/docs/messenger-platform/user-profile)
 - [ ] Send API
-  - [ ] Templates
-  - [ ] Buttons
-  - [x] Quick Replies
-  - [x] Sender Actions
-  - [ ] Content Types
-    - [x] Text messages
-    - [ ] Audio attachment
-    - [ ] File attachment
-    - [x] Image attachment
-    - [ ] Video attachment
+    - [x] Content Types
+        - [x] [Text messages](https://developers.facebook.com/docs/messenger-platform/send-api-reference/text-message)
+        - [x] [Audio attachment](https://developers.facebook.com/docs/messenger-platform/send-api-reference/audio-attachment)
+        - [x] [File attachment](https://developers.facebook.com/docs/messenger-platform/send-api-reference/file-attachment)
+        - [x] [Image attachment](https://developers.facebook.com/docs/messenger-platform/send-api-reference/image-attachment)
+        - [x] [Video attachment](https://developers.facebook.com/docs/messenger-platform/send-api-reference/video-attachment)
+    - [x] [Quick Replies](https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies)
+    - [x] [Sender Actions](https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions)
+    - [ ] Templates
+        - [ ] Button Template
+        - [ ] Generic Template
+        - [ ] List Template
+        - [ ] Receipt Template
+        - [ ] Airline Boarding Pass Template
+        - [ ] Airline Checkin Template
+        - [ ] Airline Itinerary Template
+        - [ ] Airline Flight Update Template
+    - [ ] Buttons
+        - [ ] URL Button
+        - [ ] Postback Button
+        - [ ] Call Button
+        - [ ] Share Button
+        - [ ] Buy Button
+        - [ ] Log In Button
+        - [ ] Log Out Button
 - [ ] Web view
 - [ ] Thread Settings
-  - [x] Greeting Text
-  - [x] Get Started Button
+  - [x] [Greeting Text](https://developers.facebook.com/docs/messenger-platform/thread-settings/greeting-text)
+  - [x] [Get Started Button](https://developers.facebook.com/docs/messenger-platform/thread-settings/get-started-button)
   - [x] Persistent Menu
   - [ ] Account Linking
   - [ ] Domain Whitelisting
   - [ ] Payment Settings
-
-
-# Available functions (+facebook documentation):
-
-- **post_settings(welcometext):**  Sets the START button and welcome text
-  - https://developers.facebook.com/docs/messenger-platform/thread-settings/greeting-text
-  - https://developers.facebook.com/docs/messenger-platform/thread-settings/get-started-button
-
-- **typing(fbid, sender_action):** Displays the typing gif on facebook chat
-  - sender_action: "typing_on", "typing_off"
-  - https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions
-
-- **get_user_information(fbid):** Gets user information: first_name, last_name, gender, profile_pic.
-  - https://developers.facebook.com/docs/messenger-platform/user-profile
-
-- **post_text_message(fbid, message):** Sends a common text message
-  - https://developers.facebook.com/docs/messenger-platform/send-api-reference
-
-- **post_image_attch(fbid, imgurl):** ''' Sends an image attachment. '''
-  - https://developers.facebook.com/docs/messenger-platform/send-api-reference/image-attachment
-
-- **post_text_w_quickreplies(fbid, message, quick_replies):** Sends text with quick replies buttons
-  - quick_replies format:
-  ```
-      quick_replies = [
-          {
-              "content_type" : "text",
-              "title" : "Yes!",
-              "payload": "USER_SAY_YES"
-          },
-          {
-              "content_type" : "text",
-              "title" : "Nope",
-              "payload": "USER_SAY_NOT"
-          }
-      ]
-  ```
-  - https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies
