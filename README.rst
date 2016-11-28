@@ -141,7 +141,7 @@ Current wrapper covering for the `Menssenger Platform`_ (78%)
 .. |MIT licensed| image:: https://img.shields.io/badge/license-MIT-blue.svg
    :target: https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE
 .. |PyPI| image:: https://img.shields.io/pypi/v/fbbotw.svg
-   :target: https://pypi.python.org/pypi?name=fbbotw&version=0.1.dev1&:action=display
+   :target: https://pypi.python.org/pypi?name=fbbotw&:action=display
 .. |Documentation Status| image:: https://readthedocs.org/projects/fbbotw/badge/?version=latest
    :target: http://fbbotw.readthedocs.io/en/latest/?badge=latest
 .. |Build Status| image:: https://travis-ci.org/JoabMendes/fbbotw.svg?branch=master
