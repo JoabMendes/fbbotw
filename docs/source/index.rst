@@ -1,11 +1,11 @@
-Welcome to fbbotw's documentation!
-==================================
+FBBOTW: A Facebook Bot Wrapper
+==============================
 
 Python Wrapper for `Facebook Messenger`_ Bot Platform.
 
 |MIT licensed| |PyPI| |Documentation Status| |Build Status|
 
-This package makes it simpler to user the *Facebook messenger bot platform*
+This bot makes it simpler to user the *Facebook messenger bot platform*
 wrapping the endpoints as functions.
 
 | For example, this would be the normal way you probably would call the
@@ -89,50 +89,57 @@ If you want to use this package without Django
 
     fbbotw.typing(fbid, "typing_on")
 
-Current wrapper covering for the `Menssenger Platform`_ (59%)
--------------------------------------------------------------
 
--  [x] User profile
--  [ ] Send API
-
-   -  [ ] Templates
-   -  [ ] Buttons
-   -  [x] Quick Replies
-   -  [x] Sender Actions
-   -  [x] Content Types
-
-      -  [x] Text messages
-      -  [x] Audio attachment
-      -  [x] File attachment
-      -  [x] Image attachment
-      -  [x] Video attachment
-
--  [ ] Web view
--  [ ] Thread Settings
--  [x] Greeting Text
--  [x] Get Started Button
--  [x] Persistent Menu
--  [ ] Account Linking
--  [ ] Domain Whitelisting
--  [ ] Payment Settings
-
-Contents:
+Functions Reference:
+-------------------
 
 .. toctree::
    :maxdepth: 2
 
    functions
 
+Current wrapper covering for the `Menssenger Platform`_ (78%)
+-------------------------------------------------------------
 
-Indices and tables
-==================
+-  [x] `User profile <https://developers.facebook.com/docs/messenger-platform/user-profile>`_
+-  [ ] Send API
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   -  [x] Content Types
+
+      -  [x] `Text messages <https://developers.facebook.com/docs/messenger-platform/send-api-reference/text-message>`_
+      -  [x] `Audio attachment <https://developers.facebook.com/docs/messenger-platform/send-api-reference/audio-attachment>`_
+      -  [x] `File attachment <https://developers.facebook.com/docs/messenger-platform/send-api-reference/file-attachment>`_
+      -  [x] `Image attachment <https://developers.facebook.com/docs/messenger-platform/send-api-reference/image-attachment>`_
+      -  [x] `Video attachment <https://developers.facebook.com/docs/messenger-platform/send-api-reference/video-attachment>`_
+
+   -  [x] `Quick Replies <https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies>`_
+   -  [x] `Sender Actions <https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions>`_
+   -  [ ] Templates
+
+      -  [x] `Button Template <https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template>`_
+      -  [x] `Generic Template <https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template>`_
+      -  [x] `List Template <https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template>`_
+      -  [x] `Receipt Template <https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template>`_
+      -  [ ] Airline Boarding Pass Template
+      -  [ ] Airline Checkin Template
+      -  [ ] Airline Itinerary Template
+      -  [ ] Airline Flight Update Template
+
+   -  [x] `Buttons: Check documentation to format your buttons in your templates <https://developers.facebook.com/docs/messenger-platform/send-api-reference/share-button>`_
+
+      -  [x] `Call Button <https://developers.facebook.com/docs/messenger-platform/send-api-reference/call-button>`_
+
+-  [ ] Thread Settings
+
+    -  [x] `Greeting Text <https://developers.facebook.com/docs/messenger-platform/thread-settings/greeting-text>`_
+    -  [x] `Get Started Button <https://developers.facebook.com/docs/messenger-platform/thread-settings/get-started-button>`_
+    -  [x] `Persistent Menu <https://developers.facebook.com/docs/messenger-platform/thread-settings/persistent-menu>`_
+    -  [X] `Account Linking (Available but not tested) <https://developers.facebook.com/docs/messenger-platform/thread-settings/account-linking>`_
+    -  [x] `Domain Whitelisting <https://developers.facebook.com/docs/messenger-platform/thread-settings/domain-whitelisting>`_
+    -  [ ] Payment Settings (BETA)
+
 
 .. _Facebook Messenger: https://developers.facebook.com/products/messenger/
-.. _Menssenger Platform: https://developers.facebook.com/docs/messenger-platform/product-overview
 
 .. |MIT licensed| image:: https://img.shields.io/badge/license-MIT-blue.svg
    :target: https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE
@@ -142,3 +149,5 @@ Indices and tables
    :target: http://fbbotw.readthedocs.io/en/latest/?badge=latest
 .. |Build Status| image:: https://travis-ci.org/JoabMendes/fbbotw.svg?branch=master
    :target: https://travis-ci.org/JoabMendes/fbbotw
+
+.. _Menssenger Platform: https://developers.facebook.com/docs/messenger-platform/product-overview

@@ -35,7 +35,8 @@ def get_user_information(fbid):
     (/docs/messenger-platform/user-profile).
 
     :param str fbid: User id to get the information
-    :return: dict with keys
+    :return: dict with keys : first_name, last_name, gender, profile_pic,\
+    locale, timezone, is_payment_enabled.
     """
     user_info_url = "https://graph.facebook.com/v2.7/%s" % fbid
     payload = {}
@@ -55,8 +56,9 @@ def post_settings(greeting_text):
     """ Sets the START Button and also the Greeting Text.
         The payload for the START Button will be 'USER_START'
 
-    :param str greeting_text: Desired Greeting Text (160 chars)
-    :return: Response object
+    :param str greeting_text: Desired Greeting Text (160 chars).
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
     """
     # Set the greeting texts
     url = TD_STS_URL + PAGE_ACCESS_TOKEN
@@ -80,7 +82,8 @@ def post_greeting_text(greeting_text):
     (/docs/messenger-platform/thread-settings/greeting-text).
 
     :param str greeting_text: Desired Greeting Text (160 chars)
-    :return: Response object
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
     """
     url = TD_STS_URL + PAGE_ACCESS_TOKEN
     payload = {}
@@ -95,8 +98,9 @@ def post_start_button(payload='START'):
     """ Sets the Thread Settings Greeting Text
     (/docs/messenger-platform/thread-settings/get-started-button).
 
-    :param str payload: Desired postback payload (Default START)
-    :return: Response object
+    :param str payload: Desired postback payload (Default START).
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
     """
     url = TD_STS_URL + PAGE_ACCESS_TOKEN
     btpayload = {}
@@ -128,7 +132,8 @@ def post_persistent_menu(call_to_actions):
                 'messenger_extensions': True
             },
         ]
-    :return: Response object
+    :return: `Response object <http://docs.python-requests.org/en/\
+  master/api/#requests.Response>`_
     """
     url = TD_STS_URL + PAGE_ACCESS_TOKEN
     payload = {}
@@ -144,9 +149,10 @@ def post_domain_whitelisting(whitelisted_domains, domain_action_type='add'):
     """ Sets the whistelisted domains for the Messenger Extension
     (/docs/messenger-platform/thread-settings/domain-whitelisting).
 
-    :param list whistelisted_domains: Domains to be whistelisted
-    :param str domain_action_type: Action to run `add/remove` (Defaut add)
-    :return: Response object
+    :param list whistelisted_domains: Domains to be whistelisted.
+    :param str domain_action_type: Action to run `add/remove` (Defaut add).
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
     """
     url = TD_STS_URL + PAGE_ACCESS_TOKEN
     payload = {}
@@ -162,8 +168,9 @@ def post_account_linking_url(account_linking_url):
     """ Sets the liking url to link the user with your business login
     (/docs/messenger-platform/thread-settings/account-linking).
 
-    :param str account_linking_url: URL to the account linking OAuth flow
-    :return: Response object
+    :param str account_linking_url: URL to the account linking OAuth flow.
+    :return: `Response object <http://docs.python-requests.org/en/\
+  master/api/#requests.Response>`_
     """
     url = TD_STS_URL + PAGE_ACCESS_TOKEN
     payload = {}
@@ -186,7 +193,8 @@ def typing(fbid, sender_action):
 
     :param str fbid: User id to display action.
     :param str sender_action: `typing_off/typing_on/mark_seen`.
-    :return: Response object
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
     """
     url = MSG_URL + PAGE_ACCESS_TOKEN
     payload = {}
@@ -206,7 +214,8 @@ def post_text_message(fbid, message):
 
     :param str fbid: User id to get the text.
     :param str message: Text to be displayed for the user (230 chars).
-    :return: Response object
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
     """
     url = MSG_URL + PAGE_ACCESS_TOKEN
     payload = {}
@@ -223,8 +232,9 @@ def post_attachment(fbid, media_url, file_type):
 
     :param str fbid: User id to send the audio.
     :param str url: Url of a hosted media.
-    :param str type: image/audio/video/file
-    :return: Response object
+    :param str type: image/audio/video/file.
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
     """
     url = MSG_URL + PAGE_ACCESS_TOKEN
     payload = {}
@@ -241,8 +251,9 @@ def post_audio_attachment(fbid, audio_url):
     (/docs/messenger-platform/send-api-reference/audio-attachment)
 
     :param str fbid: User id to send the audio.
-    :para str audio_url: Url of a hosted audio (10 Mb).
-    :return: Response object
+    :param str audio_url: Url of a hosted audio (10 Mb).
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
     """
     return post_attachment(fbid, audio_url, 'audio')
 
@@ -252,8 +263,9 @@ def post_file_attachment(fbid, file_url):
     (/docs/messenger-platform/send-api-reference/file-attachment)
 
     :param str fbid: User id to send the file.
-    :para str file_url: Url of a hosted file (10 Mb).
-    :return: Response object
+    :param str file_url: Url of a hosted file (10 Mb).
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
     """
     return post_attachment(fbid, file_url, 'file')
 
@@ -263,8 +275,9 @@ def post_image_attachment(fbid, img_url):
     (/docs/messenger-platform/send-api-reference/image-attachment)
 
     :param str fbid: User id to send the image.
-    :para str img_url: Url of a hosted image (jpg, png, gif).
-    :return: Response object
+    :param str img_url: Url of a hosted image (jpg, png, gif).
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
     """
     return post_attachment(fbid, img_url, 'image')
 
@@ -274,8 +287,9 @@ def post_video_attachment(fbid, video_url):
     (/docs/messenger-platform/send-api-reference/video-attachment)
 
     :param str fbid: User id to send the video.
-    :para str video_url: Url of a hosted video.
-    :return: Response object
+    :param str video_url: Url of a hosted video.
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
     """
     return post_attachment(fbid, video_url, 'video')
 
@@ -302,7 +316,8 @@ def post_text_w_quickreplies(fbid, message, quick_replies):
                 "payload": "USER_SAY_NOT"
             }
         ]
-    :return: Response object
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
     """
     url = MSG_URL + PAGE_ACCESS_TOKEN
     payload = {}
@@ -321,7 +336,7 @@ def post_button_template(fbid, text, buttons):
 
     :param str fbid: User id to send the buttons.
     :param str text: Message to be displayed with the buttons (320 Chars).
-    :param list buttons: Dict of buttons that appear as call-to-actions -
+    :param list buttons: Dict of buttons that appear as call-to-actions, \
     format :
 
         >>> buttons = [
@@ -336,7 +351,8 @@ def post_button_template(fbid, text, buttons):
                 'payload': 'USER_DEFINED_PAYLOAD'
             }
         ]
-    :return: Response object.
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_.
     """
     url = MSG_URL + PAGE_ACCESS_TOKEN
     data = {}
@@ -376,7 +392,8 @@ def post_generic_template(fbid, title, item_url='', image_url='', subtitle='',
                 'payload': 'DEVELOPER_DEFINED_PAYLOAD'
             }
         ]
-    :return: Response object
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
     """
     url = MSG_URL + PAGE_ACCESS_TOKEN
     data = {}
@@ -400,11 +417,11 @@ def post_generic_template(fbid, title, item_url='', image_url='', subtitle='',
 
 def post_list_template(fbid, elements, buttons=[], top_element_style='large'):
     """ Sends a list template for the specified User
-    (/docs/messenger-platform/send-api-reference/list-template)
+    (/docs/messenger-platform/send-api-reference/list-template).
 
     :param str fbid: User id to send the list template.
     :param str top_element_style: large/compact (Default Large).
-    :param list elements: List view elements (Max 4/Min 2 elements)
+    :param list elements: List view elements (Max 4/Min 2 elements), \
     format :
 
         >>> elements = [{
@@ -430,8 +447,8 @@ def post_list_template(fbid, elements, buttons=[], top_element_style='large'):
             ]
         }]
 
-    :param list buttons: List of buttons associated on the list
-    template message (Max 1). fomart :
+    :param list buttons: List of buttons associated on the list \
+    template message (Max 1). format :
 
         >>> buttons = [
             {
@@ -440,7 +457,8 @@ def post_list_template(fbid, elements, buttons=[], top_element_style='large'):
                 'payload': 'payload'
             }
         ]
-    :return: Response object
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
     """
     url = MSG_URL + PAGE_ACCESS_TOKEN
     data = {}
@@ -499,7 +517,7 @@ def post_receipt_template(fbid, recipient_name, order_number, currency,
             "image_url": "http://i.imgur.com/GHC4ZHl.jpg"
           }
         ],
-    :param dict address: Shipping address (If order has shipping),
+    :param dict address: Shipping address (If order has shipping),\
     format :
 
         >>> address = {
@@ -522,7 +540,8 @@ def post_receipt_template(fbid, recipient_name, order_number, currency,
             "amount":10
           }
         ]
-    :return: Response object
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
     """
     url = MSG_URL + PAGE_ACCESS_TOKEN
     data = {}
@@ -540,6 +559,37 @@ def post_receipt_template(fbid, recipient_name, order_number, currency,
     payload['address'] = address
     payload['adjustments'] = adjustments
     payload['merchant_name'] = merchant_name
+    attachment = {"type": "template", "payload": payload}
+    data['message'] = {"attachment": attachment}
+    data = json.dumps(data)
+    status = requests.post(url, headers=HEADER, data=data)
+    return status
+
+
+def post_call_button(fbid, text, title, phone_number):
+    """ Sends a call button for the specified user
+    (/docs/messenger-platform/send-api-reference/call-button).
+
+    :param str fbid: User id to send the call button
+    :param str text: Text to send with the button (Max 160 Chars).
+    :param str title: Button title (Max 20 Chars).
+    :param str phone_number: Format must have "+" prefix followed by\
+    the country code, area code and local number.\
+    For example, **+16505551234**.
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
+    """
+    url = MSG_URL + PAGE_ACCESS_TOKEN
+    data = {}
+    data['recipient'] = {'id': fbid}
+    payload = {}
+    payload['template_type'] = 'button'
+    payload['text'] = text
+    button = {}
+    button['type'] = 'phone_number'
+    button['title'] = title
+    button['payload'] = phone_number
+    payload['buttons'] = [button]
     attachment = {"type": "template", "payload": payload}
     data['message'] = {"attachment": attachment}
     data = json.dumps(data)
