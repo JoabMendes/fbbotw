@@ -241,6 +241,16 @@ class FbbotwTest(unittest.TestCase):
                                                 adjustments=adjustments)
         self.assertTrue(response.status_code == 200)
 
+    # Send API Buttons
+
+    def test_post_call_button(self):
+        text = "Do you wanna call Joabe?"
+        title = "Call Now"
+        phone = "+558499872770"
+        response = fbbotw.post_call_button(fbid=self.fbid, text=text,
+                                           title=title, phone_number=phone)
+        self.assertTrue(response.status_code == 200)
+
 
 if __name__ == '__main__':
     unittest.main()

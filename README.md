@@ -82,8 +82,11 @@ from fbbotw import fbbotw
 fbbotw.typing(fbid, "typing_on")
 ```
 
+# Documentation
 
-# Current wrapper covering for the [Menssenger Platform](https://developers.facebook.com/docs/messenger-platform/product-overview) (59%)
+- [Read the Docs](http://fbbotw.readthedocs.io/en/latest/)
+
+# Current wrapper covering for the [Menssenger Platform](https://developers.facebook.com/docs/messenger-platform/product-overview) (78%)
 
 - [x] [User profile](https://developers.facebook.com/docs/messenger-platform/user-profile)
 - [ ] Send API
@@ -104,14 +107,8 @@ fbbotw.typing(fbid, "typing_on")
         - [ ] Airline Checkin Template
         - [ ] Airline Itinerary Template
         - [ ] Airline Flight Update Template
-    - [ ] Buttons
-        - [ ] URL Button
-        - [ ] Postback Button
-        - [ ] Call Button
-        - [ ] Share Button
-        - [ ] Buy Button
-        - [ ] Log In Button
-        - [ ] Log Out Button
+    - [x] [Buttons: Check documentation to format your buttons in your templates](https://developers.facebook.com/docs/messenger-platform/send-api-reference/share-button)
+        - [x] [Call Button](https://developers.facebook.com/docs/messenger-platform/send-api-reference/call-button)
 - [ ] Thread Settings
   - [x] [Greeting Text](https://developers.facebook.com/docs/messenger-platform/thread-settings/greeting-text)
   - [x] [Get Started Button](https://developers.facebook.com/docs/messenger-platform/thread-settings/get-started-button)
