@@ -90,7 +90,7 @@ If you want to use this package without Django
     fbbotw.typing(fbid, "typing_on")
 
 
-Functions Reference:
+Functions Reference
 -------------------
 
 .. toctree::

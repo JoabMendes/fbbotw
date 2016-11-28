@@ -90,7 +90,7 @@ If you want to use this package without Django
     fbbotw.typing(fbid, "typing_on")
 
 
-Functions Reference:
+Functions Reference
 -------------------
 
 .. toctree::
@@ -136,8 +136,7 @@ Current wrapper covering for the `Menssenger Platform`_ (78%)
     -  [x] `Persistent Menu <https://developers.facebook.com/docs/messenger-platform/thread-settings/persistent-menu>`_
     -  [X] `Account Linking (Available but not tested) <https://developers.facebook.com/docs/messenger-platform/thread-settings/account-linking>`_
     -  [x] `Domain Whitelisting <https://developers.facebook.com/docs/messenger-platform/thread-settings/domain-whitelisting>`_
-
--  [ ] Payment Settings (BETA)
+    -  [ ] Payment Settings (BETA)
 
 
 .. _Facebook Messenger: https://developers.facebook.com/products/messenger/
