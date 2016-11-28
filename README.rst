@@ -1,11 +1,11 @@
-Facebook bot python wrapper
+FBBOTW: A Facebook Bot Wrapper
 ===========================
 
 Python Wrapper for `Facebook Messenger`_ Bot Platform.
 
 |MIT licensed| |PyPI| |Documentation Status| |Build Status|
 
-This bot makes it simpler to user the *Facebook messenger bot platform*
+This package makes it simpler to user the *Facebook messenger bot platform*
 wrapping the endpoints as functions.
 
 | For example, this would be the normal way you probably would call the

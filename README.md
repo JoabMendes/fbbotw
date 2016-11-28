@@ -1,4 +1,4 @@
-# Facebook bot python wrapper
+# FBBOTW: A Facebook Bot Wrapper
 Python Wrapper for [Facebook Messenger](https://developers.facebook.com/products/messenger/) Bot Platform.
 
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE) [![PyPI](https://img.shields.io/pypi/v/fbbotw.svg)](https://pypi.python.org/pypi?name=fbbotw&version=0.1.dev1&:action=display) [![Documentation Status](https://readthedocs.org/projects/fbbotw/badge/?version=latest)](http://fbbotw.readthedocs.io/en/latest/?badge=latest) [![Build Status](https://travis-ci.org/JoabMendes/fbbotw.svg?branch=master)](https://travis-ci.org/JoabMendes/fbbotw)
@@ -96,10 +96,10 @@ fbbotw.typing(fbid, "typing_on")
     - [x] [Quick Replies](https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies)
     - [x] [Sender Actions](https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions)
     - [ ] Templates
-        - [ ] Button Template
-        - [ ] Generic Template
-        - [ ] List Template
-        - [ ] Receipt Template
+        - [x] [Button Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template)
+        - [x] [Generic Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
+        - [x] [List Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
+        - [x] [Receipt Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
         - [ ] Airline Boarding Pass Template
         - [ ] Airline Checkin Template
         - [ ] Airline Itinerary Template
@@ -112,11 +112,10 @@ fbbotw.typing(fbid, "typing_on")
         - [ ] Buy Button
         - [ ] Log In Button
         - [ ] Log Out Button
-- [ ] Web view
 - [ ] Thread Settings
   - [x] [Greeting Text](https://developers.facebook.com/docs/messenger-platform/thread-settings/greeting-text)
   - [x] [Get Started Button](https://developers.facebook.com/docs/messenger-platform/thread-settings/get-started-button)
-  - [x] Persistent Menu
-  - [ ] Account Linking
-  - [ ] Domain Whitelisting
-  - [ ] Payment Settings
+  - [x] [Persistent Menu](https://developers.facebook.com/docs/messenger-platform/thread-settings/persistent-menu)
+  - [X] [Account Linking (Available but not tested)](https://developers.facebook.com/docs/messenger-platform/thread-settings/account-linking)
+  - [x] [Domain Whitelisting](https://developers.facebook.com/docs/messenger-platform/thread-settings/domain-whitelisting)
+  - [ ] Payment Settings (BETA)

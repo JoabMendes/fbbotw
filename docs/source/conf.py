@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # fbbotw documentation build configuration file, created by
-# sphinx-quickstart on Thu Nov 24 03:00:46 2016.
+# sphinx-quickstart on Mon Nov 28 01:48:59 2016.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -17,9 +17,9 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+sys.path.insert(0, os.path.abspath('../../fbbotw'))
 
 # -- General configuration ------------------------------------------------
 
@@ -31,15 +31,11 @@
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.coverage',
-    'sphinx.ext.imgmath',
-    'sphinx.ext.viewcode',
+    'sphinx.ext.autodoc',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ['ntemplates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -56,8 +52,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'fbbotw'
-copyright = '2016, Joab Mendes'
-author = 'Joab Mendes'
+copyright = '2016, Joabe Mendes'
+author = 'Joabe Mendes'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -160,7 +156,7 @@ html_theme = 'alabaster'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ['nstatic']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
@@ -267,7 +263,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'fbbotw.tex', 'fbbotw Documentation',
-     'Joab Mendes', 'manual'),
+     'Joabe Mendes', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -343,7 +339,3 @@ texinfo_documents = [
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #
 # texinfo_no_detailmenu = False
-
-
-# Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}

@@ -26,6 +26,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="top" title="fbbotw 1.0 documentation" href="#" />
+    <link rel="next" title="fbbotw functions reference" href="functions.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -43,8 +44,120 @@
             
   <div class="section" id="welcome-to-fbbotw-s-documentation">
 <h1>Welcome to fbbotw&#8217;s documentation!<a class="headerlink" href="#welcome-to-fbbotw-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Python Wrapper for <a class="reference external" href="https://developers.facebook.com/products/messenger/">Facebook Messenger</a> Bot Platform.</p>
+<p><a class="reference external" href="https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE"><img alt="MIT licensed" src="https://img.shields.io/badge/license-MIT-blue.svg" /></a> <a class="reference external" href="https://pypi.python.org/pypi?name=fbbotw&amp;version=0.1.dev1&amp;:action=display"><img alt="PyPI" src="https://img.shields.io/pypi/v/fbbotw.svg" /></a> <a class="reference external" href="http://fbbotw.readthedocs.io/en/latest/?badge=latest"><img alt="Documentation Status" src="https://readthedocs.org/projects/fbbotw/badge/?version=latest" /></a> <a class="reference external" href="https://travis-ci.org/JoabMendes/fbbotw"><img alt="Build Status" src="https://travis-ci.org/JoabMendes/fbbotw.svg?branch=master" /></a></p>
+<p>This package makes it simpler to user the <em>Facebook messenger bot platform</em>
+wrapping the endpoints as functions.</p>
+<div class="line-block">
+<div class="line">For example, this would be the normal way you probably would call the
+<code class="docutils literal"><span class="pre">Send</span> <span class="pre">API</span></code> to send a text:</div>
+<div class="line">(Using <code class="docutils literal"><span class="pre">requests</span></code> and <code class="docutils literal"><span class="pre">json</span></code>)</div>
+</div>
+<div class="code py highlight-default"><div class="highlight"><pre><span></span><span class="n">fbid</span> <span class="o">=</span> <span class="s2">&quot;&lt;user fb id&gt;&quot;</span>
+<span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Hello World&quot;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://graph.facebook.com/v2.6/me/messages?access_token=&#39;</span>
+<span class="n">url</span> <span class="o">+=</span> <span class="n">PAGE_ACCESS_TOKEN</span>
+<span class="n">header</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">}</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">payload</span><span class="p">[</span><span class="s1">&#39;recipient&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">fbid</span><span class="p">}</span>
+<span class="n">payload</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">message</span><span class="p">}</span> <span class="c1"># Limit 320 chars</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Using fbbotw you would easily write</p>
+<div class="code py highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fbbotw</span> <span class="k">import</span> <span class="n">fbbotw</span>
+<span class="c1"># ...</span>
+
+
+<span class="n">fbid</span> <span class="o">=</span> <span class="s2">&quot;&lt;user fb id&gt;&quot;</span>
+<span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Hello World&quot;</span>
+
+<span class="n">fbbotw</span><span class="o">.</span><span class="n">post_text_message</span><span class="p">(</span><span class="n">fbid</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">fbbotw</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-with-django">
+<h2>Using with Django<a class="headerlink" href="#using-with-django" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">1 - In your global settings define the variable <code class="docutils literal"><span class="pre">PAGE_ACCESS_TOKEN</span></code>
+that is</div>
+<div class="line">your access token generated on the app configuration from facebook.</div>
+</div>
+<div class="code py highlight-default"><div class="highlight"><pre><span></span><span class="c1">#settings.py</span>
+<span class="n">PAGE_ACCESS_TOKEN</span> <span class="o">=</span> <span class="s2">&quot;&lt;your access token&gt;&quot;</span>
+</pre></div>
+</div>
+<p>or create environment variable with the same name:</p>
+<div class="code sh highlight-default"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">PAGE_ACCESS_TOKEN</span><span class="o">=</span><span class="s1">&#39;&lt;your access token&gt;&#39;</span>
+</pre></div>
+</div>
+<p>2 - To use the functions of this wrapper do:</p>
+<div class="code py highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fbbotw</span> <span class="k">import</span> <span class="n">fbbotw</span>
+
+<span class="n">fbbotw</span><span class="o">.</span><span class="n">typing</span><span class="p">(</span><span class="n">fbid</span><span class="p">,</span> <span class="s2">&quot;typing_on&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="if-you-want-to-use-this-package-without-django">
+<h2>If you want to use this package without Django<a class="headerlink" href="#if-you-want-to-use-this-package-without-django" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Download the .zip of this directory.</li>
+<li>Copy the <code class="docutils literal"><span class="pre">fbbotw</span></code> directory to your project root.</li>
+<li>Define a variable called <code class="docutils literal"><span class="pre">PAGE_ACCESS_TOKEN</span></code> as the page access
+token you got from facebook</li>
+<li>Import the package in your module.</li>
+</ol>
+<div class="code py highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fbbotw</span> <span class="k">import</span> <span class="n">fbbotw</span>
+
+<span class="n">fbbotw</span><span class="o">.</span><span class="n">typing</span><span class="p">(</span><span class="n">fbid</span><span class="p">,</span> <span class="s2">&quot;typing_on&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="current-wrapper-covering-for-the-menssenger-platform-59">
+<h2>Current wrapper covering for the <a class="reference external" href="https://developers.facebook.com/docs/messenger-platform/product-overview">Menssenger Platform</a> (59%)<a class="headerlink" href="#current-wrapper-covering-for-the-menssenger-platform-59" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>[x] User profile</li>
+<li>[ ] Send API<ul>
+<li>[ ] Templates</li>
+<li>[ ] Buttons</li>
+<li>[x] Quick Replies</li>
+<li>[x] Sender Actions</li>
+<li>[x] Content Types<ul>
+<li>[x] Text messages</li>
+<li>[x] Audio attachment</li>
+<li>[x] File attachment</li>
+<li>[x] Image attachment</li>
+<li>[x] Video attachment</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>[ ] Web view</li>
+<li>[ ] Thread Settings</li>
+<li>[x] Greeting Text</li>
+<li>[x] Get Started Button</li>
+<li>[x] Persistent Menu</li>
+<li>[ ] Account Linking</li>
+<li>[ ] Domain Whitelisting</li>
+<li>[ ] Payment Settings</li>
+</ul>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">fbbotw functions reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#module-fbbotw">Graph API Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#send-api-functions">Send Api Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#module-fbbotw">Tread Settings Functions</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
@@ -64,13 +177,20 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Welcome to fbbotw&#8217;s documentation!</a></li>
+<li><a class="reference internal" href="#">Welcome to fbbotw&#8217;s documentation!</a><ul>
+<li><a class="reference internal" href="#install">Install</a></li>
+<li><a class="reference internal" href="#using-with-django">Using with Django</a></li>
+<li><a class="reference internal" href="#if-you-want-to-use-this-package-without-django">If you want to use this package without Django</a></li>
+<li><a class="reference internal" href="#current-wrapper-covering-for-the-menssenger-platform-59">Current wrapper covering for the Menssenger Platform (59%)</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="functions.html" title="next chapter">fbbotw functions reference</a></li>
   </ul></li>
 </ul>
 </div>
@@ -96,7 +216,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, Joab Mendes.
+      &copy;2016, Joabe Mendes.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
