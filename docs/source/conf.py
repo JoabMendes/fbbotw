@@ -17,9 +17,18 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
+
 import sys
-sys.path.insert(0, os.path.abspath('../../fbbotw'))
+import os
+on_rtd = os.environ.get('READTHEDOCS') == 'True'
+if on_rtd:
+    path = '/home/docs/checkouts/readthedocs.org/user_builds/\
+    fbbotw/checkouts/stable/fbbotw'
+    sys.path.insert(0, path)
+else:
+    sys.path.insert(0, os.path.abspath('../../fbbotw'))
+
+os.environ["PAGE_ACCESS_TOKEN"] = "None"
 
 # -- General configuration ------------------------------------------------
 
