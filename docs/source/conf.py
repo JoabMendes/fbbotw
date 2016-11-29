@@ -339,9 +339,3 @@ texinfo_documents = [
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #
 # texinfo_no_detailmenu = False
-
-html_context = {
-    "display_github": True, # Add 'Edit on Github' link instead of 'View page source'
-    "last_updated": True,
-    "commit": True,
-}
