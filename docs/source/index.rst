@@ -8,9 +8,9 @@ Python Wrapper for `Facebook Messenger`_ Bot Platform.
 This bot makes it simpler to user the *Facebook messenger bot platform*
 wrapping the endpoints as functions.
 
-| For example, this would be the normal way you probably would call the
-  ``Send API`` to send a text:
-| (Using ``requests`` and ``json``)
+For example, this would be the normal way you probably would call the
+``Send API`` to send a text (Using ``requests`` and ``json``):
+
 
 .. code:: py
 
@@ -48,9 +48,8 @@ Install
 Using with Django
 -----------------
 
-| 1 - In your global settings define the variable ``PAGE_ACCESS_TOKEN``
-  that is
-| your access token generated on the app configuration from facebook.
+1 - In your global settings define the variable ``PAGE_ACCESS_TOKEN`` that is
+your access token generated on the app configuration from facebook.
 
 .. code:: py
 
@@ -94,9 +93,20 @@ Functions Reference
 -------------------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
 
-   functions
+   Graph API Functions
+   -------------------
+   api/graph_api
+
+   Send Api Functions
+   ------------------
+   api/send_api
+
+   Tread Settings Functions
+   ------------------------
+   api/thread_settings
+
 
 Current wrapper covering for the `Menssenger Platform`_ (78%)
 -------------------------------------------------------------
