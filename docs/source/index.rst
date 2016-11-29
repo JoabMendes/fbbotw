@@ -92,8 +92,10 @@ Using without Django
 Functions reference
 -------------------
 
-.. automodule:: fbbotw
-    :members:
+.. toctree::
+   :maxdepth: 2
+
+   functions
 
 
 Current wrapper covering for the `Menssenger Platform`_ (78%)
