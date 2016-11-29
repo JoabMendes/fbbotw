@@ -199,3 +199,5 @@ Current wrapper covering for the `Menssenger Platform`_ (78%)
    :target: https://travis-ci.org/JoabMendes/fbbotw
 
 .. _Menssenger Platform: https://developers.facebook.com/docs/messenger-platform/product-overview
+
+.. toctree::
