@@ -20,13 +20,8 @@
 
 import sys
 import os
-on_rtd = os.environ.get('READTHEDOCS') == 'True'
-if on_rtd:
-    path = '/home/docs/checkouts/readthedocs.org/user_builds/\
-    fbbotw/checkouts/stable/fbbotw'
-    sys.path.insert(0, path)
-else:
-    sys.path.insert(0, os.path.abspath('../../fbbotw'))
+
+sys.path.insert(0, os.path.abspath('../../fbbotw'))
 
 os.environ["PAGE_ACCESS_TOKEN"] = "None"
 
