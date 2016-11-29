@@ -16,6 +16,11 @@ except ImportError:
     PAGE_ACCESS_TOKEN = os.getenv('PAGE_ACCESS_TOKEN', False)
     if not PAGE_ACCESS_TOKEN:
         raise ImportError(IMPORT_ERROR)
+except django.core.exceptions.ImproperlyConfigured:
+    # Using django but did defined the config var PAGE_ACCESS_TOKEN
+    PAGE_ACCESS_TOKEN = os.getenv('PAGE_ACCESS_TOKEN', False)
+    if not PAGE_ACCESS_TOKEN:
+        raise ImportError(IMPORT_ERROR)
 except AttributeError:
     # Using django but did defined the config var PAGE_ACCESS_TOKEN
     raise ImportError(IMPORT_ERROR)
