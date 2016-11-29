@@ -16,7 +16,7 @@ if not PAGE_ACCESS_TOKEN:
         from django.conf import settings
         PAGE_ACCESS_TOKEN = settings.PAGE_ACCESS_TOKEN
     except ImportError:
-        #Not using django
+        # Not using django
         raise ImportError(IMPORT_ERROR)
     except AttributeError:
         # Using django but did defined the config var PAGE_ACCESS_TOKEN
