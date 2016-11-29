@@ -93,9 +93,10 @@ Functions reference
 -------------------
 
 .. toctree::
-  :maxdepth: 3
+   :maxdepth: 2
 
-  functions
+.. automodule:: fbbotw
+    :members:
 
 
 Current wrapper covering for the `Menssenger Platform`_ (78%)
@@ -137,6 +138,14 @@ Current wrapper covering for the `Menssenger Platform`_ (78%)
     -  [X] `Account Linking (Available but not tested) <https://developers.facebook.com/docs/messenger-platform/thread-settings/account-linking>`_
     -  [x] `Domain Whitelisting <https://developers.facebook.com/docs/messenger-platform/thread-settings/domain-whitelisting>`_
     -  [ ] Payment Settings (BETA)
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
 
 
 .. _Facebook Messenger: https://developers.facebook.com/products/messenger/
