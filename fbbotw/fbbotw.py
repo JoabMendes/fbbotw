@@ -3,27 +3,25 @@ import requests
 import os
 
 IMPORT_ERROR = "Couldn't import PAGE_ACCESS_TOKEN. \
-Define this var in your settings configuration\
+Define this var in your django settings configuration\
 or as environment variable."
 
 HEADER = {"Content-Type": "application/json"}
 
-try:
-    from django.conf import settings
-    PAGE_ACCESS_TOKEN = settings.PAGE_ACCESS_TOKEN
-except ImportError:
-    # Not using Django
-    PAGE_ACCESS_TOKEN = os.getenv('PAGE_ACCESS_TOKEN', False)
-    if not PAGE_ACCESS_TOKEN:
+
+# Not using Django
+PAGE_ACCESS_TOKEN = os.getenv('PAGE_ACCESS_TOKEN', False)
+if not PAGE_ACCESS_TOKEN:
+    try:
+        from django.conf import settings
+        PAGE_ACCESS_TOKEN = settings.PAGE_ACCESS_TOKEN
+    except ImportError:
+        #Not using django
         raise ImportError(IMPORT_ERROR)
-except django.core.exceptions.ImproperlyConfigured:
-    # Using django but did defined the config var PAGE_ACCESS_TOKEN
-    PAGE_ACCESS_TOKEN = os.getenv('PAGE_ACCESS_TOKEN', False)
-    if not PAGE_ACCESS_TOKEN:
+    except AttributeError:
+        # Using django but did defined the config var PAGE_ACCESS_TOKEN
         raise ImportError(IMPORT_ERROR)
-except AttributeError:
-    # Using django but did defined the config var PAGE_ACCESS_TOKEN
-    raise ImportError(IMPORT_ERROR)
+
 
 TD_STS_URL = 'https://graph.facebook.com/v2.6/me/thread_settings?access_token='
 MSG_URL = 'https://graph.facebook.com/v2.6/me/messages?access_token='
