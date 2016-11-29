@@ -93,7 +93,7 @@ Functions Reference
 -------------------
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 3
 
    api/graph_api
    api/send_api
