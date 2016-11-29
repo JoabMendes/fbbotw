@@ -1,5 +1,8 @@
 Content Types
 =============
 
-.. automodule:: fbbotw
-    :members: post_text_message, post_audio_attachment, post_file_attachment, post_image_attachment, post_video_attachment
+.. autofunction:: fbbotw.post_text_message
+.. autofunction:: fbbotw.post_audio_attachment
+.. autofunction:: fbbotw.post_file_attachment
+.. autofunction:: fbbotw.post_image_attachment
+.. autofunction:: fbbotw.post_video_attachment

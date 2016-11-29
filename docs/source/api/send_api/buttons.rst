@@ -1,5 +1,4 @@
 Buttons
 =======
 
-.. automodule:: fbbotw
-    :members: post_call_button
+.. autofunction:: fbbotw.post_call_button

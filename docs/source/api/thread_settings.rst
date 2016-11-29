@@ -1,5 +1,9 @@
-Tread Settings Functions
-========================
+Thread Settings Functions
+=========================
 
-.. automodule:: fbbotw
-    :members: post_settings, post_greeting_text, post_start_button, post_persistent_menu, post_domain_whitelisting, post_account_linking_url
+.. autofunction:: fbbotw.post_settings
+.. autofunction:: fbbotw.post_greeting_text
+.. autofunction:: fbbotw.post_start_button
+.. autofunction:: fbbotw.post_persistent_menu
+.. autofunction:: fbbotw.post_domain_whitelisting
+.. autofunction:: fbbotw.post_account_linking_url

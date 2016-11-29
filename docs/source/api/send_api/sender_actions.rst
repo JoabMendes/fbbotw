@@ -1,5 +1,4 @@
 Sender Actions
 ==============
 
-.. automodule:: fbbotw
-    :members: typing
+.. autofunction:: fbbotw.typing

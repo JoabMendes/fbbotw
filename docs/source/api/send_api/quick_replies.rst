@@ -1,5 +1,4 @@
 Quick Replies
 =============
 
-.. automodule:: fbbotw
-    :members: post_text_w_quickreplies
+.. autofunction:: fbbotw.post_text_w_quickreplies
