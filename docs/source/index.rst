@@ -95,16 +95,8 @@ Functions Reference
 .. toctree::
    :maxdepth: 5
 
-   Graph API Functions
-   -------------------
    api/graph_api
-
-   Send Api Functions
-   ------------------
    api/send_api
-
-   Tread Settings Functions
-   ------------------------
    api/thread_settings
 
 
