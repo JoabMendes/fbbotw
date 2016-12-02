@@ -1,7 +1,9 @@
 # FBBOTW: A Facebook Bot Wrapper
 Python Wrapper for [Facebook Messenger](https://developers.facebook.com/products/messenger/) Bot Platform.
 
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE) [![PyPI](https://img.shields.io/pypi/v/fbbotw.svg)](https://pypi.python.org/pypi?name=fbbotw&:action=display) [![Documentation Status](https://readthedocs.org/projects/fbbotw/badge/?version=latest)](http://fbbotw.readthedocs.io) [![Build Status](https://travis-ci.org/JoabMendes/fbbotw.svg?branch=master)](https://travis-ci.org/JoabMendes/fbbotw)
+
+[![Build Status](https://travis-ci.org/JoabMendes/fbbotw.svg?branch=master)](https://travis-ci.org/JoabMendes/fbbotw)[![Documentation Status](https://readthedocs.org/projects/fbbotw/badge/?version=latest)](http://fbbotw.readthedocs.io)[![PyPI](https://img.shields.io/pypi/v/fbbotw.svg)](https://pypi.python.org/pypi?name=fbbotw&:action=display) [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE) 
+
 
 This bot makes it simpler to user the *Facebook messenger bot platform*  wrapping the endpoints as functions.
 

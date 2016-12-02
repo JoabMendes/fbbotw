@@ -88,6 +88,13 @@ class FbbotwTest(unittest.TestCase):
         self.assertTrue(response.status_code == 200)
         self.assertTrue(response.json()['recipient_id'] == self.fbid)
 
+    def test_post_text_list(self):
+        messages = ["Hello", "World", "FBBOTW"]
+        responses = fbbotw.post_text_list(fbid=self.fbid, messages=messages)
+        for response in responses:
+            self.assertTrue(response.status_code == 200)
+            self.assertTrue(response.json()['recipient_id'] == self.fbid)
+
     def test_post_audio_attachment(self):
         ogg = 'https://dl.dropboxusercontent.com/u/85402777/turdus.ogg'
         response = fbbotw.post_audio_attachment(fbid=self.fbid, audio_url=ogg)

@@ -6,8 +6,3 @@ This file will be added to as part of each release
 
 Version 1.0 (first version), Thu 01 Dec 2016
 =============================================
-
-
-
-Version 1.0 (first version), Thu, Dez 1 2016 
-===============================================

@@ -215,7 +215,7 @@ def post_text_message(fbid, message):
     """ Sends a common text message
     (/docs/messenger-platform/send-api-reference/text-message)
 
-    :param str fbid: User id to get the text.
+    :param str fbid: User id to send the text.
     :param str message: Text to be displayed for the user (230 chars).
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
@@ -227,6 +227,21 @@ def post_text_message(fbid, message):
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
     return status
+
+
+def post_text_list(fbid, messages=[]):
+    """ Sends a serie of messages from list of text.
+
+    :param str fbid: User id to send the text list.
+    :param list messages: A list of messages to be sent.
+    :return: A list of `Response objects <http://docs.python-\
+    requests.org/en/master/api/#requests.Response>`_\
+    for every message sent.
+    """
+    responses = []
+    for msg in messages:
+        responses.append(post_text_message(fbid=fbid, message=msg))
+    return responses
 
 
 def post_attachment(fbid, media_url, file_type):

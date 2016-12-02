@@ -8,7 +8,7 @@ Welcome to fbbotw's documentation!
 
 Python Wrapper for `Facebook Messenger`_ Bot Platform.
 
-|MIT licensed| |PyPI| |Documentation Status| |Build Status|
+|Build Status| |Documentation Status| |PyPI| |MIT licensed| 
 
 This bot makes it simpler to user the *Facebook messenger bot platform*
 wrapping the endpoints as functions.
