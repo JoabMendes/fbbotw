@@ -230,7 +230,7 @@ def post_text_message(fbid, message):
 
 
 def post_text_list(fbid, messages=[]):
-    """ Sends a serie of messages from list of text.
+    """ Sends a serie of messages from a list of text.
 
     :param str fbid: User id to send the text list.
     :param list messages: A list of messages to be sent.
