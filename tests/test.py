@@ -73,6 +73,7 @@ class FbbotwTest(unittest.TestCase):
             {'result': 'success'}
         )
 
+
 '''
     def test_post_persistent_menu(self):
         response = fbbotw.post_persistent_menu(self.postback_buttons)
