@@ -3,7 +3,7 @@ import requests
 import os
 
 IMPORT_ERROR = "Couldn't import PAGE_ACCESS_TOKEN. \
-Define this var in your django settings configuration\
+Define this var in your settings configuration\
 or as environment variable."
 
 HEADER = {"Content-Type": "application/json"}
@@ -39,12 +39,12 @@ def get_user_information(fbid):
 
     :param str fbid: User id to get the information
     :return: dict with keys : first_name, last_name, gender, profile_pic,\
-    locale, timezone, is_payment_enabled.
+    locale, timezone, is_payment_enabled, last_ad_referral.
     """
     user_info_url = "https://graph.facebook.com/v2.7/%s" % fbid
     payload = {}
     payload['fields'] = 'first_name,last_name,gender,profile_pic,\
-    locale,timezone,is_payment_enabled'
+    locale,timezone,is_payment_enabled,last_ad_referral'
     payload['access_token'] = PAGE_ACCESS_TOKEN
     user_info = requests.get(user_info_url, payload).json()
     return user_info

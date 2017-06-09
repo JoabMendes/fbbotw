@@ -27,9 +27,17 @@ class FbbotwTest(unittest.TestCase):
 
     def test_get_user_info(self):
         response = fbbotw.get_user_information(fbid=self.fbid)
-        self.assertTrue(response['first_name'] == 'Rto')
-        self.assertTrue(response['last_name'] == 'Dto')
-        self.assertTrue(response['gender'] == 'male')
+        self.assertTrue(type(response['first_name']) == type(''))
+        self.assertTrue(len(response['first_name']) > 0)
+        self.assertTrue(type(response['last_name']) == type(''))
+        self.assertTrue(len(response['last_name']) > 0)
+        self.assertTrue(type(response['locale']) == type(''))
+        self.assertTrue(len(response['locale']) > 0)
+        self.assertTrue(type(response['profile_pic']) == type(''))
+        self.assertTrue(len(response['profile_pic']) > 0)
+        self.assertTrue(type(response['gender']) == type(''))
+        self.assertTrue(len(response['gender']) > 0)
+        self.assertTrue(response['is_payment_enabled'])
 
     #############################################
     #        Tread Settings Functions           #
