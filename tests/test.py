@@ -20,6 +20,7 @@ class FbbotwTest(unittest.TestCase):
                 'payload': 'USER_SAY_NOT'
             }
         ]
+        self.OK = 200
 
     #############################################
     #           Graph API Functions             #
@@ -27,15 +28,15 @@ class FbbotwTest(unittest.TestCase):
 
     def test_get_user_info(self):
         response = fbbotw.get_user_information(fbid=self.fbid)
-        self.assertTrue(type(response['first_name']) == type(''))
+        self.assertTrue(isinstance(response['first_name'], str))
         self.assertTrue(len(response['first_name']) > 0)
-        self.assertTrue(type(response['last_name']) == type(''))
+        self.assertTrue(isinstance(response['last_name'], str))
         self.assertTrue(len(response['last_name']) > 0)
-        self.assertTrue(type(response['locale']) == type(''))
+        self.assertTrue(isinstance(response['locale'], str))
         self.assertTrue(len(response['locale']) > 0)
-        self.assertTrue(type(response['profile_pic']) == type(''))
+        self.assertTrue(isinstance(response['profile_pic'], str))
         self.assertTrue(len(response['profile_pic']) > 0)
-        self.assertTrue(type(response['gender']) == type(''))
+        self.assertTrue(isinstance(response['gender'], str))
         self.assertTrue(len(response['gender']) > 0)
         self.assertTrue(response['is_payment_enabled'])
 
@@ -44,17 +45,35 @@ class FbbotwTest(unittest.TestCase):
     #############################################
 
     def test_post_settings(self):
-        response = fbbotw.post_settings("Hello world")
-        self.assertTrue(response.status_code == 200)
+        greeting, button = fbbotw.post_settings("Hello world")
+        self.assertEqual(greeting.status_code, self.OK)
+        self.assertDictEqual(
+            greeting.json(),
+            {'result': 'Successfully updated greeting'}
+        )
+        self.assertEqual(button.status_code, self.OK)
+        self.assertDictEqual(
+            button.json(),
+            {'result': 'success'}
+        )
 
     def test_post_greeting_text(self):
         response = fbbotw.post_greeting_text("Hello World")
-        self.assertTrue(response.status_code == 200)
+        self.assertEqual(response.status_code, self.OK)
+        self.assertDictEqual(
+            response.json(),
+            {'result': 'Successfully updated greeting'}
+        )
 
-    def test_post_post_start_button(self):
-        response = fbbotw.post_start_button('GET_STATED')
-        self.assertTrue(response.status_code == 200)
+    def test_post_start_button(self):
+        response = fbbotw.post_start_button('GET_STARTED')
+        self.assertEqual(response.status_code, self.OK)
+        self.assertDictEqual(
+            response.json(),
+            {'result': 'success'}
+        )
 
+'''
     def test_post_persistent_menu(self):
         response = fbbotw.post_persistent_menu(self.postback_buttons)
         self.assertTrue(response.status_code == 200)
@@ -265,7 +284,7 @@ class FbbotwTest(unittest.TestCase):
         response = fbbotw.post_call_button(fbid=self.fbid, text=text,
                                            title=title, phone_number=phone)
         self.assertTrue(response.status_code == 200)
-
+'''
 
 if __name__ == '__main__':
     unittest.main()

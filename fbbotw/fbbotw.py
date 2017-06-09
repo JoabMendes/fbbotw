@@ -26,6 +26,13 @@ if not PAGE_ACCESS_TOKEN:
 TD_STS_URL = 'https://graph.facebook.com/v2.6/me/thread_settings?access_token='
 MSG_URL = 'https://graph.facebook.com/v2.6/me/messages?access_token='
 
+THREAD_SETTINGS_URL = ("https://graph.facebook.com/v2.6/me/"
+                       "thread_settings?access_token={access_token}")
+MESSAGES_URL = ("https://graph.facebook.com/v2.6/me/"
+                "messages?access_token={access_token}")
+MESSENGER_PROFILE_URL = ("https://graph.facebook.com/v2.6/me/"
+                         "messenger_profile?access_token={access_token}")
+GRAPH_URL = ("https://graph.facebook.com/v2.7/{fbid}")
 
 #############################################
 #        Graph API Functions                #
@@ -41,7 +48,7 @@ def get_user_information(fbid):
     :return: dict with keys : first_name, last_name, gender, profile_pic,\
     locale, timezone, is_payment_enabled, last_ad_referral.
     """
-    user_info_url = "https://graph.facebook.com/v2.7/%s" % fbid
+    user_info_url = GRAPH_URL.format(fbid=fbid)
     payload = {}
     payload['fields'] = 'first_name,last_name,gender,profile_pic,\
     locale,timezone,is_payment_enabled,last_ad_referral'
@@ -60,24 +67,28 @@ def post_settings(greeting_text):
         The payload for the START Button will be 'USER_START'
 
     :param str greeting_text: Desired Greeting Text (160 chars).
-    :return: `Response object <http://docs.python-requests.org/en/\
-    master/api/#requests.Response>`_
+    :return: tuple with two `Response object <http://docs.python-requests.\
+    org/en/master/api/#requests.Response>`_ for the greeting \
+    text and start button.
     """
     # Set the greeting texts
-    url = TD_STS_URL + PAGE_ACCESS_TOKEN
+    url = THREAD_SETTINGS_URL.format(access_token=PAGE_ACCESS_TOKEN)
     txtpayload = {}
     txtpayload['setting_type'] = 'greeting'
     txtpayload['greeting'] = {'text': greeting_text}
-    response_msg = json.dumps(txtpayload)
-    status = requests.post(url, headers=HEADER, data=response_msg)
+    data = json.dumps(txtpayload)
+    greeting_text_status = requests.post(
+        url, headers=HEADER, data=data
+    )
     # Set the start button
+    url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
     btpayload = {}
-    btpayload['setting_type'] = 'call_to_actions'
-    btpayload['thread_state'] = 'new_thread'
-    btpayload['call_to_actions'] = [{'payload': 'USER_START'}]
-    response_msg = json.dumps(btpayload)
-    status = requests.post(url, headers=HEADER, data=response_msg)
-    return status
+    btpayload['get_started'] = {'payload': 'USER_START'}
+    data = json.dumps(btpayload)
+    get_started_button_status = requests.post(
+        url, headers=HEADER, data=data
+    )
+    return (greeting_text_status, get_started_button_status)
 
 
 def post_greeting_text(greeting_text):
@@ -88,7 +99,7 @@ def post_greeting_text(greeting_text):
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    url = TD_STS_URL + PAGE_ACCESS_TOKEN
+    url = THREAD_SETTINGS_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
     payload["setting_type"] = "greeting"
     payload["greeting"] = {"text": greeting_text}
@@ -99,19 +110,17 @@ def post_greeting_text(greeting_text):
 
 def post_start_button(payload='START'):
     """ Sets the Thread Settings Greeting Text
-    (/docs/messenger-platform/thread-settings/get-started-button).
+    (/docs/messenger-platform/messenger-profile/get-started-button).
 
     :param str payload: Desired postback payload (Default START).
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    url = TD_STS_URL + PAGE_ACCESS_TOKEN
-    btpayload = {}
-    btpayload["setting_type"] = "call_to_actions"
-    btpayload["thread_state"] = "new_thread"
-    btpayload["call_to_actions"] = [{"payload": payload}]
-    response_msg = json.dumps(btpayload)
-    status = requests.post(url, headers=HEADER, data=response_msg)
+    url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
+    payload_data = {}
+    payload_data['get_started'] = {'payload': payload}
+    data = json.dumps(payload_data)
+    status = requests.post(url, headers=HEADER, data=data)
     return status
 
 
