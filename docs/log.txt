@@ -1,0 +1,2 @@
+- Changed endpoints of post greeting text and post start button
+- Changed the parameter for posting greeting text

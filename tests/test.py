@@ -58,11 +58,27 @@ class FbbotwTest(unittest.TestCase):
         )
 
     def test_post_greeting_text(self):
-        response = fbbotw.post_greeting_text("Hello World")
+        greeting_texts = [
+            {
+                "locale": "default",
+                "text": "Hello!"
+            },
+            {
+                "locale": "pt_BR",
+                "text": "Texto de Greeting em Português"
+            },
+            {
+                "locale": "en_US",
+                "text": "Greeting text in English USA"
+            }
+        ]
+        response = fbbotw.post_greeting_text(
+            greeting_texts=greeting_texts
+        )
         self.assertEqual(response.status_code, self.OK)
         self.assertDictEqual(
             response.json(),
-            {'result': 'Successfully updated greeting'}
+            {"result":"success"}  
         )
 
     def test_post_start_button(self):

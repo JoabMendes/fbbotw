@@ -91,20 +91,38 @@ def post_settings(greeting_text):
     return (greeting_text_status, get_started_button_status)
 
 
-def post_greeting_text(greeting_text):
-    """ Sets the Thread Settings Greeting Text
-    (/docs/messenger-platform/thread-settings/greeting-text).
+def post_greeting_text(greeting_texts):
+    """ Sets an array of greetings texts (Only default required)
+    (/docs/messenger-platform/messenger-profile/greeting-text)\
+    . `Suported locales. <https://developers.facebook.com/docs/m\
+    essenger-platform/messenger-profile/supported-locales>`_
 
-    :param str greeting_text: Desired Greeting Text (160 chars)
+    :param list greeting_texts: format :
+
+        >>> list_greeting_texts = [
+                {
+                    "locale": "default",
+                    "text": "Hello!"
+                },
+                {
+                    "locale": "pt_BR",
+                    "text": "Texto de Greeting em Português"
+                },
+                {
+                    "locale": "en_US",
+                    "text": "Greeting text in English USA"
+                }
+            ]
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    url = THREAD_SETTINGS_URL.format(access_token=PAGE_ACCESS_TOKEN)
+    url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
-    payload["setting_type"] = "greeting"
-    payload["greeting"] = {"text": greeting_text}
-    response_msg = json.dumps(payload)
-    status = requests.post(url, headers=HEADER, data=response_msg)
+    payload['greeting'] = greeting_texts
+    data = json.dumps(payload)
+    status = requests.post(
+        url, headers=HEADER, data=data
+    )
     return status
 
 
