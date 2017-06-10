@@ -78,7 +78,7 @@ class FbbotwTest(unittest.TestCase):
         self.assertEqual(response.status_code, self.OK)
         self.assertDictEqual(
             response.json(),
-            {"result":"success"}  
+            {"result": "success"}
         )
 
     def test_post_start_button(self):
