@@ -131,7 +131,24 @@ class FbbotwTest(unittest.TestCase):
             }
         ]
         response = fbbotw.post_persistent_menu(persistent_menu)
-        self.assertTrue(response.status_code == 200)
+        self.assertEqual(response.status_code, self.OK)
+        self.assertDictEqual(
+            response.json(),
+            {'result': 'success'}
+        )
+
+    def test_post_domain_whitelist(self):
+        domain = ['https://breco.herokuapp.com']
+        response = fbbotw.post_domain_whitelist(whitelisted_domains=domain)
+        self.assertEqual(response.status_code, self.OK)
+        self.assertDictEqual(
+            response.json(),
+            {'result': 'success'}
+        )
+
+    def test_delete_domain_whitelist(self):
+        response = fbbotw.delete_domain_whitelist()
+        self.assertEqual(response.status_code, self.OK)
         self.assertDictEqual(
             response.json(),
             {'result': 'success'}
@@ -139,11 +156,6 @@ class FbbotwTest(unittest.TestCase):
 
 
 '''
-    def test_post_domain_whitelisting(self):
-        domain = ['https://breco.herokuapp.com']
-        response = fbbotw.post_domain_whitelisting(whitelisted_domains=domain)
-        self.assertTrue(response.status_code == 200)
-
     # def test_post_account_linking_url(self):
     #    url = ''
     #    response = fbbotw.post_account_linking_url(account_linking_url=url)

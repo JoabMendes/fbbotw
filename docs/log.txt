@@ -1,3 +1,5 @@
 - Changed endpoints of post greeting text and post start button
 - Changed the parameter for posting greeting text
 - Updated for the new nested persistent menu
+- Updated enpoints for post_domain_whitelist (changed from post_domain_whitelisting to post_domain_whitelist)
+- Added delete_domain_whitelist function.

@@ -146,8 +146,8 @@ def post_start_button(payload='START'):
 
 
 def post_persistent_menu(persistent_menu):
-    """ Sets a persistent menu on the chat
-    (/docs/messenger-platform/thread-settings/persistent-menu)
+    """ Sets persistent menus on the chat
+    (/docs/messenger-platform/messenger-profile/persistent-menu)
 
     :param list persistent_menu: format :
 
@@ -202,22 +202,35 @@ def post_persistent_menu(persistent_menu):
     return status
 
 
-def post_domain_whitelisting(whitelisted_domains, domain_action_type='add'):
+def post_domain_whitelist(whitelisted_domains):
     """ Sets the whistelisted domains for the Messenger Extension
-    (/docs/messenger-platform/thread-settings/domain-whitelisting).
+    (/docs/messenger-platform/messenger-profile/domain-whitelisting).
 
     :param list whistelisted_domains: Domains to be whistelisted.
     :param str domain_action_type: Action to run `add/remove` (Defaut add).
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    url = TD_STS_URL + PAGE_ACCESS_TOKEN
+    url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
-    payload['setting_type'] = 'domain_whitelisting'
     payload['whitelisted_domains'] = whitelisted_domains
-    payload['domain_action_type'] = domain_action_type
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
+    return status
+
+
+def delete_domain_whitelist():
+    """ Deletes the domain whitelist set previously .
+    (/docs/messenger-platform/messenger-profile/domain-whitelisting#delete).
+
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
+    """
+    url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
+    payload = {}
+    payload['fields'] = ["whitelisted_domains"]
+    data = json.dumps(payload)
+    status = requests.delete(url, headers=HEADER, data=data)
     return status
 
 
