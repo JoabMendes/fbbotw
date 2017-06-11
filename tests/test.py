@@ -89,12 +89,56 @@ class FbbotwTest(unittest.TestCase):
             {'result': 'success'}
         )
 
+    def test_post_persistent_menu(self):
+        persistent_menu = [
+            {
+                "composer_input_disabled": False,
+                "locale": "default",
+                "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "First Option",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "First Option of First Option",
+                                    "payload": "YOUR_PAYLOAD"
+                                },
+                                {
+                                    "type": "nested",
+                                    "title": "Second Option of First Option",
+                                    "call_to_actions": [
+                                        {
+                                            "type": "postback",
+                                            "title": "ABC",
+                                            "payload": "YOUR_PAYLOAD2"
+                                        },
+                                        {
+                                            "type": "postback",
+                                            "title": "CDE",
+                                            "payload": "YOUR_PAYLOAD3"
+                                        }
+                                    ]
+                                },
+                            ]
+                        },
+                        {
+                            "type": "postback",
+                            "title": "Second Option",
+                            "payload": "YOUR_PAYLOAD4"
+                        },
+                    ]
+            }
+        ]
+        response = fbbotw.post_persistent_menu(persistent_menu)
+        self.assertTrue(response.status_code == 200)
+        self.assertDictEqual(
+            response.json(),
+            {'result': 'success'}
+        )
+
 
 '''
-    def test_post_persistent_menu(self):
-        response = fbbotw.post_persistent_menu(self.postback_buttons)
-        self.assertTrue(response.status_code == 200)
-
     def test_post_domain_whitelisting(self):
         domain = ['https://breco.herokuapp.com']
         response = fbbotw.post_domain_whitelisting(whitelisted_domains=domain)

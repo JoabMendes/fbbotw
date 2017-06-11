@@ -95,14 +95,17 @@ def post_greeting_text(greeting_texts):
     """ Sets an array of greetings texts (Only default required)
     (/docs/messenger-platform/messenger-profile/greeting-text)\
     . `Suported locales. <https://developers.facebook.com/docs/m\
-    essenger-platform/messenger-profile/supported-locales>`_
+    essenger-platform/messenger-profile/supported-locales>`_.\
+     `Personalization <https://developers.facebook.com/docs/\
+     messenger-platform/messenger-profile/\
+     greeting-text#personalization>`_
 
     :param list greeting_texts: format :
 
         >>> list_greeting_texts = [
                 {
                     "locale": "default",
-                    "text": "Hello!"
+                    "text": "Hello, {{user_first_name}}}]!"
                 },
                 {
                     "locale": "pt_BR",
@@ -142,34 +145,58 @@ def post_start_button(payload='START'):
     return status
 
 
-def post_persistent_menu(call_to_actions):
+def post_persistent_menu(persistent_menu):
     """ Sets a persistent menu on the chat
     (/docs/messenger-platform/thread-settings/persistent-menu)
 
-    :param list call_to_actions: format :
+    :param list persistent_menu: format :
 
-        >>> call_to_actions =  [
+        >>> persistent_menu =  persistent_menu =  [
             {
-                'type': 'postback',
-                'title': 'About',
-                'payload': 'ABOUT'
-            },
-            {
-                'type': 'web_url',
-                'title': 'Google it',
-                'url': 'https://www.google.com',
-                'webview_height_ratio': 'full',
-                'messenger_extensions': True
-            },
+                "composer_input_disabled": False,
+                "locale": "default",
+                "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "First Option",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "First Option of First Option",
+                                    "payload": "YOUR_PAYLOAD"
+                                },
+                                {
+                                    "type": "nested",
+                                    "title": "Second Option of First Option",
+                                    "call_to_actions": [
+                                        {
+                                            "type": "postback",
+                                            "title": "ABC",
+                                            "payload": "YOUR_PAYLOAD2"
+                                        },
+                                        {
+                                            "type": "postback",
+                                            "title": "CDE",
+                                            "payload": "YOUR_PAYLOAD3"
+                                        }
+                                    ]
+                                },
+                            ]
+                        },
+                        {
+                            "type": "postback",
+                            "title": "Second Option",
+                            "payload": "YOUR_PAYLOAD4"
+                        },
+                    ]
+            }
         ]
     :return: `Response object <http://docs.python-requests.org/en/\
-  master/api/#requests.Response>`_
+    master/api/#requests.Response>`_
     """
-    url = TD_STS_URL + PAGE_ACCESS_TOKEN
+    url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
-    payload["setting_type"] = "call_to_actions"
-    payload["thread_state"] = "existing_thread"
-    payload["call_to_actions"] = call_to_actions
+    payload["persistent_menu"] = persistent_menu
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
     return status
