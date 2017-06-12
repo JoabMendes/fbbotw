@@ -6,3 +6,4 @@
 - Added delete_domain_whitelist function.
 - Added the post_payment_settings method
 - Added the post_target_audience method
+- Added post_chat_extension_home_url method (not tested)

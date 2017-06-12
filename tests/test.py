@@ -188,6 +188,15 @@ class FbbotwTest(unittest.TestCase):
             {'result': 'success'}
         )
 
+    '''
+    def test_post_chat_extension_home_url(self):
+        self.assertEqual(response.status_code, self.OK)
+        self.assertDictEqual(
+            response.json(),
+            {'result': 'success'}
+        )
+    '''
+
 
 '''
     #############################################

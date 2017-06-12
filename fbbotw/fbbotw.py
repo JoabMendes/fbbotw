@@ -306,6 +306,30 @@ def post_target_audience(countries, audience_type="all"):
     return status
 
 
+def post_chat_extension_home_url(
+     url, webview_share_button="hide", in_test=True):
+    """ Sets the url field enabling a Chat Extension in the composer \
+    drawer in Messenger. (/docs/messenger-platform/messenger-profile/home-url)
+
+    :param str url: The URL to be invoked from drawer.
+    :param str webview_share_button: Controls whether the share button in \
+    the webview is enabled. (Set to "show" or "hide")
+    :param bool in_test: Controls whether public users (not assigned to the \
+    bot or its Facebook page) can see the Chat Extension.
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
+    """
+    url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
+    payload = {"home_url": {}}
+    payload["home_url"]["url"] = url
+    payload["home_url"]["webview_height_ratio"] = "tall"
+    payload["home_url"]["webview_share_button"] = webview_share_button
+    payload["home_url"]["in_test"] = in_test
+    data = json.dumps(payload)
+    status = requests.post(url, headers=HEADER, data=data)
+    return status
+
+
 #############################################
 #           Send Api Functions              #
 #############################################
