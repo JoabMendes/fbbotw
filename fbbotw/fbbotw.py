@@ -35,7 +35,7 @@ MESSENGER_PROFILE_URL = ("https://graph.facebook.com/v2.6/me/"
 GRAPH_URL = ("https://graph.facebook.com/v2.7/{fbid}")
 
 #############################################
-#        Graph API Functions                #
+#           User Profile API                #
 #############################################
 
 
@@ -58,7 +58,7 @@ def get_user_information(fbid):
 
 
 #############################################
-#        Tread Settings Functions           #
+#          Messenger Profile API            #
 #############################################
 
 
@@ -236,15 +236,14 @@ def delete_domain_whitelist():
 
 def post_account_linking_url(account_linking_url):
     """ Sets the liking url to link the user with your business login
-    (/docs/messenger-platform/thread-settings/account-linking).
+    (/docs/messenger-platform/messenger-profile/account-linking-url).
 
     :param str account_linking_url: URL to the account linking OAuth flow.
     :return: `Response object <http://docs.python-requests.org/en/\
-  master/api/#requests.Response>`_
+    master/api/#requests.Response>`_
     """
-    url = TD_STS_URL + PAGE_ACCESS_TOKEN
+    url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
-    payload['setting_type'] = 'account_linking'
     payload['account_linking_url'] = account_linking_url
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)

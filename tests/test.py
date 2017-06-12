@@ -23,7 +23,7 @@ class FbbotwTest(unittest.TestCase):
         self.OK = 200
 
     #############################################
-    #           Graph API Functions             #
+    #           User Profile API                #
     #############################################
 
     def test_get_user_info(self):
@@ -41,7 +41,7 @@ class FbbotwTest(unittest.TestCase):
         self.assertTrue(response['is_payment_enabled'])
 
     #############################################
-    #        Tread Settings Functions           #
+    #          Messenger Profile API            #
     #############################################
 
     def test_post_settings(self):
@@ -154,13 +154,13 @@ class FbbotwTest(unittest.TestCase):
             {'result': 'success'}
         )
 
+    def test_post_account_linking_url(self):
+        url = 'https://breco.herokuapp.com'
+        response = fbbotw.post_account_linking_url(account_linking_url=url)
+        self.assertTrue(response.status_code == 200)
+
 
 '''
-    # def test_post_account_linking_url(self):
-    #    url = ''
-    #    response = fbbotw.post_account_linking_url(account_linking_url=url)
-    #    self.assertTrue(response.status_code == 200)
-
     #############################################
     #        Tread Settings Functions           #
     #############################################
