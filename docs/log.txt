@@ -5,3 +5,4 @@
 - Updated endpoint for post_account_linking_url
 - Added delete_domain_whitelist function.
 - Added the post_payment_settings method
+- Added the post_target_audience method

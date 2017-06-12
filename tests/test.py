@@ -177,6 +177,17 @@ class FbbotwTest(unittest.TestCase):
             {"Error": "At least one parameter should be set"}
         )
 
+    def test_post_target_audience(self):
+        countries = {"whitelist": ["US", "BR"]}
+        response = fbbotw.post_target_audience(
+            countries, audience_type="custom"
+        )
+        self.assertEqual(response.status_code, self.OK)
+        self.assertDictEqual(
+            response.json(),
+            {'result': 'success'}
+        )
+
 
 '''
     #############################################

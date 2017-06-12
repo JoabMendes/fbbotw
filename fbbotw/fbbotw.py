@@ -281,6 +281,31 @@ def post_payment_settings(privacy_url="", public_key="", test_users=[]):
     return {"Error": "At least one parameter should be set"}
 
 
+def post_target_audience(countries, audience_type="all"):
+    """ Set the audience who will see your bot in the Discover tab \
+    on Messenger. (/docs/messenger-platform/messenger-profile/target-audience)
+
+    :param dict countries: Country object with whitelist/blacklist. Needs\
+    to be specified only when audience_type is custom. Lists should be in \
+    List of ISO 3166 Alpha-2 codes. format:
+
+        >>> countries = {
+            "whitelist": ["US", "BR"]
+            "blacklist": []
+        }
+    :param str audience_type: ("all", "custom", "none"). Default: "all"
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
+    """
+    url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
+    payload = {"target_audience": {}}
+    payload["target_audience"]["audience_type"] = audience_type
+    payload["target_audience"]["countries"] = countries
+    data = json.dumps(payload)
+    status = requests.post(url, headers=HEADER, data=data)
+    return status
+
+
 #############################################
 #           Send Api Functions              #
 #############################################
