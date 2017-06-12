@@ -4,3 +4,4 @@
 - Updated enpoints for post_domain_whitelist (changed from post_domain_whitelisting to post_domain_whitelist)
 - Updated endpoint for post_account_linking_url
 - Added delete_domain_whitelist function.
+- Added the post_payment_settings method

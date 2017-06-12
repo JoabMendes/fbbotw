@@ -250,6 +250,37 @@ def post_account_linking_url(account_linking_url):
     return status
 
 
+def post_payment_settings(privacy_url="", public_key="", test_users=[]):
+    """ Sets the configuration for payment as privacy policy url,
+    public key and test users. At least one parameter should be set.
+    (/docs/messenger-platform/messenger-profile/payment-settings)
+
+    :param str privacy_url: The payment_privacy_url will appear in \
+    our payment dialogs.
+    :param str public_key: The payment_public_key is used to encrypt \
+    sensitive payment data sent to you. (Read payment reference on the \
+    docs)
+    :param list test_users: You can add payment test users \
+    (user page-scoped id) so that their credit card won't be \
+    charged during your development.
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
+    """
+    if any([privacy_url, public_key, test_users]):
+        url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
+        payload = {"payment_settings": {}}
+        if bool(privacy_url.strip()):
+            payload['payment_settings']['privacy_url'] = privacy_url
+        if bool(public_key.strip()):
+            payload['payment_settings']['public_key'] = public_key
+        if bool(test_users):
+            payload['payment_settings']['testers'] = test_users
+        data = json.dumps(payload)
+        status = requests.post(url, headers=HEADER, data=data)
+        return status
+    return {"Error": "At least one parameter should be set"}
+
+
 #############################################
 #           Send Api Functions              #
 #############################################

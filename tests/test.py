@@ -157,7 +157,25 @@ class FbbotwTest(unittest.TestCase):
     def test_post_account_linking_url(self):
         url = 'https://breco.herokuapp.com'
         response = fbbotw.post_account_linking_url(account_linking_url=url)
-        self.assertTrue(response.status_code == 200)
+        self.assertEqual(response.status_code, self.OK)
+        self.assertDictEqual(
+            response.json(),
+            {'result': 'success'}
+        )
+
+    def test_post_payment_settings(self):
+        privacy_url = "https://breco.herokuapp.com/politica-e-termos"
+        response = fbbotw.post_payment_settings(privacy_url=privacy_url)
+        self.assertEqual(response.status_code, self.OK)
+        self.assertDictEqual(
+            response.json(),
+            {'result': 'success'}
+        )
+        response = fbbotw.post_payment_settings()
+        self.assertDictEqual(
+            response,
+            {"Error": "At least one parameter should be set"}
+        )
 
 
 '''
