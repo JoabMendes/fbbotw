@@ -223,45 +223,48 @@ class FbbotwTest(unittest.TestCase):
         self.assertEqual(response.json()['recipient_id'], self.fbid)
         self.assertEqual(response.status_code, self.OK)
 
-
-'''
     # Send API Content Type
 
     def test_post_text_message(self):
         response = fbbotw.post_text_message(fbid=self.fbid, message="Hello")
-        self.assertTrue(response.status_code == 200)
-        self.assertTrue(response.json()['recipient_id'] == self.fbid)
+        self.assertEqual(response.status_code, self.OK)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
 
     def test_post_text_list(self):
         messages = ["Hello", "World", "FBBOTW"]
         responses = fbbotw.post_text_list(fbid=self.fbid, messages=messages)
         for response in responses:
-            self.assertTrue(response.status_code == 200)
-            self.assertTrue(response.json()['recipient_id'] == self.fbid)
+            self.assertEqual(response.status_code, self.OK)
+            self.assertEqual(response.json()['recipient_id'], self.fbid)
 
+
+'''
     def test_post_audio_attachment(self):
-        ogg = 'https://dl.dropboxusercontent.com/u/85402777/turdus.ogg'
+        ogg = ("https://upload.wikimedia.org/wikipedia/"
+               "commons/7/7c/Turdus_merula_2.ogg")
         response = fbbotw.post_audio_attachment(fbid=self.fbid, audio_url=ogg)
-        self.assertTrue(response.status_code == 200)
-        self.assertTrue(response.json()['recipient_id'] == self.fbid)
+        print(response.status_code)
+        print(response.json())
+        ##self.assertEqual(response.status_code, self.OK)
+        ##self.assertEqual(response.json()['recipient_id'], self.fbid)
 
     def test_post_file_attachment(self):
         pdf = 'https://dl.dropboxusercontent.com/u/85402777/fbbotw.pdf'
         response = fbbotw.post_file_attachment(fbid=self.fbid, file_url=pdf)
-        self.assertTrue(response.status_code == 200)
-        self.assertTrue(response.json()['recipient_id'] == self.fbid)
+        self.assertEqual(response.status_code, self.OK)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
 
     def test_post_image_attachment(self):
         jpg = 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg'
         response = fbbotw.post_image_attachment(fbid=self.fbid, img_url=jpg)
-        self.assertTrue(response.status_code == 200)
-        self.assertTrue(response.json()['recipient_id'] == self.fbid)
+        self.assertEqual(response.status_code, self.OK)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
 
     def test_post_video_attachment(self):
         mp4 = 'https://dl.dropboxusercontent.com/u/85402777/fbbotw_drop.mp4'
         response = fbbotw.post_video_attachment(fbid=self.fbid, video_url=mp4)
-        self.assertTrue(response.status_code == 200)
-        self.assertTrue(response.json()['recipient_id'] == self.fbid)
+        self.assertEqual(response.status_code, self.OK)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
 
     # Send API Quick Replies
 

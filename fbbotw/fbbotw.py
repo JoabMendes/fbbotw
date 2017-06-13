@@ -362,14 +362,15 @@ def post_text_message(fbid, message):
     (/docs/messenger-platform/send-api-reference/text-message)
 
     :param str fbid: User id to send the text.
-    :param str message: Text to be displayed for the user (230 chars).
+    :param str message: Text to be displayed for the user \
+    (640 chars limit).
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    url = MSG_URL + PAGE_ACCESS_TOKEN
+    url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
     payload['recipient'] = {'id': fbid}
-    payload['message'] = {'text': message}  # Limit 320 chars
+    payload['message'] = {'text': message}
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
     return status
@@ -396,11 +397,11 @@ def post_attachment(fbid, media_url, file_type):
 
     :param str fbid: User id to send the audio.
     :param str url: Url of a hosted media.
-    :param str type: image/audio/video/file.
+    :param str type: 'image'/'audio'/'video'/'file'.
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    url = MSG_URL + PAGE_ACCESS_TOKEN
+    url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
     payload['recipient'] = {'id': fbid}
     attachment = {"type": file_type, "payload": {"url": media_url}}
