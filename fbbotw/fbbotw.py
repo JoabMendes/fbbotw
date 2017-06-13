@@ -336,7 +336,7 @@ def post_chat_extension_home_url(
 
 # Send API Sender Actions
 
-def typing(fbid, sender_action):
+def post_sender_action(fbid, sender_action):
     """ Displays/Hides the typing gif/mark seen on facebook chat
     (/docs/messenger-platform/send-api-reference/sender-actions)
 
@@ -345,7 +345,7 @@ def typing(fbid, sender_action):
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    url = MSG_URL + PAGE_ACCESS_TOKEN
+    url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
     payload['recipient'] = {'id': fbid}
     payload['sender_action'] = sender_action

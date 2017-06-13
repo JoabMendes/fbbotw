@@ -197,28 +197,34 @@ class FbbotwTest(unittest.TestCase):
         )
     '''
 
-
-'''
     #############################################
-    #        Tread Settings Functions           #
+    #           Send Api Functions              #
     #############################################
 
     # Send API Sender Actions
 
-    def test_typing(self):
+    def test_post_sender_action(self):
         # Test typing_on option
-        response = fbbotw.typing(fbid=self.fbid, sender_action="typing_on")
-        self.assertTrue(response.status_code == 200)
-        self.assertTrue(response.json()['recipient_id'] == self.fbid)
+        response = fbbotw.post_sender_action(
+            fbid=self.fbid, sender_action="typing_on"
+        )
+        self.assertEqual(response.status_code, self.OK)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
         # Test typing_off option
-        response = fbbotw.typing(fbid=self.fbid, sender_action="typing_off")
-        self.assertTrue(response.json()['recipient_id'] == self.fbid)
-        self.assertTrue(response.status_code == 200)
+        response = fbbotw.post_sender_action(
+            fbid=self.fbid, sender_action="typing_off"
+        )
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
+        self.assertEqual(response.status_code, self.OK)
         # Test mark_seen option
-        response = fbbotw.typing(fbid=self.fbid, sender_action="mark_seen")
-        self.assertTrue(response.json()['recipient_id'] == self.fbid)
-        self.assertTrue(response.status_code == 200)
+        response = fbbotw.post_sender_action(
+            fbid=self.fbid, sender_action="mark_seen"
+        )
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
+        self.assertEqual(response.status_code, self.OK)
 
+
+'''
     # Send API Content Type
 
     def test_post_text_message(self):
