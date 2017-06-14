@@ -237,19 +237,16 @@ class FbbotwTest(unittest.TestCase):
             self.assertEqual(response.status_code, self.OK)
             self.assertEqual(response.json()['recipient_id'], self.fbid)
 
-
-'''
     def test_post_audio_attachment(self):
-        ogg = ("https://upload.wikimedia.org/wikipedia/"
-               "commons/7/7c/Turdus_merula_2.ogg")
+        ogg = ("https://raw.githubusercontent.com/JoabMendes/"
+               "fbbotw/master/media/turdus.ogg")
         response = fbbotw.post_audio_attachment(fbid=self.fbid, audio_url=ogg)
-        print(response.status_code)
-        print(response.json())
-        ##self.assertEqual(response.status_code, self.OK)
-        ##self.assertEqual(response.json()['recipient_id'], self.fbid)
+        self.assertEqual(response.status_code, self.OK)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
 
     def test_post_file_attachment(self):
-        pdf = 'https://dl.dropboxusercontent.com/u/85402777/fbbotw.pdf'
+        pdf = ("https://raw.githubusercontent.com/JoabMendes/"
+               "fbbotw/master/media/fbbotw.pdf")
         response = fbbotw.post_file_attachment(fbid=self.fbid, file_url=pdf)
         self.assertEqual(response.status_code, self.OK)
         self.assertEqual(response.json()['recipient_id'], self.fbid)
@@ -261,7 +258,8 @@ class FbbotwTest(unittest.TestCase):
         self.assertEqual(response.json()['recipient_id'], self.fbid)
 
     def test_post_video_attachment(self):
-        mp4 = 'https://dl.dropboxusercontent.com/u/85402777/fbbotw_drop.mp4'
+        mp4 = ("https://raw.githubusercontent.com/JoabMendes/"
+               "fbbotw/master/media/fbbotw_drop.mp4")
         response = fbbotw.post_video_attachment(fbid=self.fbid, video_url=mp4)
         self.assertEqual(response.status_code, self.OK)
         self.assertEqual(response.json()['recipient_id'], self.fbid)
@@ -281,18 +279,25 @@ class FbbotwTest(unittest.TestCase):
                 'payload': 'USER_SAY_NOT'
             }
         ]
-        response = fbbotw.post_text_w_quickreplies(fbid=self.fbid,
-                                                   message='Test?',
-                                                   quick_replies=quick_replies)
-        self.assertTrue(response.status_code == 200)
-        self.assertTrue(response.json()['recipient_id'] == self.fbid)
+        response = fbbotw.post_text_w_quickreplies(
+            fbid=self.fbid,
+            message='Test?',
+            quick_replies=quick_replies
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
 
     def test_post_button_template(self):
-        response = fbbotw.post_button_template(fbid=self.fbid, text="Test?",
-                                               buttons=self.postback_buttons)
-        self.assertTrue(response.status_code == 200)
-        self.assertTrue(response.json()['recipient_id'] == self.fbid)
+        response = fbbotw.post_button_template(
+            fbid=self.fbid,
+            text="Test?",
+            buttons=self.postback_buttons,
+            sharable=False
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
 
+    '''
     def test_post_generic_template(self):
         title = 'This is a Generic Template'
         item_url = 'http://breco.herokuapp.com/'
@@ -306,6 +311,7 @@ class FbbotwTest(unittest.TestCase):
                                                 buttons=self.postback_buttons)
         self.assertTrue(response.status_code == 200)
         self.assertTrue(response.json()['recipient_id'] == self.fbid)
+    '''
 
     def test_post_list_template(self):
         elements = []
@@ -339,10 +345,13 @@ class FbbotwTest(unittest.TestCase):
                 'payload': 'VIEW_MORE'
             }
         ]
-        response = fbbotw.post_list_template(fbid=self.fbid,
-                                             elements=elements,
-                                             buttons=buttons)
-        self.assertTrue(response.status_code == 200)
+        response = fbbotw.post_list_template(
+            fbid=self.fbid,
+            elements=elements,
+            buttons=buttons,
+            sharable=True
+        )
+        self.assertEqual(response.status_code, 200)
 
     def test_post_receipt_template(self):
         name = "Joab Mendes"
@@ -382,18 +391,21 @@ class FbbotwTest(unittest.TestCase):
             }
         ]
 
-        response = fbbotw.post_receipt_template(fbid=self.fbid,
-                                                recipient_name=name,
-                                                order_number=order_number,
-                                                currency=currency,
-                                                payment_method=payment_method,
-                                                summary=summary,
-                                                timestamp=timestamp,
-                                                order_url=order_url,
-                                                elements=elements,
-                                                address=address,
-                                                adjustments=adjustments)
-        self.assertTrue(response.status_code == 200)
+        response = fbbotw.post_receipt_template(
+            fbid=self.fbid,
+            recipient_name=name,
+            order_number=order_number,
+            currency=currency,
+            payment_method=payment_method,
+            summary=summary,
+            timestamp=timestamp,
+            order_url=order_url,
+            elements=elements,
+            address=address,
+            adjustments=adjustments,
+            sharable=False
+        )
+        self.assertEqual(response.status_code, 200)
 
     # Send API Buttons
 
@@ -404,7 +416,7 @@ class FbbotwTest(unittest.TestCase):
         response = fbbotw.post_call_button(fbid=self.fbid, text=text,
                                            title=title, phone_number=phone)
         self.assertTrue(response.status_code == 200)
-'''
+
 
 if __name__ == '__main__':
     unittest.main()

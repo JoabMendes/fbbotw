@@ -484,7 +484,7 @@ def post_text_w_quickreplies(fbid, message, quick_replies):
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    url = MSG_URL + PAGE_ACCESS_TOKEN
+    url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
     payload["recipient"] = {"id": fbid}
     payload["message"] = {"text": message, "quick_replies": quick_replies}
@@ -495,12 +495,15 @@ def post_text_w_quickreplies(fbid, message, quick_replies):
 
 # Send API Templates
 
-def post_button_template(fbid, text, buttons):
+def post_button_template(fbid, text, buttons, sharable=True):
     """ Sends a button template with the specified text and buttons
     (/docs/messenger-platform/send-api-reference/button-template).
+    Check the `docs <https://developers.facebook.com/docs/\
+    messenger-platform/send-api-reference/buttons>`_ to \
+    see the diffrent 'types' of buttons.
 
     :param str fbid: User id to send the buttons.
-    :param str text: Message to be displayed with the buttons (320 Chars).
+    :param str text: Message to be displayed with the buttons (640 Chars).
     :param list buttons: Dict of buttons that appear as call-to-actions, \
     format :
 
@@ -516,16 +519,20 @@ def post_button_template(fbid, text, buttons):
                 'payload': 'USER_DEFINED_PAYLOAD'
             }
         ]
+    :param bool sharable: Able/Disable native share button in Messenger \
+    for the template message (Default: True).
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_.
     """
-    url = MSG_URL + PAGE_ACCESS_TOKEN
+    url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
     data = {}
     data['recipient'] = {'id': fbid}
     payload = {}
     payload['template_type'] = 'button'
     payload['text'] = text
     payload['buttons'] = buttons
+    if not sharable:
+        payload['sharable'] = False
     attachment = {"type": 'template', "payload": payload}
     data['message'] = {"attachment": attachment}
     data = json.dumps(data)
@@ -580,12 +587,13 @@ def post_generic_template(fbid, title, item_url='', image_url='', subtitle='',
     return status
 
 
-def post_list_template(fbid, elements, buttons=[], top_element_style='large'):
+def post_list_template(fbid, elements, buttons=[],
+                       top_element_style='large', sharable=True):
     """ Sends a list template for the specified User
     (/docs/messenger-platform/send-api-reference/list-template).
 
     :param str fbid: User id to send the list template.
-    :param str top_element_style: large/compact (Default Large).
+    :param str top_element_style: large/compact (Default 'large').
     :param list elements: List view elements (Max 4/Min 2 elements), \
     format :
 
@@ -622,10 +630,12 @@ def post_list_template(fbid, elements, buttons=[], top_element_style='large'):
                 'payload': 'payload'
             }
         ]
+    :param bool sharable: Able/Disable native share button in Messenger \
+    for the template message (Default: True).
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    url = MSG_URL + PAGE_ACCESS_TOKEN
+    url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
     data = {}
     data['recipient'] = {'id': fbid}
     payload = {}
@@ -633,6 +643,8 @@ def post_list_template(fbid, elements, buttons=[], top_element_style='large'):
     payload['top_element_style'] = top_element_style
     payload['buttons'] = buttons
     payload['elements'] = elements
+    if not sharable:
+        payload['sharable'] = False
     attachment = {"type": 'template', "payload": payload}
     data['message'] = {"attachment": attachment}
     data = json.dumps(data)
@@ -643,9 +655,9 @@ def post_list_template(fbid, elements, buttons=[], top_element_style='large'):
 def post_receipt_template(fbid, recipient_name, order_number, currency,
                           payment_method, summary, merchant_name='',
                           timestamp='', order_url='', elements=[],
-                          address={}, adjustments=[]):
+                          address={}, adjustments=[], sharable=True):
     """ Sends a receipt template for the specified user
-    /docs/messenger-platform/send-api-reference/receipt-template
+    (/docs/messenger-platform/send-api-reference/receipt-template)
 
     :param str fbid: User id to send the receipt template.
     :param str recipient_name: Recipient's name.
@@ -705,10 +717,12 @@ def post_receipt_template(fbid, recipient_name, order_number, currency,
             "amount":10
           }
         ]
+    :param bool sharable: Able/Disable native share button in Messenger \
+    for the template message (Default: True).
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    url = MSG_URL + PAGE_ACCESS_TOKEN
+    url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
     data = {}
     data['recipient'] = {'id': fbid}
     payload = {}
@@ -724,6 +738,8 @@ def post_receipt_template(fbid, recipient_name, order_number, currency,
     payload['address'] = address
     payload['adjustments'] = adjustments
     payload['merchant_name'] = merchant_name
+    if not sharable:
+        payload['sharable'] = False
     attachment = {"type": "template", "payload": payload}
     data['message'] = {"attachment": attachment}
     data = json.dumps(data)
@@ -744,7 +760,7 @@ def post_call_button(fbid, text, title, phone_number):
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    url = MSG_URL + PAGE_ACCESS_TOKEN
+    url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
     data = {}
     data['recipient'] = {'id': fbid}
     payload = {}
