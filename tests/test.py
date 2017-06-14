@@ -243,6 +243,14 @@ class FbbotwTest(unittest.TestCase):
         response = fbbotw.post_audio_attachment(fbid=self.fbid, audio_url=ogg)
         self.assertEqual(response.status_code, self.OK)
         self.assertEqual(response.json()['recipient_id'], self.fbid)
+        response = fbbotw.post_audio_attachment(
+            fbid=self.fbid,
+            audio_url=ogg,
+            is_reusable=True
+        )
+        self.assertEqual(response.status_code, self.OK)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
+        self.assertTrue('attachment_id' in response.json())
 
     def test_post_file_attachment(self):
         pdf = ("https://raw.githubusercontent.com/JoabMendes/"
@@ -250,17 +258,63 @@ class FbbotwTest(unittest.TestCase):
         response = fbbotw.post_file_attachment(fbid=self.fbid, file_url=pdf)
         self.assertEqual(response.status_code, self.OK)
         self.assertEqual(response.json()['recipient_id'], self.fbid)
+        response = fbbotw.post_file_attachment(
+            fbid=self.fbid,
+            file_url=pdf,
+            is_reusable=True
+        )
+        self.assertEqual(response.status_code, self.OK)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
+        self.assertTrue('attachment_id' in response.json())
 
     def test_post_image_attachment(self):
         jpg = 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg'
         response = fbbotw.post_image_attachment(fbid=self.fbid, img_url=jpg)
         self.assertEqual(response.status_code, self.OK)
         self.assertEqual(response.json()['recipient_id'], self.fbid)
+        response = fbbotw.post_image_attachment(
+            fbid=self.fbid,
+            img_url=jpg,
+            is_reusable=True
+        )
+        self.assertEqual(response.status_code, self.OK)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
+        self.assertTrue('attachment_id' in response.json())
 
     def test_post_video_attachment(self):
         mp4 = ("https://raw.githubusercontent.com/JoabMendes/"
                "fbbotw/master/media/fbbotw_drop.mp4")
         response = fbbotw.post_video_attachment(fbid=self.fbid, video_url=mp4)
+        self.assertEqual(response.status_code, self.OK)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
+        response = fbbotw.post_video_attachment(
+            fbid=self.fbid,
+            video_url=mp4,
+            is_reusable=True
+        )
+        self.assertEqual(response.status_code, self.OK)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
+        self.assertTrue('attachment_id' in response.json())
+
+    def test_upload_reusable_attachment(self):
+        jpg = 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg'
+        response = fbbotw.upload_reusable_attachment(
+            media_url=jpg, file_type='image'
+        )
+        self.assertEqual(response.status_code, self.OK)
+        self.assertTrue('attachment_id' in response.json())
+
+    def test_post_reusable_attachment(self):
+        jpg = 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg'
+        upload = fbbotw.upload_reusable_attachment(
+            media_url=jpg, file_type='image'
+        )
+        attachment_id = upload.json()['attachment_id']
+        response = fbbotw.post_reusable_attachment(
+            fbid=self.fbid,
+            attachment_id=attachment_id,
+            file_type='image'
+        )
         self.assertEqual(response.status_code, self.OK)
         self.assertEqual(response.json()['recipient_id'], self.fbid)
 
@@ -297,21 +351,49 @@ class FbbotwTest(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['recipient_id'], self.fbid)
 
-    '''
     def test_post_generic_template(self):
         title = 'This is a Generic Template'
         item_url = 'http://breco.herokuapp.com/'
         image_url = 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg'
         subtitle = 'Generic Template Subtitle'
-        response = fbbotw.post_generic_template(fbid=self.fbid,
-                                                title=title,
-                                                item_url=item_url,
-                                                image_url=image_url,
-                                                subtitle=subtitle,
-                                                buttons=self.postback_buttons)
-        self.assertTrue(response.status_code == 200)
-        self.assertTrue(response.json()['recipient_id'] == self.fbid)
-    '''
+        response = fbbotw.post_generic_template(
+            fbid=self.fbid,
+            title=title,
+            item_url=item_url,
+            image_url=image_url,
+            subtitle=subtitle,
+            buttons=self.postback_buttons,
+            sharable=False,
+            image_aspect_ratio='square'
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
+
+    def test_post_generic_template_carousel(self):
+        element = {
+            "title": "This is a Generic Template",
+            "item_url": "http://breco.herokuapp.com/",
+            "image_url": ("https://i.ytimg.com/vi/tntOCGkgt98/"
+                          "maxresdefault.jpg"),
+            "subtitle": "Generic Template Subtitle",
+            "buttons": [
+                {
+                    'type': 'web_url',
+                    'url': 'http://breco.herokuapp.com/',
+                    'title': 'My homepage'
+                }
+            ]
+        }
+        elements = []
+        for i in range(1, 4):
+            elements.append(element)
+        response = fbbotw.post_generic_template_carousel(
+            fbid=self.fbid,
+            elements=elements,
+            image_aspect_ratio='square'
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
 
     def test_post_list_template(self):
         elements = []
@@ -336,7 +418,7 @@ class FbbotwTest(unittest.TestCase):
             }]
         }
         elements.append(el)
-        el['title'] = "Anothe Shirt"
+        el['title'] = "Another Shirt"
         elements.append(el)
         buttons = [
             {

@@ -23,9 +23,6 @@ if not PAGE_ACCESS_TOKEN:
         raise ImportError(IMPORT_ERROR)
 
 
-TD_STS_URL = 'https://graph.facebook.com/v2.6/me/thread_settings?access_token='
-MSG_URL = 'https://graph.facebook.com/v2.6/me/messages?access_token='
-
 THREAD_SETTINGS_URL = ("https://graph.facebook.com/v2.6/me/"
                        "thread_settings?access_token={access_token}")
 MESSAGES_URL = ("https://graph.facebook.com/v2.6/me/"
@@ -33,6 +30,9 @@ MESSAGES_URL = ("https://graph.facebook.com/v2.6/me/"
 MESSENGER_PROFILE_URL = ("https://graph.facebook.com/v2.6/me/"
                          "messenger_profile?access_token={access_token}")
 GRAPH_URL = ("https://graph.facebook.com/v2.7/{fbid}")
+
+MESSAGES_ATTACHMENT_URL = ("https://graph.facebook.com/v2.6/me/"
+                           "message_attachments?access_token={access_token}")
 
 #############################################
 #           User Profile API                #
@@ -391,72 +391,166 @@ def post_text_list(fbid, messages=[]):
     return responses
 
 
-def post_attachment(fbid, media_url, file_type):
-    """ Sends a media attachment
+def post_attachment(fbid, media_url, file_type, is_reusable=False):
+    """ Sends a media attachment to the specified user
     (/docs/messenger-platform/send-api-reference/contenttypes)
 
     :param str fbid: User id to send the audio.
     :param str url: Url of a hosted media.
     :param str type: 'image'/'audio'/'video'/'file'.
+    :param bool is_reusable: Defines the attachment to be resusable, \
+    the response will have an attachment_id that can be used to \
+    re-send the attachment without need to upload it again. (You can \
+    use the post_reusable_attachment method to upload using the id).
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
     url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
     payload['recipient'] = {'id': fbid}
-    attachment = {"type": file_type, "payload": {"url": media_url}}
+    attachment_payload = {}
+    attachment_payload['url'] = media_url
+    if is_reusable:
+        attachment_payload['is_reusable'] = is_reusable
+    attachment = {"type": file_type, "payload": attachment_payload}
     payload['message'] = {"attachment": attachment}
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
     return status
 
 
-def post_audio_attachment(fbid, audio_url):
+def upload_reusable_attachment(media_url, file_type):
+    """ Upload a attachment to be reused later (Store the \
+    attachment id to use later).
+    (/docs/messenger-platform/send-api-reference#attachment_reuse)
+
+    :param str url: Url of a hosted media.
+    :param str file_type: 'image'/'audio'/'video'/'file'.
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_ (Contains the attachment id \
+    to be used in post_reusable_attachment).
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
+    """
+    url = MESSAGES_ATTACHMENT_URL.format(access_token=PAGE_ACCESS_TOKEN)
+    payload = {}
+    attachment_payload = {}
+    attachment_payload['url'] = media_url
+    attachment_payload['is_reusable'] = True
+    attachment = {"type": file_type, "payload": attachment_payload}
+    payload['message'] = {"attachment": attachment}
+    data = json.dumps(payload)
+    status = requests.post(url, headers=HEADER, data=data)
+    return status
+
+
+def post_reusable_attachment(fbid, attachment_id, file_type):
+    """ Sends a reusable attachment based on the attachment\
+    id to the specified user.
+    (/docs/messenger-platform/send-api-reference#attachment_reuse)
+
+    :param str fbid: User id to send the attachment.
+    :param str attachment_id: Id of file you got when sent the \
+    attachment with the is_reusable flag as True.
+    :param str file_type: 'image'/'audio'/'video'/'file'.
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
+    """
+    url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
+    payload = {}
+    payload['recipient'] = {'id': fbid}
+    attachment = {
+        "type": file_type,
+        "payload": {"attachment_id": attachment_id}
+    }
+    payload['message'] = {"attachment": attachment}
+    data = json.dumps(payload)
+    status = requests.post(url, headers=HEADER, data=data)
+    return status
+
+
+def post_audio_attachment(fbid, audio_url, is_reusable=False):
     """ Sends an audio attachment
     (/docs/messenger-platform/send-api-reference/audio-attachment)
 
     :param str fbid: User id to send the audio.
     :param str audio_url: Url of a hosted audio (10 Mb).
+    :param bool is_reusable: Defines the attachment to be resusable, \
+    the response will have an attachment_id that can be used to \
+    re-send the attachment without need to upload it again. (You can \
+    use the post_reusable_attachment method to upload using the id).
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    return post_attachment(fbid, audio_url, 'audio')
+    return post_attachment(
+        fbid=fbid,
+        media_url=audio_url,
+        file_type='audio',
+        is_reusable=is_reusable
+    )
 
 
-def post_file_attachment(fbid, file_url):
+def post_file_attachment(fbid, file_url, is_reusable=False):
     """ Sends a file attachment
     (/docs/messenger-platform/send-api-reference/file-attachment)
 
     :param str fbid: User id to send the file.
     :param str file_url: Url of a hosted file (10 Mb).
+    :param bool is_reusable: Defines the attachment to be resusable, \
+    the response will have an attachment_id that can be used to \
+    re-send the attachment without need to upload it again. (You can \
+    use the post_reusable_attachment method to upload using the id).
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    return post_attachment(fbid, file_url, 'file')
+    return post_attachment(
+        fbid=fbid,
+        media_url=file_url,
+        file_type='file',
+        is_reusable=is_reusable
+    )
 
 
-def post_image_attachment(fbid, img_url):
+def post_image_attachment(fbid, img_url, is_reusable=False):
     """ Sends an image attachment
     (/docs/messenger-platform/send-api-reference/image-attachment)
 
     :param str fbid: User id to send the image.
     :param str img_url: Url of a hosted image (jpg, png, gif).
+    :param bool is_reusable: Defines the attachment to be resusable, \
+    the response will have an attachment_id that can be used to \
+    re-send the attachment without need to upload it again. (You can \
+    use the post_reusable_attachment method to upload using the id)
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    return post_attachment(fbid, img_url, 'image')
+    return post_attachment(
+        fbid=fbid,
+        media_url=img_url,
+        file_type='image',
+        is_reusable=is_reusable
+    )
 
 
-def post_video_attachment(fbid, video_url):
+def post_video_attachment(fbid, video_url, is_reusable=False):
     """ Sends a video attachment
     (/docs/messenger-platform/send-api-reference/video-attachment)
 
     :param str fbid: User id to send the video.
     :param str video_url: Url of a hosted video.
+    :param bool is_reusable: Defines the attachment to be resusable, \
+    the response will have an attachment_id that can be used to \
+    re-send the attachment without need to upload it again. (You can \
+    use the post_reusable_attachment method to upload using the id)
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    return post_attachment(fbid, video_url, 'video')
+    return post_attachment(
+        fbid=fbid,
+        media_url=video_url,
+        file_type='video',
+        is_reusable=is_reusable
+    )
 
 
 # Send API Quick Replies
@@ -541,8 +635,9 @@ def post_button_template(fbid, text, buttons, sharable=True):
 
 
 def post_generic_template(fbid, title, item_url='', image_url='', subtitle='',
-                          buttons=[]):
-    """ Sends a generic template for the specified User
+                          buttons=[], sharable=True,
+                          image_aspect_ratio='horizontal'):
+    """ Sends a single generic template for the specified User
     (/docs/messenger-platform/send-api-reference/generic-template).
 
     :param str fbid: User id to send the generic template.
@@ -564,14 +659,23 @@ def post_generic_template(fbid, title, item_url='', image_url='', subtitle='',
                 'payload': 'DEVELOPER_DEFINED_PAYLOAD'
             }
         ]
+    :param bool sharable: Able/Disable native share button in Messenger \
+    for the template message (Default: True).
+    :param str image_aspect_ratio: Aspect ratio used to render images \
+    specified by image_url in element objects. Must be 'horizontal' or \
+    'square'. (Default 'horizontal')
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    url = MSG_URL + PAGE_ACCESS_TOKEN
+    url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
     data = {}
     data['recipient'] = {'id': fbid}
     payload = {}
     payload['template_type'] = 'generic'
+    if not sharable:
+        payload['sharable'] = False
+    if image_aspect_ratio != 'horizontal':
+        payload['image_aspect_ratio'] = 'square'
     payload['elements'] = []
     element = {}
     element['title'] = title
@@ -580,6 +684,54 @@ def post_generic_template(fbid, title, item_url='', image_url='', subtitle='',
     element['subtitle'] = subtitle
     element['buttons'] = buttons
     payload['elements'].append(element)
+    attachment = {"type": 'template', "payload": payload}
+    data['message'] = {"attachment": attachment}
+    data = json.dumps(data)
+    status = requests.post(url, headers=HEADER, data=data)
+    return status
+
+
+def post_generic_template_carousel(fbid, elements=[],
+                                   sharable=True,
+                                   image_aspect_ratio='horizontal'):
+    """ Sends up to 10 generic template elements as a carousel
+
+    :param str fbid: User to be messaged
+    :elements: generic templates elements (Max 10 itens). format:
+
+        >>>> elements = [
+            {
+                "title": "Title Texts",
+                "item_url": "https://mylink.com",
+                "subtitle": "Subtitle Text",
+                "buttons": [
+                    {
+                        'type': 'web_url',
+                        'url': 'https://mylink.com',
+                        'title': 'My button'
+                    }
+                ],
+                "image_url": "http://i.imgur.com/SOnSwUT.jpg"
+            }
+        ]
+    :param bool sharable: Able/Disable native share button in Messenger \
+    for the template message (Default: True).
+    :param str image_aspect_ratio: Aspect ratio used to render images \
+    specified by image_url in element objects. Must be 'horizontal' or \
+    'square'. (Default 'horizontal')
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
+    """
+    url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
+    data = {}
+    data['recipient'] = {'id': fbid}
+    payload = {}
+    payload['template_type'] = 'generic'
+    payload['elements'] = elements
+    if not sharable:
+        payload['sharable'] = False
+    if image_aspect_ratio != 'horizontal':
+        payload['image_aspect_ratio'] = 'square'
     attachment = {"type": 'template', "payload": payload}
     data['message'] = {"attachment": attachment}
     data = json.dumps(data)
