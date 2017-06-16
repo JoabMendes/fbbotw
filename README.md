@@ -1,70 +1,69 @@
-# FBBOTW: A Facebook Bot Wrapper
-Python Wrapper for [Facebook Messenger](https://developers.facebook.com/products/messenger/) Bot Platform.
-
+# FBBOTW: A [Facebook Messenger](https://developers.facebook.com/products/messenger/) Platform API Wrapper
 
 [![Build Status](https://travis-ci.org/JoabMendes/fbbotw.svg?branch=master)](https://travis-ci.org/JoabMendes/fbbotw) [![Documentation Status](https://readthedocs.org/projects/fbbotw/badge/?version=latest)](http://fbbotw.readthedocs.io) [![PyPI](https://img.shields.io/pypi/v/fbbotw.svg)](https://pypi.python.org/pypi?name=fbbotw&:action=display) [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE) 
 
 
-This bot makes it simpler to user the *Facebook messenger bot platform*  wrapping the endpoints as functions.
+This wrapper makes it simpler to user the *Facebook Messenger platform*  wrapping the endpoints as functions.
 
-For example, this would be the normal way you probably would call the `Send API` to send a text:
-(Using `requests` and `json`)
-
-```py
-  fbid = "<user fb id>"
-  message = "Hello World"
-  url = 'https://graph.facebook.com/v2.6/me/messages?access_token='
-  url += PAGE_ACCESS_TOKEN
-  header = {"Content-Type": "application/json"}
-  payload = {}
-  payload['recipient'] = {'id': fbid}
-  payload['message'] = {'text': message} # Limit 320 chars
-  data = json.dumps(payload)
-  status = requests.post(url, headers=header, data=data)
-```
-
-Using fbbotw you would easily write
+For exemple, to send a text message to the user you can easily do:
 
 ```py
 from fbbotw import fbbotw
 # ...
 
+user_fbid = "<user fb id>"
+my_message = "Hello World"
 
-fbid = "<user fb id>"
-message = "Hello World"
-
-fbbotw.post_text_message(fbid, message)
+fbbotw.post_text_message(fbid=user_fbid, message=my_message)
+# The user with the specified fbid will receive the text 'Hello World'
 
 ```
+
+This is much less code than the traditional way to call the `Send API` and send a text. Using `requests` and `json` you probably would do like this:
+
+```py
+  fbid = "<user psid>"
+  message = "Hello World"
+  url = 'https://graph.facebook.com/v2.6/me/messages?access_token={0}'
+  url = url.format(PAGE_ACCESS_TOKEN)
+  header = {"Content-Type": "application/json"}
+  payload = {}
+  payload['recipient'] = {'id': fbid}
+  payload['message'] = {'text': message}
+  data = json.dumps(payload)
+  response = requests.post(url=url, headers=header, data=data)
+```
+
+Learn more about the fbbotw methods by reading the [DOCS](http://fbbotw.readthedocs.io/en/latest/)
 
 ## Install
 
-```
+```sh
 pip install fbbotw
 ```
 
 ## Using with Django
 
-1 - In your global settings define the variable `PAGE_ACCESS_TOKEN` that is
-your access token generated on the app configuration from facebook.
+1 - In your `settings.py` define the variable `PAGE_ACCESS_TOKEN` that was 
+generated on the app configuration from facebook.
 
 ```py
 #settings.py
 PAGE_ACCESS_TOKEN = "<your access token>"
 ```
 
-or create environment variable with the same name:
+or create an environment variable with the same name:
 
 ```sh
 export PAGE_ACCESS_TOKEN='<your access token>'
 ```
 
-2 - To use the functions of this wrapper do:
+2 - After setting the access token, just import and use fbbotw methods:
 
 ```py
 from fbbotw import fbbotw
 
-fbbotw.typing(fbid, "typing_on")
+fbbotw.post_sender_action(fbid="<user psid>", sender_action="typing_on")
 
 ```
 
@@ -74,47 +73,56 @@ fbbotw.typing(fbid, "typing_on")
 
 2. Copy the `fbbotw` directory to your project root.
 
-3. Define a variable called `PAGE_ACCESS_TOKEN` as the page access token you got from facebook
+3. Define a environment variable called `PAGE_ACCESS_TOKEN` as the page access token you got from facebook
 
 4. Import the package in your module.
 
 ```py
 from fbbotw import fbbotw
 
-fbbotw.typing(fbid, "typing_on")
+fbbotw.post_sender_action(fbid="<user psid>", sender_action="typing_on")
 ```
 
 # Documentation
 
 - [Read the Docs](http://fbbotw.readthedocs.io/en/latest/)
 
-# Current wrapper covering for the [Menssenger Platform](https://developers.facebook.com/docs/messenger-platform/product-overview) (78%)
+# Current wrapper covering for the [Menssenger Platform 2.0](https://developers.facebook.com/docs/messenger-platform/product-overview)
 
-- [x] [User profile](https://developers.facebook.com/docs/messenger-platform/user-profile)
+
 - [ ] Send API
-    - [x] Content Types
-        - [x] [Text messages](https://developers.facebook.com/docs/messenger-platform/send-api-reference/text-message)
-        - [x] [Audio attachment](https://developers.facebook.com/docs/messenger-platform/send-api-reference/audio-attachment)
-        - [x] [File attachment](https://developers.facebook.com/docs/messenger-platform/send-api-reference/file-attachment)
-        - [x] [Image attachment](https://developers.facebook.com/docs/messenger-platform/send-api-reference/image-attachment)
-        - [x] [Video attachment](https://developers.facebook.com/docs/messenger-platform/send-api-reference/video-attachment)
-    - [x] [Quick Replies](https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies)
-    - [x] [Sender Actions](https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions)
-    - [ ] Templates
-        - [x] [Button Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template)
-        - [x] [Generic Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
-        - [x] [List Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
-        - [x] [Receipt Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
-        - [ ] Airline Boarding Pass Template
-        - [ ] Airline Checkin Template
-        - [ ] Airline Itinerary Template
-        - [ ] Airline Flight Update Template
-    - [x] [Buttons: Check documentation to format your buttons in your templates](https://developers.facebook.com/docs/messenger-platform/send-api-reference/share-button)
-        - [x] [Call Button](https://developers.facebook.com/docs/messenger-platform/send-api-reference/call-button)
-- [ ] Thread Settings
-  - [x] [Greeting Text](https://developers.facebook.com/docs/messenger-platform/thread-settings/greeting-text)
-  - [x] [Get Started Button](https://developers.facebook.com/docs/messenger-platform/thread-settings/get-started-button)
-  - [x] [Persistent Menu](https://developers.facebook.com/docs/messenger-platform/thread-settings/persistent-menu)
-  - [X] [Account Linking (Available but not tested)](https://developers.facebook.com/docs/messenger-platform/thread-settings/account-linking)
-  - [x] [Domain Whitelisting](https://developers.facebook.com/docs/messenger-platform/thread-settings/domain-whitelisting)
-  - [ ] Payment Settings (BETA)
+  - [x] Content Types
+    - [x] [Text messages](https://developers.facebook.com/docs/messenger-platform/send-api-reference/text-message)
+    - [x] [Audio attachment](https://developers.facebook.com/docs/messenger-platform/send-api-reference/audio-attachment)
+    - [x] [Image attachment](https://developers.facebook.com/docs/messenger-platform/send-api-reference/image-attachment)
+    - [x] [Video attachment](https://developers.facebook.com/docs/messenger-platform/send-api-reference/video-attachment)
+    - [x] [File attachment](https://developers.facebook.com/docs/messenger-platform/send-api-reference/file-attachment)
+  - [x] [Quick Replies](https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies)
+  - [x] [Sender Actions](https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions)
+  - [x] [Attachment Upload API](https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload)
+  - [ ] Templates
+    - [x] [Button Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template)
+    - [x] [Generic Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
+    - [x] [List Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
+    - [x] [Receipt Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
+    - [ ] Open Graph Template
+    - [ ] Airline Boarding Pass Template
+    - [ ] Airline Checkin Template
+    - [ ] Airline Itinerary Template
+    - [ ] Airline Flight Update Template
+  - [x] [Buttons: Check documentation to format your buttons in your templates](https://developers.facebook.com/docs/messenger-platform/send-api-reference/buttons)
+      - [x] [Call Button](https://developers.facebook.com/docs/messenger-platform/send-api-reference/call-button)
+- [ ] Miscellaneous
+  - [x] [User profile](https://developers.facebook.com/docs/messenger-platform/user-profile)
+  - [x] Messenger Profile API
+    - [x] [Persistent Menu](https://developers.facebook.com/docs/messenger-platform/messenger-profile/persistent-menu)
+    - [x] [Get Started Button](https://developers.facebook.com/docs/messenger-platform/messenger-profile/get-started-button)
+    - [x] [Greeting Text](https://developers.facebook.com/docs/messenger-platform/messenger-profile/greeting-text)
+    - [x] [Domain Whitelisting](https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting)
+    - [x] [Account Linking](https://developers.facebook.com/docs/messenger-platform/messenger-profile/account-linking-url)
+    - [x] [Payment Settings](https://developers.facebook.com/docs/messenger-platform/messenger-profile/payment-settings)
+    - [x] [Target Audience](https://developers.facebook.com/docs/messenger-platform/messenger-profile/target-audience)
+    - [x] [Chat Extension Home URL (Covering but no tested)](https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url)
+  - [ ] Plugin Reference
+  - [ ] Messenger Code API
+  - [ ] Messaging Insights API
