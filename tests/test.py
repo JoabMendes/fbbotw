@@ -20,6 +20,18 @@ class FbbotwTest(unittest.TestCase):
                 'payload': 'USER_SAY_NOT'
             }
         ]
+        self.quick_replies = [
+            {
+                'content_type': 'text',
+                'title': 'Yes!',
+                'payload': 'USER_SAY_YES'
+            },
+            {
+                'content_type': 'text',
+                'title': 'Nope',
+                'payload': 'USER_SAY_NOT'
+            }
+        ]
         self.OK = 200
 
     #############################################
@@ -321,22 +333,34 @@ class FbbotwTest(unittest.TestCase):
     # Send API Quick Replies
 
     def test_post_text_w_quickreplies(self):
-        quick_replies = [
-            {
-                'content_type': 'text',
-                'title': 'Yes!',
-                'payload': 'USER_SAY_YES'
-            },
-            {
-                'content_type': 'text',
-                'title': 'Nope',
-                'payload': 'USER_SAY_NOT'
-            }
-        ]
         response = fbbotw.post_text_w_quickreplies(
             fbid=self.fbid,
             message='Test?',
-            quick_replies=quick_replies
+            quick_replies=self.quick_replies
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
+
+    def test_post_image_w_quickreplies(self):
+        image_url = 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg'
+        response = fbbotw.post_image_w_quickreplies(
+            fbid=self.fbid,
+            image_url=image_url,
+            quick_replies=self.quick_replies
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['recipient_id'], self.fbid)
+
+    def test_post_template_w_quickreplies(self):
+        payload = {
+            "template_type": "button",
+            "text": "What do you want to do next?",
+            "buttons": self.postback_buttons
+        }
+        response = fbbotw.post_template_w_quickreplies(
+            fbid=self.fbid,
+            payload=payload,
+            quick_replies=self.quick_replies
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['recipient_id'], self.fbid)
@@ -353,16 +377,22 @@ class FbbotwTest(unittest.TestCase):
 
     def test_post_generic_template(self):
         title = 'This is a Generic Template'
-        item_url = 'http://breco.herokuapp.com/'
         image_url = 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg'
         subtitle = 'Generic Template Subtitle'
+        default_action = {
+            'type': 'web_url',
+            'url': 'https://breco.herokuapp.com/',
+            'messenger_extensions': True,
+            'webview_height_ratio': 'tall',
+            'fallback_url': 'https://breco.herokuapp.com/'
+        }
         response = fbbotw.post_generic_template(
             fbid=self.fbid,
             title=title,
-            item_url=item_url,
             image_url=image_url,
             subtitle=subtitle,
             buttons=self.postback_buttons,
+            default_action=default_action,
             sharable=False,
             image_aspect_ratio='square'
         )

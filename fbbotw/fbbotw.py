@@ -266,7 +266,7 @@ def post_payment_settings(privacy_url="", public_key="", test_users=[]):
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     """
-    if any([privacy_url, public_key, test_users]):
+    if any([privacy_url.strip(), public_key.strip(), test_users]):
         url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
         payload = {"payment_settings": {}}
         if bool(privacy_url.strip()):
@@ -300,7 +300,8 @@ def post_target_audience(countries, audience_type="all"):
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {"target_audience": {}}
     payload["target_audience"]["audience_type"] = audience_type
-    payload["target_audience"]["countries"] = countries
+    if audience_type in ['custom', 'none']:
+        payload["target_audience"]["countries"] = countries
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
     return status
@@ -560,8 +561,8 @@ def post_text_w_quickreplies(fbid, message, quick_replies):
     (/docs/messenger-platform/send-api-reference/quick-replies).
 
     :param str fbid: User id to send the quick replies menu.
-    :param str message: message to be displayed with the menu.
-    :param list quick_replies: (Max 10) format :
+    :param str message: message to be displayed with the quick replies.
+    :param list quick_replies: (Max 11) format :
 
         >>> quick_replies = [
             {
@@ -583,6 +584,85 @@ def post_text_w_quickreplies(fbid, message, quick_replies):
     payload["recipient"] = {"id": fbid}
     payload["message"] = {"text": message, "quick_replies": quick_replies}
     data = json.dumps(payload)
+    status = requests.post(url, headers=HEADER, data=data)
+    return status
+
+
+def post_image_w_quickreplies(fbid, image_url, quick_replies):
+    """ Sends an image with quick replies buttons
+    (/docs/messenger-platform/send-api-reference/quick-replies).
+
+    :param str fbid: User id to send the quick replies menu.
+    :param str image_url: image to be displayed with the quick-replies.
+    :param list quick_replies: (Max 11) format :
+
+        >>> quick_replies = [
+            {
+                "content_type": "text",
+                "title": "Yes!",
+                "payload": "USER_SAY_YES"
+            },
+            {
+                "content_type": "text",
+                "title": "Nope",
+                "payload": "USER_SAY_NOT"
+            }
+        ]
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
+    """
+    url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
+    payload = {}
+    payload["recipient"] = {"id": fbid}
+    attachment = {}
+    attachment['type'] = 'image'
+    attachment['payload'] = {"url": image_url}
+    payload["message"] = {
+        "attachment": attachment,
+        "quick_replies": quick_replies
+    }
+    data = json.dumps(payload)
+    status = requests.post(url, headers=HEADER, data=data)
+    return status
+
+
+def post_template_w_quickreplies(fbid, payload, quick_replies):
+    """ Sends an image with quick replies buttons
+    (/docs/messenger-platform/send-api-reference/quick-replies).
+
+    :param str fbid: User id to send the quick replies menu.
+    :param dict payload: template playload dict. See the /
+    payload `field <https://developers.facebook.com/docs/\
+    messenger-platform/send-api-reference/templates>`_ for \
+    every template type.
+    :param list quick_replies: (Max 11) format :
+
+        >>> quick_replies = [
+            {
+                "content_type": "text",
+                "title": "Yes!",
+                "payload": "USER_SAY_YES"
+            },
+            {
+                "content_type": "text",
+                "title": "Nope",
+                "payload": "USER_SAY_NOT"
+            }
+        ]
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
+    """
+    url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
+    request_payload = {}
+    request_payload["recipient"] = {"id": fbid}
+    attachment = {}
+    attachment['type'] = 'template'
+    attachment['payload'] = payload
+    request_payload["message"] = {
+        "attachment": attachment,
+        "quick_replies": quick_replies
+    }
+    data = json.dumps(request_payload)
     status = requests.post(url, headers=HEADER, data=data)
     return status
 
@@ -612,6 +692,9 @@ def post_button_template(fbid, text, buttons, sharable=True):
                 'title': 'Start Chatting',
                 'payload': 'USER_DEFINED_PAYLOAD'
             }
+            {
+                'type': 'element_share',
+            }
         ]
     :param bool sharable: Able/Disable native share button in Messenger \
     for the template message (Default: True).
@@ -634,17 +717,20 @@ def post_button_template(fbid, text, buttons, sharable=True):
     return status
 
 
-def post_generic_template(fbid, title, item_url='', image_url='', subtitle='',
-                          buttons=[], sharable=True,
+def post_generic_template(fbid, title, image_url='', subtitle='',
+                          buttons=[], default_action={}, sharable=True,
                           image_aspect_ratio='horizontal'):
     """ Sends a single generic template for the specified User
     (/docs/messenger-platform/send-api-reference/generic-template).
 
     :param str fbid: User id to send the generic template.
     :param str title: Bubble title (80 Chars).
-    :param str item_url: URL that is opened when bubble is tapped.
     :param str image_url: Bubble image (Ratio 1.91:1).
     :param str subtitle: Bubble subtitle (80 Chars).
+    :param dict default_action: Default action to be triggered \
+    when user taps on the element. See the `docs <https://develo\
+    pers.facebook.com/docs/messenger-platform/send-api-reference\
+    /generic-template#default_action>`_ for reference.
     :param list buttons: (Max 3) format :
 
         >>> buttons = [
@@ -679,10 +765,12 @@ def post_generic_template(fbid, title, item_url='', image_url='', subtitle='',
     payload['elements'] = []
     element = {}
     element['title'] = title
-    element['item_url'] = item_url
-    element['image_url'] = image_url
-    element['subtitle'] = subtitle
-    element['buttons'] = buttons
+    if bool(image_url):
+        element['image_url'] = image_url
+    if bool(subtitle):
+        element['subtitle'] = subtitle
+    if bool(buttons):
+        element['buttons'] = buttons
     payload['elements'].append(element)
     attachment = {"type": 'template', "payload": payload}
     data['message'] = {"attachment": attachment}
@@ -704,6 +792,10 @@ def post_generic_template_carousel(fbid, elements=[],
                 "title": "Title Texts",
                 "item_url": "https://mylink.com",
                 "subtitle": "Subtitle Text",
+                "default_action": {
+                  "type": "web_url",
+                  "url": "https://mylink.com",
+                }
                 "buttons": [
                     {
                         'type': 'web_url',
@@ -793,7 +885,8 @@ def post_list_template(fbid, elements, buttons=[],
     payload = {}
     payload['template_type'] = 'list'
     payload['top_element_style'] = top_element_style
-    payload['buttons'] = buttons
+    if bool(buttons):
+        payload['buttons'] = buttons
     payload['elements'] = elements
     if not sharable:
         payload['sharable'] = False
@@ -884,12 +977,18 @@ def post_receipt_template(fbid, recipient_name, order_number, currency,
     payload['currency'] = currency
     payload['payment_method'] = payment_method
     payload['summary'] = summary
-    payload['order_url'] = order_url
-    payload['timestamp'] = timestamp
-    payload['elements'] = elements
-    payload['address'] = address
-    payload['adjustments'] = adjustments
-    payload['merchant_name'] = merchant_name
+    if bool(order_url.strip()):
+        payload['order_url'] = order_url
+    if bool(timestamp.strip()):
+        payload['timestamp'] = timestamp
+    if bool(elements):
+        payload['elements'] = elements
+    if bool(address):
+        payload['address'] = address
+    if bool(adjustments):
+        payload['adjustments'] = adjustments
+    if bool(merchant_name):
+        payload['merchant_name'] = merchant_name
     if not sharable:
         payload['sharable'] = False
     attachment = {"type": "template", "payload": payload}

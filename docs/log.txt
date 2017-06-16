@@ -3,16 +3,20 @@
 - Updated for the new nested persistent menu.
 - Updated enpoints for post_domain_whitelist (changed from post_domain_whitelisting to post_domain_whitelist).
 - Updated endpoint for post_account_linking_url
-- Added delete_domain_whitelist function.
-- Added the post_payment_settings method.
-- Added the post_target_audience method.
-- Added post_chat_extension_home_url method (not tested).
+- Created delete_domain_whitelist method.
+- Created the post_payment_settings method.
+- Created the post_target_audience method.
+- Created post_chat_extension_home_url method (not tested).
 - Changed typing method to post_sender_action (Same parameters).
 - Added sharable parameter to post_receipt_template, post_list_template, post_button_template and post_generic_template.
-- Added post_generic_template_carousel method.
-- Added post_account_linking_url method.
-- Added post_payment_settings method.
-- Added post_target_audience method.
+- Created post_generic_template_carousel method.
+- Created post_account_linking_url method.
+- Created post_payment_settings method.
+- Created post_target_audience method.
 - Added is_reusable flag for the methods: post_attachment, post_audio_attachment, post_file_attachment, post_image_attachment and post_video_attachment.
-- Added methods upload_reusable_attachment and post_reusable_attachment.
+- Created methods upload_reusable_attachment and post_reusable_attachment.
 - Added the parameter image_aspect_ratio to post_generic_template and post_generic_template_carousel.
+- Removed parameter item_url from post_generic_template
+- Added the parameter default_action to post_generic_template.
+- Created post_image_w_quickreplies method.
+- Created post_template_w_quickreplies method.
