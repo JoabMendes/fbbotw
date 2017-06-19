@@ -36,13 +36,21 @@ This is much less code than the traditional way to call the `Send API` and send 
 
 Learn more about the fbbotw methods by reading the [DOCS](http://fbbotw.readthedocs.io/en/latest/)
 
-## Install
+## Get Started
+
+### 1- Install
 
 ```sh
 pip install fbbotw
 ```
 
-## Using with Django
+### 2 - Configure it
+
+The only configuration needed is to set the `PAGE_ACCESS_TOKEN` with
+the value you got from the [facebook app dashboard](https://developers.facebook.com/docs/messenger-platform/guides/setup#page_access_token). If you are using Django, create the variable in your `settings.py`. If not, define 
+the variable in your enviroment:
+
+#### 2.1 - Django
 
 1 - In your `settings.py` define the variable `PAGE_ACCESS_TOKEN` that was 
 generated on the app configuration from facebook.
@@ -52,13 +60,17 @@ generated on the app configuration from facebook.
 PAGE_ACCESS_TOKEN = "<your access token>"
 ```
 
-or create an environment variable with the same name:
+#### 2.2 - Not Django
+
+Create an os environment variable called `PAGE_ACCESS_TOKEN`:
 
 ```sh
 export PAGE_ACCESS_TOKEN='<your access token>'
 ```
 
-2 - After setting the access token, just import and use fbbotw methods:
+### 3 - Import and Use it
+
+2 - After setting the access token, just import and use `fbbotw` methods:
 
 ```py
 from fbbotw import fbbotw
@@ -67,21 +79,7 @@ fbbotw.post_sender_action(fbid="<user psid>", sender_action="typing_on")
 
 ```
 
-## If you want to use this package without Django
-
-1. Download the .zip of this directory.
-
-2. Copy the `fbbotw` directory to your project root.
-
-3. Define a environment variable called `PAGE_ACCESS_TOKEN` as the page access token you got from facebook
-
-4. Import the package in your module.
-
-```py
-from fbbotw import fbbotw
-
-fbbotw.post_sender_action(fbid="<user psid>", sender_action="typing_on")
-```
+See the documentation to learn about the methods provided by the package.
 
 # Documentation
 

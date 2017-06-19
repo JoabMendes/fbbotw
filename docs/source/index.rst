@@ -36,23 +36,28 @@ like this:
       data = json.dumps(payload)
       response = requests.post(url=url, headers=header, data=data)
 
-Functions reference
--------------------
 
-.. toctree::
-    :maxdepth: 2
+Get Started
+-----------
 
-    functions.rst
-
-Install
--------
+1- Install
+~~~~~~~~~~
 
 .. code:: sh
 
     pip install fbbotw
 
-Using with Django
------------------
+2 - Configure it
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| The only configuration needed is to set the ``PAGE_ACCESS_TOKEN`` with
+| the value you got from the `facebook app dashboard`_. If you are
+  using Django, create the variable in your ``settings.py``. If not,
+  define
+| the variable in your enviroment:
+
+2.1 - Django
+^^^^^^^^^^^^
 
 | 1 - In your ``settings.py`` define the variable ``PAGE_ACCESS_TOKEN``
   that was
@@ -63,13 +68,20 @@ Using with Django
     #settings.py
     PAGE_ACCESS_TOKEN = "<your access token>"
 
-or create an environment variable with the same name:
+2.2 - Not Django
+^^^^^^^^^^^^^^^^
+
+Create an os environment variable called ``PAGE_ACCESS_TOKEN``:
 
 .. code:: sh
 
     export PAGE_ACCESS_TOKEN='<your access token>'
 
-2 - After setting the access token, just import and use fbbotw methods:
+3 - Import and Use it
+~~~~~~~~~~~~~~~~~~~~~
+
+2 - After setting the access token, just import and use ``fbbotw``
+methods:
 
 .. code:: py
 
@@ -77,24 +89,77 @@ or create an environment variable with the same name:
 
     fbbotw.post_sender_action(fbid="<user psid>", sender_action="typing_on")
 
-If you want to use this package without Django
-----------------------------------------------
 
-#. Download the .zip of this directory.
+See the next topic to learn about the methods provided by the package
 
-#. Copy the ``fbbotw`` directory to your project root.
+Methods reference
+===================
 
-#. Define a environment variable called ``PAGE_ACCESS_TOKEN`` as the
-   page access token you got from facebook
+Send Api
+--------
 
-#. Import the package in your module.
+Sender Actions
+~~~~~~~~~~~~~~
 
-.. code:: py
+- :doc:`fbbotw.post_sender_action <methods/send_api/post_sender_action>`
 
-    from fbbotw import fbbotw
+Content Type
+~~~~~~~~~~~~
 
-    fbbotw.post_sender_action(fbid="<user psid>", sender_action="typing_on")
+- :doc:`fbbotw.post_text_message <methods/send_api/post_text_message>`
+- :doc:`fbbotw.post_text_list <methods/send_api/post_text_list>`
+- :doc:`fbbotw.post_audio_attachment <methods/send_api/post_audio_attachment>`
+- :doc:`fbbotw.post_file_attachment <methods/send_api/post_file_attachment>`
+- :doc:`fbbotw.post_image_attachment <methods/send_api/post_image_attachment>`
+- :doc:`fbbotw.post_video_attachment <methods/send_api/post_video_attachment>`
+- :doc:`fbbotw.upload_reusable_attachment <methods/send_api/upload_reusable_attachment>`
+- :doc:`fbbotw.post_reusable_attachment <methods/send_api/post_reusable_attachment>`
 
+Quick Replies
+~~~~~~~~~~~~~
+
+- :doc:`fbbotw.post_text_w_quickreplies <methods/send_api/post_text_w_quickreplies>`
+- :doc:`fbbotw.post_image_w_quickreplies <methods/send_api/post_image_w_quickreplies>`
+- :doc:`fbbotw.post_template_w_quickreplies <methods/send_api/post_template_w_quickreplies>`
+
+Templates
+~~~~~~~~~
+
+- :doc:`fbbotw.post_button_template <methods/send_api/post_button_template>`
+- :doc:`fbbotw.post_generic_template <methods/send_api/post_generic_template>`
+- :doc:`fbbotw.post_generic_template_carousel <methods/send_api/post_generic_template_carousel>`
+- :doc:`fbbotw.post_list_template <methods/send_api/post_list_template>`
+- :doc:`fbbotw.post_receipt_template <methods/send_api/post_receipt_template>`
+- :doc:`fbbotw.post_call_button <methods/send_api/post_call_button>`
+
+Miscellaneous: User Profile API
+-------------------------------
+
+- :doc:`fbbotw.get_user_information <methods/user_profile_api/get_user_information>`
+
+Miscellaneous: Messenger Profile API
+------------------------------------
+
+- :doc:`fbbotw.post_greeting_text <methods/messenger_profile_api/post_greeting_text>`
+- :doc:`fbbotw.post_start_button <methods/messenger_profile_api/post_start_button>`
+- :doc:`fbbotw.post_settings <methods/messenger_profile_api/post_settings>`
+- :doc:`fbbotw.post_persistent_menu <methods/messenger_profile_api/post_persistent_menu>`
+- :doc:`fbbotw.post_domain_whitelist <methods/messenger_profile_api/post_domain_whitelist>`
+- :doc:`fbbotw.delete_domain_whitelist <methods/messenger_profile_api/delete_domain_whitelist>`
+- :doc:`fbbotw.post_account_linking_url <methods/messenger_profile_api/post_account_linking_url>`
+- :doc:`fbbotw.post_payment_settings <methods/messenger_profile_api/post_payment_settings>`
+- :doc:`fbbotw.post_target_audience <methods/messenger_profile_api/post_target_audience>`
+- :doc:`fbbotw.post_chat_extension_home_url <methods/messenger_profile_api/post_chat_extension_home_url>`
+
+The Response Return
+===================
+
+todo
+
+Debugging
+=========
+
+todo
 
 Current wrapper covering for the `Menssenger Platform 2.0`_
 ===========================================================
@@ -146,6 +211,7 @@ Current wrapper covering for the `Menssenger Platform 2.0`_
   -  [ ] Messenger Code API
   -  [ ] Messaging Insights API
 
+.. _facebook app dashboard: https://developers.facebook.com/docs/messenger-platform/guides/setup#page_access_token
 .. _Facebook Messenger: https://developers.facebook.com/products/messenger/
 .. _DOCS: http://fbbotw.readthedocs.io/en/latest/
 .. _Read the Docs: http://fbbotw.readthedocs.io/en/latest/

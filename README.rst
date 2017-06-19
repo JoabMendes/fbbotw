@@ -38,15 +38,27 @@ like this:
 
 Learn more about the fbbotw methods by reading the `DOCS`_
 
-Install
--------
+Get Started
+-----------
+
+1- Install
+~~~~~~~~~~
 
 .. code:: sh
 
     pip install fbbotw
 
-Using with Django
------------------
+2 - Configure it
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| The only configuration needed is to set the ``PAGE_ACCESS_TOKEN`` with
+| the value you got from the `facebook app dashboard`_. If you are
+  using Django, create the variable in your ``settings.py``. If not,
+  define
+| the variable in your enviroment:
+
+2.1 - Django
+^^^^^^^^^^^^
 
 | 1 - In your ``settings.py`` define the variable ``PAGE_ACCESS_TOKEN``
   that was
@@ -57,13 +69,20 @@ Using with Django
     #settings.py
     PAGE_ACCESS_TOKEN = "<your access token>"
 
-or create an environment variable with the same name:
+2.2 - Not Django
+^^^^^^^^^^^^^^^^
+
+Create an os environment variable called ``PAGE_ACCESS_TOKEN``:
 
 .. code:: sh
 
     export PAGE_ACCESS_TOKEN='<your access token>'
 
-2 - After setting the access token, just import and use fbbotw methods:
+3 - Import and Use it
+~~~~~~~~~~~~~~~~~~~~~
+
+2 - After setting the access token, just import and use ``fbbotw``
+methods:
 
 .. code:: py
 
@@ -71,23 +90,7 @@ or create an environment variable with the same name:
 
     fbbotw.post_sender_action(fbid="<user psid>", sender_action="typing_on")
 
-If you want to use this package without Django
-----------------------------------------------
-
-#. Download the .zip of this directory.
-
-#. Copy the ``fbbotw`` directory to your project root.
-
-#. Define a environment variable called ``PAGE_ACCESS_TOKEN`` as the
-   page access token you got from facebook
-
-#. Import the package in your module.
-
-.. code:: py
-
-    from fbbotw import fbbotw
-
-    fbbotw.post_sender_action(fbid="<user psid>", sender_action="typing_on")
+See the documentation to learn about the methods provided by the package.
 
 Documentation
 =============
@@ -145,6 +148,7 @@ Current wrapper covering for the `Menssenger Platform 2.0`_
   -  [ ] Messaging Insights API
 
 
+.. _facebook app dashboard: https://developers.facebook.com/docs/messenger-platform/guides/setup#page_access_token
 .. _Facebook Messenger: https://developers.facebook.com/products/messenger/
 .. _DOCS: http://fbbotw.readthedocs.io/en/latest/
 .. _Read the Docs: http://fbbotw.readthedocs.io/en/latest/

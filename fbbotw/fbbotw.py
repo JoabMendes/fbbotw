@@ -40,13 +40,29 @@ MESSAGES_ATTACHMENT_URL = ("https://graph.facebook.com/v2.6/me/"
 
 
 def get_user_information(fbid):
-    """ Gets user information: first_name, last_name, gender, profile_pic,
-    locale, timezone, is_payment_enabled
-    (/docs/messenger-platform/user-profile).
+    """ Gets user basic information: first_name, last_name, gender,
+    profile_pic, locale, timezone, is_payment_enabled, last_ad_referral.
 
-    :param str fbid: User id to get the information
-    :return: dict with keys : first_name, last_name, gender, profile_pic,\
-    locale, timezone, is_payment_enabled, last_ad_referral.
+    :usage:
+        >>> # Set the user fbid you want the information
+        >>> fbid = "<user fbid>"
+        >>> # Call the function passing the fbid of user.
+        >>> user_information = fbbotw.get_user_information(fbid=fbid)
+    :param str fbid: User id to get the information.
+    :return dict:
+
+        >>> user_information = {
+            "first_name": "User First Name",
+            "last_name": "User Last Name",
+            "gender": "male/female",
+            "profile_pic": "https://cdn_to_pic.com/123",
+            "locale": "en_US",
+            "timezone": -3,
+            "is_payment_enabled": True,
+            "last_ad_referral": "https://reference.to.ad"
+        }
+    :facebook docs: `/user-profile <https://developers.facebook.com/docs/\
+    messenger-platform/user-profile>`_
     """
     user_info_url = GRAPH_URL.format(fbid=fbid)
     payload = {}
@@ -63,9 +79,16 @@ def get_user_information(fbid):
 
 
 def post_settings(greeting_text):
-    """ Sets the START Button and also the Greeting Text.
-        The payload for the START Button will be 'USER_START'
+    """ Sets the **Get Started** Button and the **Greeting Text** at once.
+    The payload for the **Get Started** Button will be `USER_START`.
 
+    :usage:
+
+        >>> # Create a default greeting text (160 chars limit)
+        >>> greeting_text = "Hello! I'm your bot!"
+        >>> responses = fbbotw.post_settings(
+                greeting_text=greeting_text
+            )
     :param str greeting_text: Desired Greeting Text (160 chars).
     :return: tuple with two `Response object <http://docs.python-requests.\
     org/en/master/api/#requests.Response>`_ for the greeting \
@@ -92,32 +115,47 @@ def post_settings(greeting_text):
 
 
 def post_greeting_text(greeting_texts):
-    """ Sets an array of greetings texts (Only default required)
-    (/docs/messenger-platform/messenger-profile/greeting-text)\
-    . `Suported locales. <https://developers.facebook.com/docs/m\
-    essenger-platform/messenger-profile/supported-locales>`_.\
-     `Personalization <https://developers.facebook.com/docs/\
+    """Sets an array of greetings texts *(Only default required)*
+
+    - `See suported locales <https://developers.facebook.com/docs/m\
+    essenger-platform/messenger-profile/supported-locales>`_
+    - `See Personalization <https://developers.facebook.com/docs/\
      messenger-platform/messenger-profile/\
      greeting-text#personalization>`_
 
+    :usage:
+
+        >>> # Define the greeting texts you want
+        >>> list_greeting_texts = [
+                {
+                    "locale": "default",
+                    "text": "Hello, {{user_first_name}}! I'm a bpt"
+                },
+            ]
+        >>> # Call the function to set the greeting text
+        >>> response = fbbotw.post_greeting_text(
+                greeting_texts=list_greeting_texts
+            )
     :param list greeting_texts: format :
 
         >>> list_greeting_texts = [
                 {
                     "locale": "default",
-                    "text": "Hello, {{user_first_name}}}]!"
+                    "text": "Hello, {{user_first_name}}!" # (160 chars)
                 },
                 {
                     "locale": "pt_BR",
-                    "text": "Texto de Greeting em Português"
+                    "text": "Texto de Greeting em Português" # (160 chars)
                 },
                 {
                     "locale": "en_US",
-                    "text": "Greeting text in English USA"
+                    "text": "Greeting text in English USA" # (160 chars)
                 }
             ]
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
+    :facebook docs: `/greeting-text <https://developers.facebook.com/docs/\
+    messenger-platform/messenger-profile/greeting-text>`_
     """
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
@@ -130,12 +168,17 @@ def post_greeting_text(greeting_texts):
 
 
 def post_start_button(payload='START'):
-    """ Sets the Thread Settings Greeting Text
-    (/docs/messenger-platform/messenger-profile/get-started-button).
+    """ Sets the **Get Started button**.
 
-    :param str payload: Desired postback payload (Default START).
+    :usage:
+
+        >>> payload = 'GET_STARTED'
+        >>> response = fbbotw.post_start_button(payload=payload)
+    :param str payload: Desired postback payload (Default 'START').
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
+    :facebook docs: `/get-started-button <https://developers.facebook\
+    .com/docs/messenger-platform/messenger-profile/get-started-button>`_
     """
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload_data = {}
@@ -146,16 +189,46 @@ def post_start_button(payload='START'):
 
 
 def post_persistent_menu(persistent_menu):
-    """ Sets persistent menus on the chat
-    (/docs/messenger-platform/messenger-profile/persistent-menu)
+    """ Sets persistent menus on the messenger chat view.
 
-    :param list persistent_menu: format :
+    :usage:
 
-        >>> persistent_menu =  persistent_menu =  [
-            {
-                "composer_input_disabled": False,
-                "locale": "default",
-                "call_to_actions": [
+        >>> # Define you persistent menu dict
+        >>> # See the fb docs for better reference on building it
+        >>> persistent_menu =  [
+                {
+                    "composer_input_disabled": False,
+                    "locale": "default",
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "First Option",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "First Option of First Option",
+                                    "payload": "YOUR_PAYLOAD"
+                                },
+                        },
+                        {
+                            "type": "postback",
+                            "title": "Second Option",
+                            "payload": "YOUR_PAYLOAD4"
+                        },
+                    ]
+                }
+            ]
+        >>> # Set the menu calling the api
+        >>> response = fbbotw.post_persistent_menu(
+                persistent_menu=persistent_menu
+            )
+    :param list persistent_menu: format:
+
+        >>> persistent_menu =  [
+                {
+                    "composer_input_disabled": False,
+                    "locale": "default",
+                    "call_to_actions": [
                         {
                             "type": "nested",
                             "title": "First Option",
@@ -189,10 +262,12 @@ def post_persistent_menu(persistent_menu):
                             "payload": "YOUR_PAYLOAD4"
                         },
                     ]
-            }
-        ]
+                }
+            ]
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
+    :facebook docs: `/persistent-menu <https://developers.facebook.\
+    com/docs/messenger-platform/messenger-profile/persistent-menu>`_
     """
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
@@ -204,12 +279,22 @@ def post_persistent_menu(persistent_menu):
 
 def post_domain_whitelist(whitelisted_domains):
     """ Sets the whistelisted domains for the Messenger Extension
-    (/docs/messenger-platform/messenger-profile/domain-whitelisting).
 
-    :param list whistelisted_domains: Domains to be whistelisted.
-    :param str domain_action_type: Action to run `add/remove` (Defaut add).
+    :usage:
+
+        >>> # Define the array of domains to be whitelisted (Max 10)
+        >>> whistelisted_domains = [
+                "https://myfirst_domain.com",
+                "https://another_domain.com"
+            ]
+        >>> fbbotw.post_domain_whitelist(
+                whitelisted_domains=whitelisted_domains
+            )
+    :param list whistelisted_domains: Domains to be whistelisted (Max 10).
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
+    :facebook docs: `/domain-whitelisting <https://developers.facebook.\
+    com/docs/messenger-platform/messenger-profile/domain-whitelisting>`_
     """
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
@@ -221,10 +306,14 @@ def post_domain_whitelist(whitelisted_domains):
 
 def delete_domain_whitelist():
     """ Deletes the domain whitelist set previously .
-    (/docs/messenger-platform/messenger-profile/domain-whitelisting#delete).
 
+    :usage:
+
+        >>> response = fbbotw.delete_domain_whitelist()
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
+    :facebook docs: `/domain-whitelisting#delete <https://developers.facebook.\
+    com/docs/messenger-platform/messenger-profile/domain-whitelisting#delete>`_
     """
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
@@ -235,12 +324,19 @@ def delete_domain_whitelist():
 
 
 def post_account_linking_url(account_linking_url):
-    """ Sets the liking url to link the user with your business login
-    (/docs/messenger-platform/messenger-profile/account-linking-url).
+    """ Sets the **liking_url** to connect the user with your business login
 
+    :usage:
+
+        >>> my_callback_linking_url = "https://my_business_callback.com"
+        >>> response = fbbotw.post_account_linking_url(
+                account_linking_url=my_callback_linking_url
+            )
     :param str account_linking_url: URL to the account linking OAuth flow.
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
+    :facebook docs: `/account-linking-url <https://developers.facebook.\
+    com/docs/messenger-platform/messenger-profile/account-linking-url>`_
     """
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
@@ -251,9 +347,9 @@ def post_account_linking_url(account_linking_url):
 
 
 def post_payment_settings(privacy_url="", public_key="", test_users=[]):
-    """ Sets the configuration for payment as privacy policy url,
-    public key and test users. At least one parameter should be set.
-    (/docs/messenger-platform/messenger-profile/payment-settings)
+    """ Sets the configuration for payment: privacy policy url,
+    public key or test users. At least one parameter should be passed
+    in this function.
 
     :param str privacy_url: The payment_privacy_url will appear in \
     our payment dialogs.
@@ -265,6 +361,8 @@ def post_payment_settings(privacy_url="", public_key="", test_users=[]):
     charged during your development.
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
+    :facebook docs: `/payment-settings <https://developers.facebook.\
+    com/docs/messenger-platform/messenger-profile/payment-settings>`_
     """
     if any([privacy_url.strip(), public_key.strip(), test_users]):
         url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
@@ -283,11 +381,22 @@ def post_payment_settings(privacy_url="", public_key="", test_users=[]):
 
 def post_target_audience(countries, audience_type="all"):
     """ Set the audience who will see your bot in the Discover tab \
-    on Messenger. (/docs/messenger-platform/messenger-profile/target-audience)
+    on Messenger.
 
+    :usage:
+        >>> # If you will set the audience to specific contries
+        >>> # The audience_type param should be set to 'custom'
+        >>> audience_type = "custom"
+        >>> countries = {
+                "whitelist": ["US", "UK", "CA", "BR"]
+            }
+        >>> response = fbbotw.post_target_audience(
+                countries=countries,
+                audience_type=audience_type
+            )
     :param dict countries: Country object with whitelist/blacklist. Needs\
-    to be specified only when audience_type is custom. Lists should be in \
-    List of ISO 3166 Alpha-2 codes. format:
+    to be specified only when audience_type is 'custom'. Countries should \
+    be in list of ISO 3166 Alpha-2 codes. format:
 
         >>> countries = {
             "whitelist": ["US", "BR"]
@@ -296,6 +405,8 @@ def post_target_audience(countries, audience_type="all"):
     :param str audience_type: ("all", "custom", "none"). Default: "all"
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
+    :facebook docs: `/target-audience <https://developers.facebook.\
+    com/docs/messenger-platform/messenger-profile/target-audience>`_
     """
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {"target_audience": {}}
@@ -310,7 +421,7 @@ def post_target_audience(countries, audience_type="all"):
 def post_chat_extension_home_url(
      url, webview_share_button="hide", in_test=True):
     """ Sets the url field enabling a Chat Extension in the composer \
-    drawer in Messenger. (/docs/messenger-platform/messenger-profile/home-url)
+    drawer in Messenger.
 
     :param str url: The URL to be invoked from drawer.
     :param str webview_share_button: Controls whether the share button in \
@@ -319,6 +430,8 @@ def post_chat_extension_home_url(
     bot or its Facebook page) can see the Chat Extension.
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
+    :facebook docs: `/home-url <https://developers.facebook.\
+    com/docs/messenger-platform/messenger-profile/home-url>`_
     """
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {"home_url": {}}
@@ -338,13 +451,31 @@ def post_chat_extension_home_url(
 # Send API Sender Actions
 
 def post_sender_action(fbid, sender_action):
-    """ Displays/Hides the typing gif/mark seen on facebook chat
-    (/docs/messenger-platform/send-api-reference/sender-actions)
+    """ Displays/Hides the typing gif or shows mark seen on
+    facebook chat with user.
 
+    :usage:
+
+        >>> # Set the user you want to show action
+        >>> fbid = "<user page scoped id>"
+        >>> # To show the typing animation
+        >>> fbbotw.post_sender_action(
+                fbid=fbid, sender_action="typing_on"
+            )
+        >>> # To stop typing (Stops automatically after 20s)
+        >>> fbbotw.post_sender_action(
+                fbid=fbid, sender_action="typing_off"
+            )
+        >>> # To mark as seen
+        >>> fbbotw.post_sender_action(
+                fbid=fbid, sender_action="mark_seen"
+            )
     :param str fbid: User id to display action.
     :param str sender_action: `typing_off/typing_on/mark_seen`.
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
+    :facebook docs: `/sender-actions <https://developers.facebook.\
+    com/docs/messenger-platform/send-api-reference/sender-actions>`_
     """
     url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {}
@@ -631,7 +762,7 @@ def post_template_w_quickreplies(fbid, payload, quick_replies):
     (/docs/messenger-platform/send-api-reference/quick-replies).
 
     :param str fbid: User id to send the quick replies menu.
-    :param dict payload: template playload dict. See the /
+    :param dict payload: template playload dict. See the \
     payload `field <https://developers.facebook.com/docs/\
     messenger-platform/send-api-reference/templates>`_ for \
     every template type.
@@ -782,12 +913,12 @@ def post_generic_template(fbid, title, image_url='', subtitle='',
 def post_generic_template_carousel(fbid, elements=[],
                                    sharable=True,
                                    image_aspect_ratio='horizontal'):
-    """ Sends up to 10 generic template elements as a carousel
+    """  Sends up to 10 generic template elements as a carousel.
 
     :param str fbid: User to be messaged
-    :elements: generic templates elements (Max 10 itens). format:
+    :param list elements: generic templates elements (Max 10 itens). format:
 
-        >>>> elements = [
+        >>> elements = [
             {
                 "title": "Title Texts",
                 "item_url": "https://mylink.com",
