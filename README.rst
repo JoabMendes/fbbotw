@@ -95,48 +95,39 @@ Current wrapper covering for the `Menssenger Platform 2.0`_
 ===========================================================
 
 -  [ ] Send API
-
   -  [x] Content Types
-
-     -  [x] [Text messages](\ https://developers.facebook.com/docs/messenger-platform/send-api-reference/text-message)
-     -  [x] [Audio attachment](\ https://developers.facebook.com/docs/messenger-platform/send-api-reference/audio-attachment)
-     -  [x] [Image attachment](\ https://developers.facebook.com/docs/messenger-platform/send-api-reference/image-attachment)
-     -  [x] [Video attachment](\ https://developers.facebook.com/docs/messenger-platform/send-api-reference/video-attachment)
-     -  [x] [File attachment](\ https://developers.facebook.com/docs/messenger-platform/send-api-reference/file-attachment)
-
-  -  [x] [Quick Replies](\ https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies)
-  -  [x] [Sender Actions](\ https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions)
-  -  [x] [Attachment Upload API](\ https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload)
+    -  [x] `Text messages <https://developers.facebook.com/docs/messenger-platform/send-api-reference/text-message>`_
+    -  [x] `Audio attachment <https://developers.facebook.com/docs/messenger-platform/send-api-reference/audio-attachment>`_
+    -  [x] `Image attachment <https://developers.facebook.com/docs/messenger-platform/send-api-reference/image-attachment>`_
+    -  [x] `Video attachment <https://developers.facebook.com/docs/messenger-platform/send-api-reference/video-attachment>`_
+    -  [x] `File attachment <https://developers.facebook.com/docs/messenger-platform/send-api-reference/file-attachment>`_
+  -  [x] `Quick Replies <https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies>`_
+  -  [x] `Sender Actions <https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions>`_
+  -  [x] `Attachment Upload API <https://developers.facebook.com/docs/messenger-platform/send-api-reference/attachment-upload>`_
   -  [ ] Templates
-
-    -  [x] [Button Template](\ https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template)
-    -  [x] [Generic Template](\ https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
-    -  [x] [List Template](\ https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
-    -  [x] [Receipt Template](\ https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
+    -  [x] `Button Template <https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template>`_
+    -  [x] `Generic Template <https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template>`_
+    -  [x] `List Template <https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template>`_
+    -  [x] `Receipt Template <https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template>`_
     -  [ ] Open Graph Template
     -  [ ] Airline Boarding Pass Template
     -  [ ] Airline Checkin Template
     -  [ ] Airline Itinerary Template
     -  [ ] Airline Flight Update Template
-
--  [x] [Buttons: Check documentation to format your buttons in your templates](\ https://developers.facebook.com/docs/messenger-platform/send-api-reference/buttons)
-
-  -  [x] [Call Button](\ https://developers.facebook.com/docs/messenger-platform/send-api-reference/call-button)
+-  [x] `Buttons: Check documentation to format your buttons in your templates <https://developers.facebook.com/docs/messenger-platform/send-api-reference/buttons>`_
+  -  [x] `Call Button <https://developers.facebook.com/docs/messenger-platform/send-api-reference/call-button>`_
 
 -  [ ] Miscellaneous
-
-  -  [x] [User profile](\ https://developers.facebook.com/docs/messenger-platform/user-profile)
+  -  [x] `User profile <https://developers.facebook.com/docs/messenger-platform/user-profile>`_
   -  [x] Messenger Profile API
-
-    -  [x] [Persistent Menu](\ https://developers.facebook.com/docs/messenger-platform/messenger-profile/persistent-menu)
-    -  [x] [Get Started Button](\ https://developers.facebook.com/docs/messenger-platform/messenger-profile/get-started-button)
-    -  [x] [Greeting Text](\ https://developers.facebook.com/docs/messenger-platform/messenger-profile/greeting-text)
-    -  [x] [Domain Whitelisting](\ https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting)
-    -  [x] [Account Linking](\ https://developers.facebook.com/docs/messenger-platform/messenger-profile/account-linking-url)
-    -  [x] [Payment Settings](\ https://developers.facebook.com/docs/messenger-platform/messenger-profile/payment-settings)
-    -  [x] [Target Audience](\ https://developers.facebook.com/docs/messenger-platform/messenger-profile/target-audience)
-    -  [x] [Chat Extension Home URL (Covering but no tested)](\ https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url)
-
+    -  [x] `Persistent Menu <https://developers.facebook.com/docs/messenger-platform/messenger-profile/persistent-menu>`_
+    -  [x] `Get Started Button <https://developers.facebook.com/docs/messenger-platform/messenger-profile/get-started-button>`_
+    -  [x] `Greeting Text <https://developers.facebook.com/docs/messenger-platform/messenger-profile/greeting-text>`_
+    -  [x] `Domain Whitelisting <https://developers.facebook.com/docs/messenger-platform/messenger-profile/domain-whitelisting>`_
+    -  [x] `Account Linking <https://developers.facebook.com/docs/messenger-platform/messenger-profile/account-linking-url>`_
+    -  [x] `Payment Settings <https://developers.facebook.com/docs/messenger-platform/messenger-profile/payment-settings>`_
+    -  [x] `Target Audience <https://developers.facebook.com/docs/messenger-platform/messenger-profile/target-audience>`_
+    -  [x] `Chat Extension Home URL (Covered but no tested) <https://developers.facebook.com/docs/messenger-platform/messenger-profile/home-url>`_
   -  [ ] Plugin Reference
   -  [ ] Messenger Code API
   -  [ ] Messaging Insights API
