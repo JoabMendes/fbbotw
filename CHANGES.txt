@@ -4,5 +4,41 @@ This file will be added to as part of each release
 
 ----
 
+Version 2.0.0, Tue 20 Jun 2017
+===============================
+
+bdd9ce9031	Updated readme (JoabMendes)
+ef1c9d2d6a	Updated sphinx version (JoabMendes)
+eb471c20a3	Fixing docs error (JoabMendes)
+61ea1ab09c	Updated documentation. Closes #22 (JoabMendes)
+7ae2974d3a	Wip: Writing documentation - 2.0 (JoabMendes)
+40c10870b1	WIP - Working on docs (JoabMendes)
+a2fdbcac1f	Updated readme (JoabMendes)
+fa5c08e925	Added contributing file. Closes #19 (JoabMendes)
+e7972dc813	Created methods post_(image/template)_w_quickreplies and fixed bug with empty parameters. Closes #20 (JoabMendes)
+6388fdb7f7	Log update (JoabMendes)
+e3c20997fe	Implemented attachment reuse in upload_reusable_attachment and post_reusable_attachment. Closes #21 (JoabMendes)
+eba4848180	Added sharable parameter to post_receipt_template, post_list_template, post_button_template and updated all api endpoint formats (JoabMendes)
+1dd9e07116	Uploading media for tests (JoabMendes)
+ac55fb6365	wip (JoabMendes)
+bf982ef1b8	Changed typing() method to post_sender_action() (Same parameters). (JoabMendes)
+9e133f6c7e	Added the post_chat_extension_home_url() method. (JoabMendes)
+bbe7e13e7f	Added the post_target_audience() method. (JoabMendes)
+7efa13d392	Added the post_payment_settings() method. (JoabMendes)
+7dbb573121	Updated post_account_linking_url for the Messenger version 2.0 (JoabMendes)
+08206f0569	Updated enpoints for post_domain_whitelist (changed from post_domain_whitelisting to post_domain_whitelist)
+    and Added delete_domain_whitelist function. (JoabMendes)
+3a20f8d842	Updated post_persistent_menu for the Messenger 2.0 Version (JoabMendes)
+033c843d4f	Fixing style (JoabMendes)
+5580dfdf8f	Updated post_greeting_text for the Menssenger Version 2.0 (JoabMendes)
+89b1fadb81	Added test and contributing files (JoabMendes)
+957590053e	Fixing style (JoabMendes)
+d4c056790c	Updated test_get_user_info tests and post_start_button for the Messenger Platform 2.0 endpoint (JoabMendes)
+50cdc9d6f9	Added the  field to the get_user_information method (JoabMendes)
+698876f367	Updated readme (Joabe Mendes)
+a6cf15a7aa	Send API: Text Content type - Be able to send a list of texts. Finishin V1. Closes #18 (Joabe Mendes)
+7950fe443d	Send API: Text Content type - Be able to send a list of texts. Finishin V1. Closes #18 (Joabe Mendes)
+
+
 Version 1.0 (first version), Thu 01 Dec 2016
 =============================================
