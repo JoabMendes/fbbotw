@@ -145,7 +145,7 @@ def post_greeting_text(greeting_texts):
                 },
                 {
                     "locale": "pt_BR",
-                    "text": "Texto de Greeting em Português" # (160 chars)
+                    "text": "Texto de Greeting em Portugues" # (160 chars)
                 },
                 {
                     "locale": "en_US",
