@@ -51,18 +51,12 @@ Get Started
 2 - Configure it
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-| The only configuration needed is to set the ``PAGE_ACCESS_TOKEN`` with
-| the value you got from the `facebook app dashboard`_. If you are
-  using Django, create the variable in your ``settings.py``. If not,
-  define
-| the variable in your enviroment:
+The only configuration needed is to set the ``PAGE_ACCESS_TOKEN`` with the value you got from the `facebook app dashboard`_. If you are using Django, create the variable in your ``settings.py``. If not, define the variable in your enviroment:
 
 2.1 - Django
 ^^^^^^^^^^^^
 
-| 1 - In your ``settings.py`` define the variable ``PAGE_ACCESS_TOKEN``
-  that was
-| generated on the app configuration from facebook.
+In your ``settings.py`` define the variable ``PAGE_ACCESS_TOKEN`` that was generated on the app configuration from facebook.
 
 .. code:: py
 
@@ -72,7 +66,7 @@ Get Started
 2.2 - Not Django
 ^^^^^^^^^^^^^^^^
 
-Create an os environment variable called ``PAGE_ACCESS_TOKEN``:
+Create an **os environment** variable called ``PAGE_ACCESS_TOKEN``:
 
 .. code:: sh
 
@@ -81,7 +75,7 @@ Create an os environment variable called ``PAGE_ACCESS_TOKEN``:
 3 - Import and Use it
 ~~~~~~~~~~~~~~~~~~~~~
 
-2 - After setting the access token, just import and use ``fbbotw``
+After setting the access token, just import and use ``fbbotw``
 methods:
 
 .. code:: py

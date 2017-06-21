@@ -47,8 +47,7 @@ pip install fbbotw
 ### 2 - Configure it
 
 The only configuration needed is to set the `PAGE_ACCESS_TOKEN` with
-the value you got from the [facebook app dashboard](https://developers.facebook.com/docs/messenger-platform/guides/setup#page_access_token). If you are using Django, create the variable in your `settings.py`. If not, define 
-the variable in your enviroment:
+the value you got from the [facebook app dashboard](https://developers.facebook.com/docs/messenger-platform/guides/setup#page_access_token). If you are using Django, create the variable in your `settings.py`. If not, define the variable in your enviroment:
 
 #### 2.1 - Django
 
@@ -62,7 +61,7 @@ PAGE_ACCESS_TOKEN = "<your access token>"
 
 #### 2.2 - Not Django
 
-Create an os environment variable called `PAGE_ACCESS_TOKEN`:
+Create an **os environment** variable called `PAGE_ACCESS_TOKEN`:
 
 ```sh
 export PAGE_ACCESS_TOKEN='<your access token>'
@@ -70,7 +69,7 @@ export PAGE_ACCESS_TOKEN='<your access token>'
 
 ### 3 - Import and Use it
 
-2 - After setting the access token, just import and use `fbbotw` methods:
+After setting the access token, just import and use `fbbotw` methods:
 
 ```py
 from fbbotw import fbbotw
