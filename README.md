@@ -102,6 +102,7 @@ See the documentation to learn about the methods provided by the package.
     - [x] [Generic Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template)
     - [x] [List Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template)
     - [x] [Receipt Template](https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template)
+    - [x] [Media Template](https://developers.facebook.com/docs/messenger-platform/send-messages/template/media)
     - [ ] Open Graph Template
     - [ ] Airline Boarding Pass Template
     - [ ] Airline Checkin Template

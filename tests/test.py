@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # import sys
 import os
 import unittest
@@ -280,7 +282,7 @@ class FbbotwTest(unittest.TestCase):
         self.assertTrue('attachment_id' in response.json())
 
     def test_post_image_attachment(self):
-        jpg = 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg'
+        jpg = 'https://i.imgur.com/HF9STBD.jpg'
         response = fbbotw.post_image_attachment(fbid=self.fbid, img_url=jpg)
         self.assertEqual(response.status_code, self.OK)
         self.assertEqual(response.json()['recipient_id'], self.fbid)
@@ -309,7 +311,7 @@ class FbbotwTest(unittest.TestCase):
         self.assertTrue('attachment_id' in response.json())
 
     def test_upload_reusable_attachment(self):
-        jpg = 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg'
+        jpg = 'https://i.imgur.com/HF9STBD.jpg'
         response = fbbotw.upload_reusable_attachment(
             media_url=jpg, file_type='image'
         )
@@ -317,7 +319,7 @@ class FbbotwTest(unittest.TestCase):
         self.assertTrue('attachment_id' in response.json())
 
     def test_post_reusable_attachment(self):
-        jpg = 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg'
+        jpg = 'https://i.imgur.com/HF9STBD.jpg'
         upload = fbbotw.upload_reusable_attachment(
             media_url=jpg, file_type='image'
         )
@@ -338,17 +340,17 @@ class FbbotwTest(unittest.TestCase):
             message='Test?',
             quick_replies=self.quick_replies
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, self.OK)
         self.assertEqual(response.json()['recipient_id'], self.fbid)
 
     def test_post_image_w_quickreplies(self):
-        image_url = 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg'
+        image_url = 'https://i.imgur.com/HF9STBD.jpg'
         response = fbbotw.post_image_w_quickreplies(
             fbid=self.fbid,
             image_url=image_url,
             quick_replies=self.quick_replies
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, self.OK)
         self.assertEqual(response.json()['recipient_id'], self.fbid)
 
     def test_post_template_w_quickreplies(self):
@@ -362,7 +364,7 @@ class FbbotwTest(unittest.TestCase):
             payload=payload,
             quick_replies=self.quick_replies
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, self.OK)
         self.assertEqual(response.json()['recipient_id'], self.fbid)
 
     def test_post_button_template(self):
@@ -372,12 +374,12 @@ class FbbotwTest(unittest.TestCase):
             buttons=self.postback_buttons,
             sharable=False
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, self.OK)
         self.assertEqual(response.json()['recipient_id'], self.fbid)
 
     def test_post_generic_template(self):
         title = 'This is a Generic Template'
-        image_url = 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg'
+        image_url = 'https://i.imgur.com/HF9STBD.jpg'
         subtitle = 'Generic Template Subtitle'
         default_action = {
             'type': 'web_url',
@@ -396,15 +398,14 @@ class FbbotwTest(unittest.TestCase):
             sharable=False,
             image_aspect_ratio='square'
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, self.OK)
         self.assertEqual(response.json()['recipient_id'], self.fbid)
 
     def test_post_generic_template_carousel(self):
         element = {
             "title": "This is a Generic Template",
             "item_url": "http://breco.herokuapp.com/",
-            "image_url": ("https://i.ytimg.com/vi/tntOCGkgt98/"
-                          "maxresdefault.jpg"),
+            "image_url": "https://i.imgur.com/HF9STBD.jpg",
             "subtitle": "Generic Template Subtitle",
             "buttons": [
                 {
@@ -422,7 +423,7 @@ class FbbotwTest(unittest.TestCase):
             elements=elements,
             image_aspect_ratio='square'
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, self.OK)
         self.assertEqual(response.json()['recipient_id'], self.fbid)
 
     def test_post_list_template(self):
@@ -463,7 +464,7 @@ class FbbotwTest(unittest.TestCase):
             buttons=buttons,
             sharable=True
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, self.OK)
 
     def test_post_receipt_template(self):
         name = "Joab Mendes"
@@ -517,7 +518,33 @@ class FbbotwTest(unittest.TestCase):
             adjustments=adjustments,
             sharable=False
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, self.OK)
+
+    def test_post_media_template(self):
+        elements = [
+            {
+                "media_type": "image",
+                "url": (
+                    "https://www.facebook.com/"
+                    "facebookcanada/photos/1442911455747101/"
+                ),
+                "buttons": [
+                    {
+                        "type": "web_url",
+                        "url": (
+                            "https://www.facebook.com/"
+                            "facebookcanada/photos/1442911455747101/"
+                        ),
+                        "title": "View Post",
+                    }
+                ]
+            }
+        ]
+        response = fbbotw.post_media_template(
+            fbid=self.fbid,
+            elements=elements,
+        )
+        self.assertEqual(response.status_code, self.OK)
 
     # Send API Buttons
 
@@ -527,7 +554,7 @@ class FbbotwTest(unittest.TestCase):
         phone = "+558499872770"
         response = fbbotw.post_call_button(fbid=self.fbid, text=text,
                                            title=title, phone_number=phone)
-        self.assertTrue(response.status_code == 200)
+        self.assertEqual(response.status_code, self.OK)
 
 
 if __name__ == '__main__':

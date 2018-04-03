@@ -109,6 +109,7 @@ Current wrapper covering for the `Menssenger Platform 2.0`_
     -  [x] `Generic Template <https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template>`_
     -  [x] `List Template <https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template>`_
     -  [x] `Receipt Template <https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template>`_
+    -  [x] `Media Template <https://developers.facebook.com/docs/messenger-platform/send-messages/template/media>`_
     -  [ ] Open Graph Template
     -  [ ] Airline Boarding Pass Template
     -  [ ] Airline Checkin Template

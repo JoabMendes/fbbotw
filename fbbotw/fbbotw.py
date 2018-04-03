@@ -2,12 +2,11 @@ import json
 import requests
 import os
 
-IMPORT_ERROR = "Couldn't import PAGE_ACCESS_TOKEN. \
-Define this var in your settings configuration\
-or as environment variable."
+IMPORT_ERROR = ("Couldn't import PAGE_ACCESS_TOKEN. "
+                "Define this var in your settings configuration "
+                "or as environment variable.")
 
 HEADER = {"Content-Type": "application/json"}
-
 
 # Not using Django
 PAGE_ACCESS_TOKEN = os.getenv('PAGE_ACCESS_TOKEN', False)
@@ -22,17 +21,17 @@ if not PAGE_ACCESS_TOKEN:
         # Using django but did defined the config var PAGE_ACCESS_TOKEN
         raise ImportError(IMPORT_ERROR)
 
-
 THREAD_SETTINGS_URL = ("https://graph.facebook.com/v2.6/me/"
                        "thread_settings?access_token={access_token}")
 MESSAGES_URL = ("https://graph.facebook.com/v2.6/me/"
                 "messages?access_token={access_token}")
 MESSENGER_PROFILE_URL = ("https://graph.facebook.com/v2.6/me/"
                          "messenger_profile?access_token={access_token}")
-GRAPH_URL = ("https://graph.facebook.com/v2.7/{fbid}")
+GRAPH_URL = "https://graph.facebook.com/v2.7/{fbid}"
 
 MESSAGES_ATTACHMENT_URL = ("https://graph.facebook.com/v2.6/me/"
                            "message_attachments?access_token={access_token}")
+
 
 #############################################
 #           User Profile API                #
@@ -65,9 +64,12 @@ def get_user_information(fbid):
     messenger-platform/user-profile>`_
     """
     user_info_url = GRAPH_URL.format(fbid=fbid)
-    payload = {}
-    payload['fields'] = 'first_name,last_name,gender,profile_pic,\
-    locale,timezone,is_payment_enabled,last_ad_referral'
+    payload = dict()
+    payload['fields'] = (
+        "first_name,last_name,gender,"
+        "profile_pic,locale,timezone,"
+        "is_payment_enabled,last_ad_referral"
+    )
     payload['access_token'] = PAGE_ACCESS_TOKEN
     user_info = requests.get(user_info_url, payload).json()
     return user_info
@@ -96,7 +98,7 @@ def post_settings(greeting_text):
     """
     # Set the greeting texts
     url = THREAD_SETTINGS_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    txtpayload = {}
+    txtpayload = dict()
     txtpayload['setting_type'] = 'greeting'
     txtpayload['greeting'] = {'text': greeting_text}
     data = json.dumps(txtpayload)
@@ -105,13 +107,13 @@ def post_settings(greeting_text):
     )
     # Set the start button
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    btpayload = {}
+    btpayload = dict()
     btpayload['get_started'] = {'payload': 'USER_START'}
     data = json.dumps(btpayload)
     get_started_button_status = requests.post(
         url, headers=HEADER, data=data
     )
-    return (greeting_text_status, get_started_button_status)
+    return greeting_text_status, get_started_button_status
 
 
 def post_greeting_text(greeting_texts):
@@ -158,7 +160,7 @@ def post_greeting_text(greeting_texts):
     messenger-platform/messenger-profile/greeting-text>`_
     """
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    payload = {}
+    payload = dict()
     payload['greeting'] = greeting_texts
     data = json.dumps(payload)
     status = requests.post(
@@ -181,7 +183,7 @@ def post_start_button(payload='START'):
     .com/docs/messenger-platform/messenger-profile/get-started-button>`_
     """
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    payload_data = {}
+    payload_data = dict()
     payload_data['get_started'] = {'payload': payload}
     data = json.dumps(payload_data)
     status = requests.post(url, headers=HEADER, data=data)
@@ -270,7 +272,7 @@ def post_persistent_menu(persistent_menu):
     com/docs/messenger-platform/messenger-profile/persistent-menu>`_
     """
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    payload = {}
+    payload = dict()
     payload["persistent_menu"] = persistent_menu
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
@@ -290,14 +292,14 @@ def post_domain_whitelist(whitelisted_domains):
         >>> fbbotw.post_domain_whitelist(
                 whitelisted_domains=whitelisted_domains
             )
-    :param list whistelisted_domains: Domains to be whistelisted (Max 10).
+    :param list whitelisted_domains: Domains to be whitelisted (Max 10).
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/domain-whitelisting <https://developers.facebook.\
     com/docs/messenger-platform/messenger-profile/domain-whitelisting>`_
     """
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    payload = {}
+    payload = dict()
     payload['whitelisted_domains'] = whitelisted_domains
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
@@ -316,7 +318,7 @@ def delete_domain_whitelist():
     com/docs/messenger-platform/messenger-profile/domain-whitelisting#delete>`_
     """
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    payload = {}
+    payload = dict()
     payload['fields'] = ["whitelisted_domains"]
     data = json.dumps(payload)
     status = requests.delete(url, headers=HEADER, data=data)
@@ -339,14 +341,14 @@ def post_account_linking_url(account_linking_url):
     com/docs/messenger-platform/messenger-profile/account-linking-url>`_
     """
     url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    payload = {}
+    payload = dict()
     payload['account_linking_url'] = account_linking_url
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
     return status
 
 
-def post_payment_settings(privacy_url="", public_key="", test_users=[]):
+def post_payment_settings(privacy_url='', public_key='', test_users=None):
     """ Sets the configuration for payment: privacy policy url,
     public key or test users. At least one parameter should be passed
     in this function.
@@ -419,7 +421,7 @@ def post_target_audience(countries, audience_type="all"):
 
 
 def post_chat_extension_home_url(
-     url, webview_share_button="hide", in_test=True):
+        url, webview_share_button="hide", in_test=True):
     """ Sets the url field enabling a Chat Extension in the composer \
     drawer in Messenger.
 
@@ -433,14 +435,14 @@ def post_chat_extension_home_url(
     :facebook docs: `/home-url <https://developers.facebook.\
     com/docs/messenger-platform/messenger-profile/home-url>`_
     """
-    url = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
+    endpoint = MESSENGER_PROFILE_URL.format(access_token=PAGE_ACCESS_TOKEN)
     payload = {"home_url": {}}
     payload["home_url"]["url"] = url
     payload["home_url"]["webview_height_ratio"] = "tall"
     payload["home_url"]["webview_share_button"] = webview_share_button
     payload["home_url"]["in_test"] = in_test
     data = json.dumps(payload)
-    status = requests.post(url, headers=HEADER, data=data)
+    status = requests.post(endpoint, headers=HEADER, data=data)
     return status
 
 
@@ -478,7 +480,7 @@ def post_sender_action(fbid, sender_action):
     com/docs/messenger-platform/send-api-reference/sender-actions>`_
     """
     url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    payload = {}
+    payload = dict()
     payload['recipient'] = {'id': fbid}
     payload['sender_action'] = sender_action
     data = json.dumps(payload)
@@ -489,7 +491,7 @@ def post_sender_action(fbid, sender_action):
 # Send API Content Type
 
 
-def post_text_message(fbid, message):
+def post_text_message(fbid, message, messaging_type="RESPONSE", tag=None):
     """ Sends a common text message to the specified user.
 
     :usage:
@@ -505,13 +507,22 @@ def post_text_message(fbid, message):
     :param str fbid: User id to send the text.
     :param str message: Text to be displayed for the user \
     (640 chars limit).
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/text-message <https://developers.facebook.\
     com/docs/messenger-platform/send-api-reference/text-message>`_
     """
     url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    payload = {}
+    payload = dict()
+    payload['messaging_type'] = messaging_type
+    if bool(tag) or messaging_type == "MESSAGE_TAG":
+        payload['tag'] = tag
     payload['recipient'] = {'id': fbid}
     payload['message'] = {'text': message}
     data = json.dumps(payload)
@@ -519,7 +530,7 @@ def post_text_message(fbid, message):
     return status
 
 
-def post_text_list(fbid, messages=[]):
+def post_text_list(fbid, messages=None, messaging_type="RESPONSE", tag=None):
     """ Sends a serie of messages from a list of texts. The
     messages will be sent in the same order as the list items.
 
@@ -539,35 +550,58 @@ def post_text_list(fbid, messages=[]):
             )
     :param str fbid: User id to send the text list.
     :param list messages: A list of messages to be sent.
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: A list of `Response objects <http://docs.python-\
     requests.org/en/master/api/#requests.Response>`_\
     for every message sent.
     """
     responses = []
     for msg in messages:
-        responses.append(post_text_message(fbid=fbid, message=msg))
+        responses.append(
+            post_text_message(
+                fbid=fbid,
+                message=msg,
+                messaging_type=messaging_type,
+                tag=tag
+            )
+        )
     return responses
 
 
-def post_attachment(fbid, media_url, file_type, is_reusable=False):
+def post_attachment(fbid, media_url, file_type,
+                    is_reusable=False, messaging_type="RESPONSE", tag=None):
     """ Sends a media attachment to the specified user
 
     :param str fbid: User id to send the audio.
-    :param str url: Url of a hosted media.
-    :param str type: 'image'/'audio'/'video'/'file'.
+    :param str media_url: Url of a hosted media.
+    :param str file_type: 'image'/'audio'/'video'/'file'.
     :param bool is_reusable: Defines the attachment to be resusable, \
     the response will have an attachment_id that can be used to \
     re-send the attachment without need to upload it again. (You can \
     use the post_reusable_attachment method to upload using the id).
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/contenttypes <https://developers.facebook.\
     com/docs/messenger-platform/send-api-reference/contenttypes>`_
     """
     url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    payload = {}
+    payload = dict()
     payload['recipient'] = {'id': fbid}
-    attachment_payload = {}
+    payload['messaging_type'] = messaging_type
+    if bool(tag) or messaging_type == "MESSAGE_TAG":
+        payload['tag'] = tag
+    attachment_payload = dict()
     attachment_payload['url'] = media_url
     if is_reusable:
         attachment_payload['is_reusable'] = is_reusable
@@ -601,7 +635,7 @@ def upload_reusable_attachment(media_url, file_type):
         >>> attachment_id = response.json()['attachment_id']
         >>> # Store the attachment id to use later (You can
         >>> # use fbbotw.post_reusable_attachment to send it)
-    :param str url: Url of a hosted media.
+    :param str media_url: Url of a hosted media.
     :param str file_type: 'image'/'audio'/'video'/'file'.
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_ (Contains the attachment id \
@@ -611,8 +645,8 @@ def upload_reusable_attachment(media_url, file_type):
     rence#attachment_reuse>`_
     """
     url = MESSAGES_ATTACHMENT_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    payload = {}
-    attachment_payload = {}
+    payload = dict()
+    attachment_payload = dict()
     attachment_payload['url'] = media_url
     attachment_payload['is_reusable'] = True
     attachment = {"type": file_type, "payload": attachment_payload}
@@ -622,7 +656,8 @@ def upload_reusable_attachment(media_url, file_type):
     return status
 
 
-def post_reusable_attachment(fbid, attachment_id, file_type):
+def post_reusable_attachment(fbid, attachment_id, file_type,
+                             messaging_type="RESPONSE", tag=None):
     """ Sends a reusable attachment based on the attachment\
     id to the specified user.
 
@@ -644,6 +679,12 @@ def post_reusable_attachment(fbid, attachment_id, file_type):
     fbbotw.upload_reusable_attachment.
 
     :param str file_type: 'image'/'audio'/'video'/'file'.
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/send-api-reference#attachment_reuse <https://\
@@ -651,8 +692,11 @@ def post_reusable_attachment(fbid, attachment_id, file_type):
     rence#attachment_reuse>`_
     """
     url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    payload = {}
+    payload = dict()
     payload['recipient'] = {'id': fbid}
+    payload['messaging_type'] = messaging_type
+    if bool(tag) or messaging_type == "MESSAGE_TAG":
+        payload['tag'] = tag
     attachment = {
         "type": file_type,
         "payload": {"attachment_id": attachment_id}
@@ -663,7 +707,8 @@ def post_reusable_attachment(fbid, attachment_id, file_type):
     return status
 
 
-def post_audio_attachment(fbid, audio_url, is_reusable=False):
+def post_audio_attachment(fbid, audio_url, is_reusable=False,
+                          messaging_type="RESPONSE", tag=None):
     """ Sends an audio attachment
 
     :usage:
@@ -686,6 +731,12 @@ def post_audio_attachment(fbid, audio_url, is_reusable=False):
     the response will have an attachment_id that can be used to \
     re-send the attachment without need to upload it again. (You can \
     use the post_reusable_attachment method to upload using the id).
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/audio-attachment <https://\
@@ -696,11 +747,14 @@ def post_audio_attachment(fbid, audio_url, is_reusable=False):
         fbid=fbid,
         media_url=audio_url,
         file_type='audio',
-        is_reusable=is_reusable
+        is_reusable=is_reusable,
+        messaging_type=messaging_type,
+        tag=tag
     )
 
 
-def post_file_attachment(fbid, file_url, is_reusable=False):
+def post_file_attachment(fbid, file_url, is_reusable=False,
+                         messaging_type="RESPONSE", tag=None):
     """ Sends a file attachment
 
     :usage:
@@ -723,6 +777,12 @@ def post_file_attachment(fbid, file_url, is_reusable=False):
     the response will have an attachment_id that can be used to \
     re-send the attachment without need to upload it again. (You can \
     use the post_reusable_attachment method to upload using the id).
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/file-attachment <https://\
@@ -733,11 +793,14 @@ def post_file_attachment(fbid, file_url, is_reusable=False):
         fbid=fbid,
         media_url=file_url,
         file_type='file',
-        is_reusable=is_reusable
+        is_reusable=is_reusable,
+        messaging_type=messaging_type,
+        tag=tag
     )
 
 
-def post_image_attachment(fbid, img_url, is_reusable=False):
+def post_image_attachment(fbid, img_url, is_reusable=False,
+                          messaging_type="RESPONSE", tag=None):
     """ Sends an image attachment
 
     :usage:
@@ -759,7 +822,13 @@ def post_image_attachment(fbid, img_url, is_reusable=False):
     :param bool is_reusable: Defines the attachment to be resusable, \
     the response will have an attachment_id that can be used to \
     re-send the attachment without need to upload it again. (You can \
-    use the post_reusable_attachment method to upload using the id)
+    use the post_reusable_attachment method to upload using the id).
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/image-attachment <https://\
@@ -770,11 +839,14 @@ def post_image_attachment(fbid, img_url, is_reusable=False):
         fbid=fbid,
         media_url=img_url,
         file_type='image',
-        is_reusable=is_reusable
+        is_reusable=is_reusable,
+        messaging_type=messaging_type,
+        tag=tag
     )
 
 
-def post_video_attachment(fbid, video_url, is_reusable=False):
+def post_video_attachment(fbid, video_url, is_reusable=False,
+                          messaging_type="RESPONSE", tag=None):
     """ Sends a video attachment
 
     :usage:
@@ -797,7 +869,13 @@ def post_video_attachment(fbid, video_url, is_reusable=False):
     :param bool is_reusable: Defines the attachment to be resusable, \
     the response will have an attachment_id that can be used to \
     re-send the attachment without need to upload it again. (You can \
-    use the post_reusable_attachment method to upload using the id)
+    use the post_reusable_attachment method to upload using the id).
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/video-attachment <https://\
@@ -808,13 +886,16 @@ def post_video_attachment(fbid, video_url, is_reusable=False):
         fbid=fbid,
         media_url=video_url,
         file_type='video',
-        is_reusable=is_reusable
+        is_reusable=is_reusable,
+        messaging_type=messaging_type,
+        tag=tag
     )
 
 
 # Send API Quick Replies
 
-def post_text_w_quickreplies(fbid, message, quick_replies):
+def post_text_w_quickreplies(fbid, message, quick_replies,
+                             messaging_type="RESPONSE", tag=None):
     """ Send text with quick replies buttons
 
     :usage:
@@ -868,21 +949,31 @@ def post_text_w_quickreplies(fbid, message, quick_replies):
         ]
         >>> # See all the fields for the quick reply object in the docs:
         >>> # /docs/messenger-platform/send-api-reference/quick-replies
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/quick-replies <https://developers.facebook\
     .com/docs/messenger-platform/send-api-reference/quick-replies>`_
     """
     url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    payload = {}
+    payload = dict()
     payload["recipient"] = {"id": fbid}
+    payload['messaging_type'] = messaging_type
+    if bool(tag) or messaging_type == "MESSAGE_TAG":
+        payload['tag'] = tag
     payload["message"] = {"text": message, "quick_replies": quick_replies}
     data = json.dumps(payload)
     status = requests.post(url, headers=HEADER, data=data)
     return status
 
 
-def post_image_w_quickreplies(fbid, image_url, quick_replies):
+def post_image_w_quickreplies(fbid, image_url, quick_replies,
+                              messaging_type="RESPONSE", tag=None):
     """ Sends an image with quick replies menu
 
     :usage:
@@ -936,15 +1027,24 @@ def post_image_w_quickreplies(fbid, image_url, quick_replies):
         ]
         >>> # See all the fields for the quick reply object in the docs:
         >>> # /docs/messenger-platform/send-api-reference/quick-replies
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/quick-replies <https://developers.facebook\
     .com/docs/messenger-platform/send-api-reference/quick-replies>`_
     """
     url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    payload = {}
+    payload = dict()
     payload["recipient"] = {"id": fbid}
-    attachment = {}
+    payload['messaging_type'] = messaging_type
+    if bool(tag) or messaging_type == "MESSAGE_TAG":
+        payload['tag'] = tag
+    attachment = dict()
     attachment['type'] = 'image'
     attachment['payload'] = {"url": image_url}
     payload["message"] = {
@@ -956,7 +1056,8 @@ def post_image_w_quickreplies(fbid, image_url, quick_replies):
     return status
 
 
-def post_template_w_quickreplies(fbid, payload, quick_replies):
+def post_template_w_quickreplies(fbid, payload, quick_replies,
+                                 messaging_type="RESPONSE", tag=None):
     """ Sends a template with quick replies buttons
 
 
@@ -1024,15 +1125,24 @@ def post_template_w_quickreplies(fbid, payload, quick_replies):
         ]
         >>> # See all the fields for the quick reply object in the docs:
         >>> # /docs/messenger-platform/send-api-reference/quick-replies
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/quick-replies <https://developers.facebook\
     .com/docs/messenger-platform/send-api-reference/quick-replies>`_
     """
     url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    request_payload = {}
+    request_payload = dict()
     request_payload["recipient"] = {"id": fbid}
-    attachment = {}
+    request_payload['messaging_type'] = messaging_type
+    if bool(tag) or messaging_type == "MESSAGE_TAG":
+        request_payload['tag'] = tag
+    attachment = dict()
     attachment['type'] = 'template'
     attachment['payload'] = payload
     request_payload["message"] = {
@@ -1046,7 +1156,8 @@ def post_template_w_quickreplies(fbid, payload, quick_replies):
 
 # Send API Templates
 
-def post_button_template(fbid, text, buttons, sharable=True):
+def post_button_template(fbid, text, buttons, sharable=True,
+                         messaging_type="RESPONSE", tag=None):
     """ Sends a button template with the specified text and buttons.
     Check the `docs <https://developers.facebook.com/docs/\
     messenger-platform/send-api-reference/buttons>`_ to \
@@ -1098,15 +1209,24 @@ def post_button_template(fbid, text, buttons, sharable=True):
         ]
     :param bool sharable: Able/Disable native share button in Messenger \
     for the template message (Default: True).
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_.
     :facebook docs: `/button-template <https://developers.facebook\
     .com/docs/messenger-platform/send-api-reference/button-template>`_
     """
     url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    data = {}
+    data = dict()
     data['recipient'] = {'id': fbid}
-    payload = {}
+    data['messaging_type'] = messaging_type
+    if bool(tag) or messaging_type == "MESSAGE_TAG":
+        data['tag'] = tag
+    payload = dict()
     payload['template_type'] = 'button'
     payload['text'] = text
     payload['buttons'] = buttons
@@ -1119,9 +1239,10 @@ def post_button_template(fbid, text, buttons, sharable=True):
     return status
 
 
-def post_generic_template(fbid, title, image_url='', subtitle='',
-                          buttons=[], default_action={}, sharable=True,
-                          image_aspect_ratio='horizontal'):
+def post_generic_template(fbid, title, image_url=None, subtitle=None,
+                          buttons=None, default_action=None, sharable=True,
+                          image_aspect_ratio='horizontal',
+                          messaging_type="RESPONSE", tag=None):
     """ Sends a single generic template for the specified User
 
     :usage:
@@ -1177,22 +1298,31 @@ def post_generic_template(fbid, title, image_url='', subtitle='',
     :param str image_aspect_ratio: Aspect ratio used to render images \
     specified by image_url in element objects. Must be 'horizontal' or \
     'square'. (Default 'horizontal')
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/generic-template <https://developers.facebook\
     .com/docs/messenger-platform/send-api-reference/generic-template>`_
     """
     url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    data = {}
+    data = dict()
     data['recipient'] = {'id': fbid}
-    payload = {}
+    data['messaging_type'] = messaging_type
+    if bool(tag) or messaging_type == "MESSAGE_TAG":
+        data['tag'] = tag
+    payload = dict()
     payload['template_type'] = 'generic'
     if not sharable:
         payload['sharable'] = False
     if image_aspect_ratio != 'horizontal':
         payload['image_aspect_ratio'] = 'square'
     payload['elements'] = []
-    element = {}
+    element = dict()
     element['title'] = title
     if bool(image_url):
         element['image_url'] = image_url
@@ -1200,6 +1330,8 @@ def post_generic_template(fbid, title, image_url='', subtitle='',
         element['subtitle'] = subtitle
     if bool(buttons):
         element['buttons'] = buttons
+    if bool(default_action):
+        element['default_action'] = default_action
     payload['elements'].append(element)
     attachment = {"type": 'template', "payload": payload}
     data['message'] = {"attachment": attachment}
@@ -1210,7 +1342,8 @@ def post_generic_template(fbid, title, image_url='', subtitle='',
 
 def post_generic_template_carousel(fbid, elements,
                                    sharable=True,
-                                   image_aspect_ratio='horizontal'):
+                                   image_aspect_ratio='horizontal',
+                                   messaging_type="RESPONSE", tag=None):
     """  Sends up to 10 generic template elements as a carousel.
 
     :usage:
@@ -1272,15 +1405,24 @@ def post_generic_template_carousel(fbid, elements,
     :param str image_aspect_ratio: Aspect ratio used to render images \
     specified by image_url in element objects. Must be 'horizontal' or \
     'square'. (Default 'horizontal')
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/generic-template <https://developers.facebook\
     .com/docs/messenger-platform/send-api-reference/generic-template>`_
     """
     url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    data = {}
+    data = dict()
     data['recipient'] = {'id': fbid}
-    payload = {}
+    data['messaging_type'] = messaging_type
+    if bool(tag) or messaging_type == "MESSAGE_TAG":
+        data['tag'] = tag
+    payload = dict()
     payload['template_type'] = 'generic'
     payload['elements'] = elements
     if not sharable:
@@ -1294,8 +1436,9 @@ def post_generic_template_carousel(fbid, elements,
     return status
 
 
-def post_list_template(fbid, elements, buttons=[],
-                       top_element_style='large', sharable=True):
+def post_list_template(fbid, elements, buttons=None,
+                       top_element_style='large', sharable=True,
+                       messaging_type="RESPONSE", tag=None):
     """ Sends a list template for the specified User
 
     :param str fbid: User id to send the list template.
@@ -1338,15 +1481,24 @@ def post_list_template(fbid, elements, buttons=[],
         ]
     :param bool sharable: Able/Disable native share button in Messenger \
     for the template message (Default: True).
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/list-template <https://developers.facebook\
     .com/docs/messenger-platform/send-api-reference/list-template>`_
     """
     url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    data = {}
+    data = dict()
     data['recipient'] = {'id': fbid}
-    payload = {}
+    data['messaging_type'] = messaging_type
+    if bool(tag) or messaging_type == "MESSAGE_TAG":
+        data['tag'] = tag
+    payload = dict()
     payload['template_type'] = 'list'
     payload['top_element_style'] = top_element_style
     if bool(buttons):
@@ -1363,8 +1515,9 @@ def post_list_template(fbid, elements, buttons=[],
 
 def post_receipt_template(fbid, recipient_name, order_number, currency,
                           payment_method, summary, merchant_name='',
-                          timestamp='', order_url='', elements=[],
-                          address={}, adjustments=[], sharable=True):
+                          timestamp='', order_url='', elements=None,
+                          address=None, adjustments=None, sharable=True,
+                          messaging_type="RESPONSE", tag=None):
     """ Sends a receipt template for the specified user
 
     :param str fbid: User id to send the receipt template.
@@ -1380,6 +1533,8 @@ def post_receipt_template(fbid, recipient_name, order_number, currency,
           "total_tax": 6.19,
           "total_cost": 56.14
         }
+    :param str merchant_name: Optional. The merchant's name. \
+    If present this is shown as logo text.
     :param str timestamp: Timestamp of the order, in seconds.
     :param str order_url: URL of order.
     :param list elements: Items in order (Max 100), format :
@@ -1427,15 +1582,24 @@ def post_receipt_template(fbid, recipient_name, order_number, currency,
         ]
     :param bool sharable: Able/Disable native share button in Messenger \
     for the template message (Default: True).
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/receipt-template <https://developers.facebook\
     .com/docs/messenger-platform/send-api-reference/receipt-template>`_
     """
     url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    data = {}
+    data = dict()
     data['recipient'] = {'id': fbid}
-    payload = {}
+    data['messaging_type'] = messaging_type
+    if bool(tag) or messaging_type == "MESSAGE_TAG":
+        data['tag'] = tag
+    payload = dict()
     payload['template_type'] = 'receipt'
     payload['recipient_name'] = recipient_name
     payload['order_number'] = order_number
@@ -1463,7 +1627,45 @@ def post_receipt_template(fbid, recipient_name, order_number, currency,
     return status
 
 
-def post_call_button(fbid, text, title, phone_number):
+def post_media_template(fbid, elements, messaging_type="RESPONSE", tag=None):
+    """
+    Sends a `media template <https://developers.facebook.com/\
+    docs/messenger-platform/send-messages/template/media>`_ \
+    to the specified user
+
+    :param str fbid: User id to send the media template.
+    :param list elements:
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required).
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
+    :return: `Response object <http://docs.python-requests.org/en/\
+    master/api/#requests.Response>`_
+    :facebook docs: `/receipt-template <https://developers.facebook\
+    .com/docs/messenger-platform/send-api-reference/receipt-template>`_
+    """
+    url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
+    data = dict()
+    data['recipient'] = {'id': fbid}
+    data['messaging_type'] = messaging_type
+    if bool(tag) or messaging_type == "MESSAGE_TAG":
+        data['tag'] = tag
+    attachment = dict()
+    attachment['type'] = 'template'
+    attachment['payload'] = {
+        'template_type': 'media',
+        'elements': elements
+    }
+    data['message'] = {'attachment': attachment}
+    data = json.dumps(data)
+    status = requests.post(url, headers=HEADER, data=data)
+    return status
+
+
+def post_call_button(fbid, text, title, phone_number,
+                     messaging_type="RESPONSE", tag=None):
     """ Sends a call button for the specified user.
     The Call Button can be used to initiate a phone call
     on mobile.
@@ -1485,18 +1687,27 @@ def post_call_button(fbid, text, title, phone_number):
     :param str phone_number: Format must have "+" prefix followed by\
     the country code, area code and local number.\
     For example, **+16505551234**.
+    :param str messaging_type: Identifies the message type from: RESPONSE,\
+    UPDATE AND MESSAGE_TAG (Default: RESPONSE, if MESSAGE_TAG, tag param \
+    is required)
+    :param str tag: Tag classifying the message, must be one of the \
+    following `tags <https://developers.facebook.com/docs/messenger-\
+    platform/send-messages/message-tags#supported_tags>`_
     :return: `Response object <http://docs.python-requests.org/en/\
     master/api/#requests.Response>`_
     :facebook docs: `/call-button <https://developers.facebook\
     .com/docs/messenger-platform/send-api-reference/call-button>`_
     """
     url = MESSAGES_URL.format(access_token=PAGE_ACCESS_TOKEN)
-    data = {}
+    data = dict()
     data['recipient'] = {'id': fbid}
-    payload = {}
+    data['messaging_type'] = messaging_type
+    if bool(tag) or messaging_type == "MESSAGE_TAG":
+        data['tag'] = tag
+    payload = dict()
     payload['template_type'] = 'button'
     payload['text'] = text
-    button = {}
+    button = dict()
     button['type'] = 'phone_number'
     button['title'] = title
     button['payload'] = phone_number
