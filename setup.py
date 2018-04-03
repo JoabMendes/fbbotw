@@ -32,7 +32,7 @@ setup(
 
     # Author details
     author='Joabe Mendes',
-    author_email='joabe@linux.com',
+    author_email='joabe.mdl@gmail.com',
 
     # Choose your license
     license='MIT',
