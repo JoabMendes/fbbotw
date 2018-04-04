@@ -127,6 +127,7 @@ Templates
 - :doc:`fbbotw.post_generic_template <methods/send_api/post_generic_template>`
 - :doc:`fbbotw.post_generic_template_carousel <methods/send_api/post_generic_template_carousel>`
 - :doc:`fbbotw.post_list_template <methods/send_api/post_list_template>`
+- :doc:`fbbotw.post_media_template <methods/send_api/post_media_template>`
 - :doc:`fbbotw.post_receipt_template <methods/send_api/post_receipt_template>`
 - :doc:`fbbotw.post_call_button <methods/send_api/post_call_button>`
 
@@ -181,7 +182,7 @@ validation is done on the facebook server. If one method isn't working, check th
 response object returned. It will describe which was the error or
 bad parameter. You can check that by calling the `.json()` method on the `response object <#the-response-return>`_.
 
-Current wrapper covering for the `Menssenger Platform 2.0`_
+Current wrapper covering for the `Menssenger Platform 2.2`_
 ===========================================================
 
 -  [ ] Send API
