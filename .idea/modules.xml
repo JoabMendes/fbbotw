@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../clickfit/.idea/clickfit.iml" filepath="$PROJECT_DIR$/../clickfit/.idea/clickfit.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/fbbotw.iml" filepath="$PROJECT_DIR$/.idea/fbbotw.iml" />
     </modules>
   </component>
