@@ -1,7 +1,6 @@
 LICENSE
 MANIFEST.in
 README.md
-README.rst
 fbbotw
 setup.cfg
 setup.py

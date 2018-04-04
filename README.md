@@ -7,7 +7,7 @@ This wrapper makes it simpler to user the *Facebook Messenger platform*  wrappin
 
 For exemple, to send a text message to the user you can easily do:
 
-```py
+```python
 from fbbotw import fbbotw
 # ...
 
@@ -21,7 +21,7 @@ fbbotw.post_text_message(fbid=user_fbid, message=my_message)
 
 This is much less code than the traditional way to call the `Send API` and send a text. Using `requests` and `json` you probably would do like this:
 
-```py
+```python
   fbid = "<user psid>"
   message = "Hello World"
   url = 'https://graph.facebook.com/v2.6/me/messages?access_token={0}'
@@ -40,7 +40,7 @@ Learn more about the fbbotw methods by reading the [DOCS](http://fbbotw.readthed
 
 ### 1- Install
 
-```sh
+```bash
 pip install fbbotw
 ```
 
@@ -54,7 +54,7 @@ the value you got from the [facebook app dashboard](https://developers.facebook.
 1 - In your `settings.py` define the variable `PAGE_ACCESS_TOKEN` that was 
 generated on the app configuration from facebook.
 
-```py
+```python
 #settings.py
 PAGE_ACCESS_TOKEN = "<your access token>"
 ```
@@ -63,7 +63,7 @@ PAGE_ACCESS_TOKEN = "<your access token>"
 
 Create an **os environment** variable called `PAGE_ACCESS_TOKEN`:
 
-```sh
+```bash
 export PAGE_ACCESS_TOKEN='<your access token>'
 ```
 
@@ -71,7 +71,7 @@ export PAGE_ACCESS_TOKEN='<your access token>'
 
 After setting the access token, just import and use `fbbotw` methods:
 
-```py
+```python
 from fbbotw import fbbotw
 
 fbbotw.post_sender_action(fbid="<user psid>", sender_action="typing_on")
