@@ -7,6 +7,16 @@ This file will be added to as part of each release
 Version 2.1.0, Wed 04 Apr 2018
 ===============================
 
+c3641dec7e	Version bump to 2.1.0 and updating CHANGES.txt (JoabMendes)
+aefd785021	Updating dev requiredments (JoabMendes)
+5eb13cd08a	Updating seed version (JoabMendes)
+067bc2b9bc	Documentation updates (JoabMendes)
+5163f2b310	Added support for Messenger Platform v2.2 with specification of messagin_type and tags for messaging and added post_media_template function (JoabMendes)
+
+
+Version 2.1.0, Wed 04 Apr 2018
+===============================
+
 aefd785021	Updating dev requiredments (JoabMendes)
 5eb13cd08a	Updating seed version (JoabMendes)
 067bc2b9bc	Documentation updates (JoabMendes)
