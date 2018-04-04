@@ -4,8 +4,13 @@ This file will be added to as part of each release
 
 ----
 
-Version 2.1.4, Wed 04 Apr 2018
+Version 2.1.3, Wed 04 Apr 2018
 ===============================
+
+eeb54e65c7	Version bump to 2.1.4 and updating CHANGES.txt (JoabMendes)
+1d780f3edb	Version bump to 2.1.3 and updating CHANGES.txt (JoabMendes)
+3ba7384bc8	Updating documentation for version 2.1.2 (JoabMendes)
+edb532f376	Updating documentation for version 2.1.2 (JoabMendes)
 
 
 
