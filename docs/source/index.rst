@@ -182,7 +182,7 @@ validation is done on the facebook server. If one method isn't working, check th
 response object returned. It will describe which was the error or
 bad parameter. You can check that by calling the `.json()` method on the `response object <#the-response-return>`_.
 
-Current wrapper covering for the `Menssenger Platform 2.2`_
+Current wrapper covering for the `Messenger Platform 2.2 <https://developers.facebook.com/docs/messenger-platform>`_
 ===========================================================
 
 -  [ ] Send API
@@ -200,6 +200,7 @@ Current wrapper covering for the `Menssenger Platform 2.2`_
     -  [x] `Generic Template <https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template>`_
     -  [x] `List Template <https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template>`_
     -  [x] `Receipt Template <https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template>`_
+    -  [x] `Media Template <https://developers.facebook.com/docs/messenger-platform/send-messages/template/media>`_
     -  [ ] Open Graph Template
     -  [ ] Airline Boarding Pass Template
     -  [ ] Airline Checkin Template
