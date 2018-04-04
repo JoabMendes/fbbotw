@@ -4,6 +4,12 @@ This file will be added to as part of each release
 
 ----
 
+Version 2.1.1, Wed 04 Apr 2018
+===============================
+
+890dd9a755	Version bump to 2.1.0 and updating CHANGES.txt (JoabMendes)
+
+
 Version 2.1.0, Wed 04 Apr 2018
 ===============================
 
