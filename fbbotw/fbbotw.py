@@ -40,7 +40,7 @@ MESSAGES_ATTACHMENT_URL = ("https://graph.facebook.com/v3.1/me/"
 
 def get_user_information(fbid, extra_fields=[]):
     """ Gets user basic information: first_name, last_name, gender,
-    profile_pic, locale, timezone.git
+    profile_pic, locale, timezone
 
     :usage:
         >>> # Set the user fbid you want the information
