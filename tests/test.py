@@ -458,10 +458,8 @@ class FbbotwTest(unittest.TestCase):
         subtitle = 'Generic Template Subtitle'
         default_action = {
             'type': 'web_url',
-            'url': 'https://breco.herokuapp.com/',
-            'messenger_extensions': True,
-            'webview_height_ratio': 'tall',
-            'fallback_url': 'https://breco.herokuapp.com/'
+            'url': 'http://breco.herokuapp.com/',
+            "webview_height_ratio": "tall",
         }
         response = fbbotw.post_generic_template(
             fbid=self.fbid,
@@ -508,19 +506,14 @@ class FbbotwTest(unittest.TestCase):
             'image_url': 'http://i.imgur.com/GHC4ZHl.jpg',
             'subtitle': 'Nice shirt',
             'default_action': {
-                'type': 'web_url',
-                'url': 'https://breco.herokuapp.com/',
-                'messenger_extensions': True,
-                'webview_height_ratio': 'tall',
-                'fallback_url': 'https://breco.herokuapp.com/'
+                "type": "web_url",
+                "url": "https://breco.herokuapp.com/",
+                "webview_height_ratio": "tall",
             },
             'buttons': [{
                 'title': 'Buy',
                 'type': 'web_url',
                 'url': 'https://breco.herokuapp.com/',
-                'messenger_extensions': True,
-                'webview_height_ratio': 'tall',
-                'fallback_url': 'https://breco.herokuapp.com/'
             }]
         }
         elements.append(el)
