@@ -4,6 +4,19 @@ This file will be added to as part of each release
 
 ----
 
+Version 2.2.0, Thu 04 Oct 2018
+===============================
+
+2d6345cd79	Updated tests (JoabMendes)
+d433d58166	Updating tests to consider api rating limits reached (JoabMendes)
+eabc3110bd	Fixing documentation typo (JoabMendes)
+506405e5d1	Fixing documentation typo (JoabMendes)
+9a30cba177	Updated gitignore (JoabMendes)
+0d9ca2831d	Updated version for the facebook graph api (JoabMendes)
+2ccad99264	Updated gitignore (JoabMendes)
+5c303330f2	Relase 2.1.6 (JoabMendes)
+
+
 Version 2.1.6, Wed 04 Apr 2018
 ===============================
 
