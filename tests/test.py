@@ -4,7 +4,6 @@
 import os
 import unittest
 from fbbotw import fbbotw
-import json
 
 class FbbotwTest(unittest.TestCase):
 
