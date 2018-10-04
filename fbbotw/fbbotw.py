@@ -21,15 +21,15 @@ if not PAGE_ACCESS_TOKEN:
         # Using django but did defined the config var PAGE_ACCESS_TOKEN
         raise ImportError(IMPORT_ERROR)
 
-THREAD_SETTINGS_URL = ("https://graph.facebook.com/v2.6/me/"
+THREAD_SETTINGS_URL = ("https://graph.facebook.com/v3.1/me/"
                        "thread_settings?access_token={access_token}")
-MESSAGES_URL = ("https://graph.facebook.com/v2.6/me/"
+MESSAGES_URL = ("https://graph.facebook.com/v3.1/me/"
                 "messages?access_token={access_token}")
-MESSENGER_PROFILE_URL = ("https://graph.facebook.com/v2.6/me/"
+MESSENGER_PROFILE_URL = ("https://graph.facebook.com/v3.1/me/"
                          "messenger_profile?access_token={access_token}")
-GRAPH_URL = "https://graph.facebook.com/v2.7/{fbid}"
+GRAPH_URL = "https://graph.facebook.com/v3.1/{fbid}"
 
-MESSAGES_ATTACHMENT_URL = ("https://graph.facebook.com/v2.6/me/"
+MESSAGES_ATTACHMENT_URL = ("https://graph.facebook.com/v3.1/me/"
                            "message_attachments?access_token={access_token}")
 
 
@@ -38,9 +38,9 @@ MESSAGES_ATTACHMENT_URL = ("https://graph.facebook.com/v2.6/me/"
 #############################################
 
 
-def get_user_information(fbid):
+def get_user_information(fbid, extra_fields=[]):
     """ Gets user basic information: first_name, last_name, gender,
-    profile_pic, locale, timezone, is_payment_enabled, last_ad_referral.
+    profile_pic, locale, timezone
 
     :usage:
         >>> # Set the user fbid you want the information
@@ -48,27 +48,27 @@ def get_user_information(fbid):
         >>> # Call the function passing the fbid of user.
         >>> user_information = fbbotw.get_user_information(fbid=fbid)
     :param str fbid: User id to get the information.
+    :param list extra_fields: Extra fields that your app is allowed to \
+    request. eg. 'locale', 'timezone', 'gender'
     :return dict:
 
         >>> user_information = {
+            "id": "user_id",
+            "name": "User Full Name",
             "first_name": "User First Name",
             "last_name": "User Last Name",
-            "gender": "male/female",
             "profile_pic": "https://cdn_to_pic.com/123",
-            "locale": "en_US",
-            "timezone": -3,
-            "is_payment_enabled": True,
-            "last_ad_referral": "https://reference.to.ad"
         }
     :facebook docs: `/user-profile <https://developers.facebook.com/docs/\
     messenger-platform/user-profile>`_
     """
     user_info_url = GRAPH_URL.format(fbid=fbid)
     payload = dict()
+    fields = [
+        'name', 'first_name', 'last_name', 'profile_pic'
+    ] + extra_fields
     payload['fields'] = (
-        "first_name,last_name,gender,"
-        "profile_pic,locale,timezone,"
-        "is_payment_enabled,last_ad_referral"
+        ",".join(fields)
     )
     payload['access_token'] = PAGE_ACCESS_TOKEN
     user_info = requests.get(user_info_url, payload).json()

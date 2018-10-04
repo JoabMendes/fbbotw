@@ -35,6 +35,7 @@ class FbbotwTest(unittest.TestCase):
             }
         ]
         self.OK = 200
+        self.RATE_LIMIT_CODE = 613
 
     #############################################
     #           User Profile API                #
@@ -42,17 +43,15 @@ class FbbotwTest(unittest.TestCase):
 
     def test_get_user_info(self):
         response = fbbotw.get_user_information(fbid=self.fbid)
+        # print(json.dumps(response, indent=4, sort_keys=True))
+        self.assertTrue(isinstance(response['name'], str))
+        self.assertTrue(len(response['name']) > 0)
         self.assertTrue(isinstance(response['first_name'], str))
         self.assertTrue(len(response['first_name']) > 0)
         self.assertTrue(isinstance(response['last_name'], str))
         self.assertTrue(len(response['last_name']) > 0)
-        self.assertTrue(isinstance(response['locale'], str))
-        self.assertTrue(len(response['locale']) > 0)
         self.assertTrue(isinstance(response['profile_pic'], str))
         self.assertTrue(len(response['profile_pic']) > 0)
-        self.assertTrue(isinstance(response['gender'], str))
-        self.assertTrue(len(response['gender']) > 0)
-        self.assertTrue(response['is_payment_enabled'])
 
     #############################################
     #          Messenger Profile API            #
@@ -60,16 +59,28 @@ class FbbotwTest(unittest.TestCase):
 
     def test_post_settings(self):
         greeting, button = fbbotw.post_settings("Hello world")
-        self.assertEqual(greeting.status_code, self.OK)
-        self.assertDictEqual(
-            greeting.json(),
-            {'result': 'Successfully updated greeting'}
-        )
-        self.assertEqual(button.status_code, self.OK)
-        self.assertDictEqual(
-            button.json(),
-            {'result': 'success'}
-        )
+        greeting_code = greeting.status_code
+        button_code = button.status_code
+        if greeting_code == self.OK and button_code == self.OK:
+            self.assertDictEqual(
+                greeting.json(),
+                {'result': 'Successfully updated greeting'}
+            )
+            self.assertDictEqual(
+                button.json(),
+                {'result': 'success'}
+            )
+        else:
+            response_json = greeting.json()
+            self.assertEqual(
+                response_json['error']['code'],
+                self.RATE_LIMIT_CODE
+            )
+            response_json = button.json()
+            self.assertEqual(
+                response_json['error']['code'],
+                self.RATE_LIMIT_CODE
+            )
 
     def test_post_greeting_text(self):
         greeting_texts = [
@@ -89,19 +100,33 @@ class FbbotwTest(unittest.TestCase):
         response = fbbotw.post_greeting_text(
             greeting_texts=greeting_texts
         )
-        self.assertEqual(response.status_code, self.OK)
-        self.assertDictEqual(
-            response.json(),
-            {"result": "success"}
-        )
+        if response.status_code == self.OK:
+            self.assertEqual(response.status_code, self.OK)
+            self.assertDictEqual(
+                response.json(),
+                {"result": "success"}
+            )
+        else:
+            response_json = response.json()
+            self.assertEqual(
+                response_json['error']['code'],
+                self.RATE_LIMIT_CODE
+            )
 
     def test_post_start_button(self):
         response = fbbotw.post_start_button('GET_STARTED')
-        self.assertEqual(response.status_code, self.OK)
-        self.assertDictEqual(
-            response.json(),
-            {'result': 'success'}
-        )
+        if response.status_code == self.OK:
+            self.assertEqual(response.status_code, self.OK)
+            self.assertDictEqual(
+                response.json(),
+                {'result': 'success'}
+            )
+        else:
+            response_json = response.json()
+            self.assertEqual(
+                response_json['error']['code'],
+                self.RATE_LIMIT_CODE
+            )
 
     def test_post_persistent_menu(self):
         persistent_menu = [
@@ -145,46 +170,76 @@ class FbbotwTest(unittest.TestCase):
             }
         ]
         response = fbbotw.post_persistent_menu(persistent_menu)
-        self.assertEqual(response.status_code, self.OK)
-        self.assertDictEqual(
-            response.json(),
-            {'result': 'success'}
-        )
+        if response.status_code == self.OK:
+            self.assertDictEqual(
+                response.json(),
+                {'result': 'success'}
+            )
+        else:
+            response_json = response.json()
+            self.assertEqual(
+                response_json['error']['code'],
+                self.RATE_LIMIT_CODE
+            )
 
     def test_post_domain_whitelist(self):
         domain = ['https://breco.herokuapp.com']
         response = fbbotw.post_domain_whitelist(whitelisted_domains=domain)
-        self.assertEqual(response.status_code, self.OK)
-        self.assertDictEqual(
-            response.json(),
-            {'result': 'success'}
-        )
+        if response.status_code == self.OK:
+            self.assertDictEqual(
+                response.json(),
+                {'result': 'success'}
+            )
+        else:
+            response_json = response.json()
+            self.assertEqual(
+                response_json['error']['code'],
+                self.RATE_LIMIT_CODE
+            )
 
     def test_delete_domain_whitelist(self):
         response = fbbotw.delete_domain_whitelist()
-        self.assertEqual(response.status_code, self.OK)
-        self.assertDictEqual(
-            response.json(),
-            {'result': 'success'}
-        )
+        if response.status_code == self.OK:
+            self.assertDictEqual(
+                response.json(),
+                {'result': 'success'}
+            )
+        else:
+            response_json = response.json()
+            self.assertEqual(
+                response_json['error']['code'],
+                self.RATE_LIMIT_CODE
+            )
 
     def test_post_account_linking_url(self):
         url = 'https://breco.herokuapp.com'
         response = fbbotw.post_account_linking_url(account_linking_url=url)
-        self.assertEqual(response.status_code, self.OK)
-        self.assertDictEqual(
-            response.json(),
-            {'result': 'success'}
-        )
+        if response.status_code == self.OK:
+            self.assertDictEqual(
+                response.json(),
+                {'result': 'success'}
+            )
+        else:
+            response_json = response.json()
+            self.assertEqual(
+                response_json['error']['code'],
+                self.RATE_LIMIT_CODE
+            )
 
     def test_post_payment_settings(self):
         privacy_url = "https://breco.herokuapp.com/politica-e-termos"
         response = fbbotw.post_payment_settings(privacy_url=privacy_url)
-        self.assertEqual(response.status_code, self.OK)
-        self.assertDictEqual(
-            response.json(),
-            {'result': 'success'}
-        )
+        if response.status_code == self.OK:
+            self.assertDictEqual(
+                response.json(),
+                {'result': 'success'}
+            )
+        else:
+            response_json = response.json()
+            self.assertEqual(
+                response_json['error']['code'],
+                self.RATE_LIMIT_CODE
+            )
         response = fbbotw.post_payment_settings()
         self.assertDictEqual(
             response,
@@ -196,11 +251,17 @@ class FbbotwTest(unittest.TestCase):
         response = fbbotw.post_target_audience(
             countries, audience_type="custom"
         )
-        self.assertEqual(response.status_code, self.OK)
-        self.assertDictEqual(
-            response.json(),
-            {'result': 'success'}
-        )
+        if response.status_code == self.OK:
+            self.assertDictEqual(
+                response.json(),
+                {'result': 'success'}
+            )
+        else:
+            response_json = response.json()
+            self.assertEqual(
+                response_json['error']['code'],
+                self.RATE_LIMIT_CODE
+            )
 
     '''
     def test_post_chat_extension_home_url(self):
@@ -315,8 +376,14 @@ class FbbotwTest(unittest.TestCase):
         response = fbbotw.upload_reusable_attachment(
             media_url=jpg, file_type='image'
         )
-        self.assertEqual(response.status_code, self.OK)
-        self.assertTrue('attachment_id' in response.json())
+        if response.status_code == self.OK:
+            self.assertTrue('attachment_id' in response.json())
+        else:
+            response_json = response.json()
+            self.assertEqual(
+                response_json['error']['code'],
+                self.RATE_LIMIT_CODE
+            )
 
     def test_post_reusable_attachment(self):
         jpg = 'https://i.imgur.com/HF9STBD.jpg'
@@ -329,8 +396,16 @@ class FbbotwTest(unittest.TestCase):
             attachment_id=attachment_id,
             file_type='image'
         )
-        self.assertEqual(response.status_code, self.OK)
-        self.assertEqual(response.json()['recipient_id'], self.fbid)
+        if response.status_code == self.OK:
+            self.assertEqual(
+                response.json()['recipient_id'], self.fbid
+            )
+        else:
+            response_json = response.json()
+            self.assertEqual(
+                response_json['error']['code'],
+                self.RATE_LIMIT_CODE
+            )
 
     # Send API Quick Replies
 
@@ -383,10 +458,8 @@ class FbbotwTest(unittest.TestCase):
         subtitle = 'Generic Template Subtitle'
         default_action = {
             'type': 'web_url',
-            'url': 'https://breco.herokuapp.com/',
-            'messenger_extensions': True,
-            'webview_height_ratio': 'tall',
-            'fallback_url': 'https://breco.herokuapp.com/'
+            'url': 'http://breco.herokuapp.com/',
+            "webview_height_ratio": "tall",
         }
         response = fbbotw.post_generic_template(
             fbid=self.fbid,
@@ -433,19 +506,14 @@ class FbbotwTest(unittest.TestCase):
             'image_url': 'http://i.imgur.com/GHC4ZHl.jpg',
             'subtitle': 'Nice shirt',
             'default_action': {
-                'type': 'web_url',
-                'url': 'https://breco.herokuapp.com/',
-                'messenger_extensions': True,
-                'webview_height_ratio': 'tall',
-                'fallback_url': 'https://breco.herokuapp.com/'
+                "type": "web_url",
+                "url": "https://breco.herokuapp.com/",
+                "webview_height_ratio": "tall",
             },
             'buttons': [{
                 'title': 'Buy',
                 'type': 'web_url',
                 'url': 'https://breco.herokuapp.com/',
-                'messenger_extensions': True,
-                'webview_height_ratio': 'tall',
-                'fallback_url': 'https://breco.herokuapp.com/'
             }]
         }
         elements.append(el)
