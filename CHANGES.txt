@@ -4,9 +4,10 @@ This file will be added to as part of each release
 
 ----
 
-Version 2.3.0, Thu 04 Oct 2018
+Version 2.2.1, Thu 04 Oct 2018
 ===============================
 
+5dd3b3771d	Version bump to 2.3.0 and updating CHANGES.txt (JoabMendes)
 
 
 Version 2.2.0, Thu 04 Oct 2018
