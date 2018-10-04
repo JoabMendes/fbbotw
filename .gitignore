@@ -3,3 +3,4 @@ __pycache__
 setvars.sh
 docs/build/*
 .idea/*
+.idea/workspace.xml
