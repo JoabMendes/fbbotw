@@ -4,7 +4,7 @@
 import os
 import unittest
 from fbbotw import fbbotw
-
+import json
 
 class FbbotwTest(unittest.TestCase):
 
@@ -42,17 +42,15 @@ class FbbotwTest(unittest.TestCase):
 
     def test_get_user_info(self):
         response = fbbotw.get_user_information(fbid=self.fbid)
+        # print(json.dumps(response, indent=4, sort_keys=True))
+        self.assertTrue(isinstance(response['name'], str))
+        self.assertTrue(len(response['name']) > 0)
         self.assertTrue(isinstance(response['first_name'], str))
         self.assertTrue(len(response['first_name']) > 0)
         self.assertTrue(isinstance(response['last_name'], str))
         self.assertTrue(len(response['last_name']) > 0)
-        self.assertTrue(isinstance(response['locale'], str))
-        self.assertTrue(len(response['locale']) > 0)
         self.assertTrue(isinstance(response['profile_pic'], str))
         self.assertTrue(len(response['profile_pic']) > 0)
-        self.assertTrue(isinstance(response['gender'], str))
-        self.assertTrue(len(response['gender']) > 0)
-        self.assertTrue(response['is_payment_enabled'])
 
     #############################################
     #          Messenger Profile API            #
